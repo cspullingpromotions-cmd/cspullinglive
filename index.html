@@ -333,12 +333,9 @@ function getActiveEvent(){return state.events.find(e=>e.id===state.activeEventId
 function getActiveClass(){const ev=getActiveEvent();if(!ev||!state.activeClassId)return null;return ev.classes.find(c=>c.id===state.activeClassId)||null;}
 
 function renderAll(){
-  const t=document.querySelector('.tab.active');
-  if(!t)return;
   const tabs=['viewer','input','events','members','points','classes'];
-  const names=['Live Results','Input Console','Events','Members','Points','Classes'];
-  const idx=names.findIndex(n=>t.textContent.trim()===n);
-  if(idx>=0)renderTab(tabs[idx]);
+  const active=tabs.find(t=>document.getElementById('tab-'+t)&&document.getElementById('tab-'+t).classList.contains('active'));
+  if(active)renderTab(active);
 }
 function renderTab(t){
   if(t==='viewer')renderViewer();
