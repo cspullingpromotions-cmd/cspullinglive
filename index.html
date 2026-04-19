@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CS Pull Live</title>
+<title>CS Pull Live — Admin</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -115,6 +115,19 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
   </div>
   <div class="header-right">
     <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
+  </div>
+</div>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;display:flex;align-items:center;justify-content:center;z-index:999;padding:20px">
+  <div style="background:#1a1a1a;border:1px solid #333;border-top:3px solid #c0392b;border-radius:8px;padding:32px;width:100%;max-width:360px;text-align:center">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:4px">Staff Access</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:2px;margin-bottom:4px">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:#d4a800;text-transform:uppercase;margin-bottom:28px">Input Console</div>
+    <input type="password" id="passwordInput" placeholder="Enter staff password" style="background:#222;border:1px solid #444;border-radius:5px;color:#fff;padding:12px 14px;font-size:14px;width:100%;margin-bottom:10px;text-align:center;letter-spacing:2px" onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="loginError" style="color:#c0392b;font-size:12px;margin-bottom:10px;display:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">INCORRECT PASSWORD</div>
+    <button onclick="checkPassword()" style="background:#c0392b;color:#fff;border:none;border-radius:5px;padding:11px;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Sign In</button>
+    <div style="margin-top:16px"><a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#444;text-decoration:none;letter-spacing:1px;text-transform:uppercase">Back to Public Viewer</a></div>
   </div>
 </div>
 
@@ -255,6 +268,24 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 // Firebase init
+const ADMIN_PASSWORD = 'CSPulling2025';
+
+function checkPassword(){
+  const val=document.getElementById('passwordInput').value;
+  if(val===ADMIN_PASSWORD){
+    document.getElementById('loginScreen').style.display='none';
+    sessionStorage.setItem('cspull_auth','1');
+  } else {
+    document.getElementById('loginError').style.display='block';
+    document.getElementById('passwordInput').value='';
+    document.getElementById('passwordInput').focus();
+  }
+}
+
+if(sessionStorage.getItem('cspull_auth')==='1'){
+  document.getElementById('loginScreen').style.display='none';
+}
+
 firebase.initializeApp({
   apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",
   authDomain:"cs-pulling-live.firebaseapp.com",
@@ -701,6 +732,341 @@ function renderViewer(){
 function viewClass(id){viewerActiveClass=id;renderViewer();}
 
 initFirebase();
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Pull Live — Live Results</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#c0392b;--red2:#a93226;--gold:#f0c030;--gold2:#d4a800;--bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;--border:#2a2a2a;--border2:#333;--text:#fff;--text2:#bbb;--text3:#777;--text4:#444;--green:#1db954;--blue:#3a8fd4;}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:stretch;justify-content:space-between;min-height:60px}
+.header-left{display:flex;align-items:center;gap:16px}
+.logo-block{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
+.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
+.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;line-height:1}
+.logo-main span{color:var(--red)}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:1px}
+.header-divider{width:2px;background:var(--border2);margin:10px 0;flex-shrink:0}
+.header-event{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
+.event-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
+.event-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text2);margin-top:1px}
+.header-right{display:flex;align-items:center;gap:10px}
+.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.dot.offline{background:var(--red);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.admin-link{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);border-radius:4px;transition:all .15s}
+.admin-link:hover{color:var(--text2);border-color:var(--border2)}
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:14px 18px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text4);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s}
+.tab.active{color:var(--text);border-bottom-color:var(--red)}
+.tab:hover:not(.active){color:var(--text2);background:rgba(255,255,255,.03)}
+.view{display:none;padding:20px}.view.active{display:block}
+.sec{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-line .sec{margin-bottom:0}
+.sec-line::after{content:'';flex:1;height:1px;background:var(--border)}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
+.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
+.class-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;overflow-x:auto;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.class-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .15s;color:var(--text3)}
+.class-chip.selected{background:var(--red);border-color:var(--red);color:#fff}
+.class-chip:hover:not(.selected){background:var(--bg4);color:var(--text)}
+.class-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.leader-card{background:linear-gradient(135deg,#1a0a00 0%,#0f0f0f 100%);border:1px solid var(--border2);border-left:4px solid var(--gold);border-radius:6px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.leader-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold2);text-transform:uppercase;margin-bottom:4px}
+.leader-name{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:1px}
+.leader-vehicle{font-size:13px;color:var(--text3);margin-top:4px}
+.leader-dist{font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;color:var(--red);line-height:1;text-align:right}
+.leader-dist-lbl{font-size:11px;color:var(--text3);text-align:right;letter-spacing:1px;font-weight:700;text-transform:uppercase}
+.full-pull-badge{background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;display:inline-block;margin-top:4px}
+.results-table{width:100%;border-collapse:collapse}
+.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.results-table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+.results-table tr.top-row td{background:rgba(240,192,48,.04)}
+.results-table tr:hover td{background:rgba(255,255,255,.02)}
+.dist-val{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--red)}
+.result-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase}
+.tag-full{background:var(--green);color:#fff}.tag-dq{background:var(--red);color:#fff}.tag-broke{background:#5a3a00;color:#f0b040}
+.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
+.s-pending{background:#2a2000;color:#d4a000;border:1px solid #4a3800}
+.s-active{background:#0a2a0a;color:var(--green);border:1px solid #1a5a1a}
+.s-completed{background:#0a1a2a;color:var(--blue);border:1px solid #1a3a5a}
+.rank-badge{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
+.r1{background:var(--gold);color:#000}.r2{background:#a8a8a8;color:#000}.r3{background:#a0522d;color:#fff}.rn{background:var(--bg4);color:var(--text3)}
+.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 5px;border-bottom:2px solid var(--border2);margin-bottom:8px}
+.schedule-item{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
+.schedule-item:last-child{border-bottom:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="logo-block">
+      <div class="logo-top">Official Scoring</div>
+      <div class="logo-main">CS PULLING <span>PROMOTIONS</span></div>
+      <div class="logo-sub">Live Results &amp; Scoring</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-event">
+      <div class="event-label">Active Event</div>
+      <div class="event-name" id="headerEvent">Loading...</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
+    <a href="admin.html" class="admin-link">Staff</a>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('results')">Live Results</div>
+  <div class="tab" onclick="switchTab('points')">Points</div>
+  <div class="tab" onclick="switchTab('schedule')">Schedule</div>
+</div>
+
+<!-- LIVE RESULTS -->
+<div class="view active" id="tab-results" style="padding:0">
+  <div class="class-bar" id="viewerClassBar"><span style="font-size:11px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">Connecting to live data...</span></div>
+  <div style="padding:20px" id="viewerContent">
+    <div style="text-align:center;padding:60px 20px;color:var(--text4)">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;letter-spacing:2px;color:var(--border)">CS PULL LIVE</div>
+      <div style="font-size:13px;margin-top:8px;letter-spacing:1px">Connecting to live scoring...</div>
+    </div>
+  </div>
+</div>
+
+<!-- POINTS -->
+<div class="view" id="tab-points" style="padding:20px">
+  <div class="sec-line"><div class="sec">Season Points Standings</div></div>
+  <div id="pointsContent"><div style="text-align:center;padding:40px;color:var(--text4)">Loading standings...</div></div>
+</div>
+
+<!-- SCHEDULE -->
+<div class="view" id="tab-schedule" style="padding:20px">
+  <div class="sec-line"><div class="sec">Class Schedule</div></div>
+  <div id="scheduleContent"><div style="text-align:center;padding:40px;color:var(--text4)">Loading schedule...</div></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",
+  authDomain:"cs-pulling-live.firebaseapp.com",
+  databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",
+  projectId:"cs-pulling-live",
+  storageBucket:"cs-pulling-live.firebasestorage.app",
+  messagingSenderId:"266460064990",
+  appId:"1:266460064990:web:fbb91d5b007e312ee4264f"
+});
+const db=firebase.database();
+let state={events:[],activeEventId:null,members:[],classes:[]};
+let viewerActiveClass=null;
+
+function switchTab(t){
+  ['results','points','schedule'].forEach((n,i)=>{
+    document.querySelectorAll('.tab')[i].classList.toggle('active',n===t);
+    document.getElementById('tab-'+n).classList.toggle('active',n===t);
+  });
+  if(t==='results')renderViewer();
+  if(t==='points')renderPoints();
+  if(t==='schedule')renderSchedule();
+}
+
+function getActiveEvent(){return state.events.find(e=>e.id===state.activeEventId)||null;}
+
+function getRankedPulls(cls){
+  return[...cls.competitors].map(comp=>{
+    const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
+    const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';
+    return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
+  }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
+}
+
+function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a800';return `<span class="class-status-dot" style="background:${c}"></span>`;}
+function statusBadge(s){return `<span class="status-badge s-${s}">${s}</span>`;}
+
+function pullDisplay(p){
+  if(!p||!p.result)return '<span style="color:var(--text4)">—</span>';
+  if(p.result==='dq')return '<span class="result-tag tag-dq">DQ</span>';
+  if(p.result==='broke')return '<span class="result-tag tag-broke">Broke</span>';
+  const spd=p.speed?` <span style="font-size:11px;color:var(--text3)">${p.speed} mph</span>`:'';
+  if(p.result==='full_pull')return `<span class="dist-val">${p.dist} ft</span> <span class="result-tag tag-full">Full Pull</span>${spd}`;
+  return `<span class="dist-val">${p.dist} ft</span>${spd}`;
+}
+
+function renderViewer(){
+  const ev=getActiveEvent();
+  const bar=document.getElementById('viewerClassBar');
+  const content=document.getElementById('viewerContent');
+  if(!ev){
+    bar.innerHTML='<span style="font-size:11px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1px;text-transform:uppercase">No active event</span>';
+    content.innerHTML='<div style="text-align:center;padding:60px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:36px;font-weight:900;color:var(--border)">NO ACTIVE EVENT</div><div style="font-size:13px;margin-top:8px">Check back when an event is loaded.</div></div>';
+    return;
+  }
+  bar.innerHTML=ev.classes.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${statusDotEl(c.status)} ${c.name}</span>`).join('');
+  if(!viewerActiveClass){
+    content.innerHTML=`
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px">${ev.name}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
+      </div>
+      <div class="card-dark">${ev.classes.map(c=>`
+        <div class="schedule-item">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${c.name}</div>
+          ${statusBadge(c.status)}
+        </div>`).join('')}</div>`;
+    return;
+  }
+  const cls=ev.classes.find(c=>c.id===viewerActiveClass);if(!cls)return;
+  const ranked=getRankedPulls(cls);
+  const leader=ranked[0];
+  content.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:1px">${cls.name}</div>
+        <div style="font-size:12px;color:var(--text3)">${ev.name} · ${ev.date||''}</div>
+      </div>
+      ${statusBadge(cls.status)}
+    </div>
+    ${leader&&leader.valid?`
+    <div class="leader-card">
+      <div>
+        <div class="leader-label">${cls.status==='completed'?'Class Winner':'Current Leader'}</div>
+        <div class="leader-name">${leader.comp.driver}</div>
+        <div class="leader-vehicle">${leader.comp.vehicle||''} ${leader.comp.home?'· '+leader.comp.home:''}</div>
+        ${leader.pull.result==='full_pull'?'<div class="full-pull-badge">Full Pull</div>':''}
+      </div>
+      <div>
+        <div class="leader-dist">${leader.pull.dist}</div>
+        <div class="leader-dist-lbl">feet${leader.pull.speed?' · '+leader.pull.speed+' mph':''}</div>
+      </div>
+    </div>`:''}
+    <div class="card-dark" style="padding:0;overflow:hidden"><div style="overflow-x:auto">
+      <table class="results-table" style="min-width:420px">
+        <thead><tr><th>Pos</th><th>Hook</th><th>Driver</th><th>Vehicle</th><th>Hometown</th><th>Result</th></tr></thead>
+        <tbody>${ranked.map((row,i)=>{
+          const isDQ=row.pull&&(row.pull.result==='dq'||row.pull.result==='broke');
+          const hasResult=row.pull&&row.pull.result;
+          return `<tr class="${i===0&&row.valid?'top-row':''}">
+            <td><span class="rank-badge ${!hasResult||isDQ?'rn':i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${!hasResult||isDQ?'—':i+1}</span></td>
+            <td style="color:var(--text4);font-size:12px">${row.comp.hook||'—'}</td>
+            <td style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:${i<3&&row.valid?'700':'400'}">${row.comp.driver}</td>
+            <td style="color:var(--text3);font-size:12px">${row.comp.vehicle||''}</td>
+            <td style="color:var(--text4);font-size:11px">${row.comp.home||''}</td>
+            <td>${pullDisplay(row.pull)}</td>
+          </tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div></div>`;
+}
+function viewClass(id){viewerActiveClass=id;renderViewer();}
+
+function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+function renderPoints(){
+  const el=document.getElementById('pointsContent');
+  const standings={};
+  state.events.forEach(ev=>{
+    ev.classes.forEach(cls=>{
+      if(!cls.pulls||!cls.pulls.length)return;
+      const ranked=getRankedPulls(cls);
+      ranked.forEach((row,idx)=>{
+        const key=row.comp.driver.trim().toLowerCase();
+        if(!standings[key])standings[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',classes:{}};
+        if(!standings[key].classes[cls.name])standings[key].classes[cls.name]={points:0,dist:0,wins:0,seconds:0,thirds:0,events:0,showUp:0};
+        const s=standings[key].classes[cls.name];
+        s.events++;s.showUp+=20;
+        if(!row.pull||!row.pull.result||row.pull.result==='dq')return;
+        s.points+=getPosByPosition(idx+1);
+        s.dist+=parseFloat(row.pull.dist)||0;
+        if(idx===0)s.wins++;if(idx===1)s.seconds++;if(idx===2)s.thirds++;
+      });
+    });
+  });
+  const byClass={};
+  Object.values(standings).forEach(driver=>{
+    Object.keys(driver.classes).forEach(cls=>{
+      if(!byClass[cls])byClass[cls]=[];
+      byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,...driver.classes[cls]});
+    });
+  });
+  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
+  el.innerHTML=Object.keys(byClass).sort().map(cls=>{
+    const drivers=byClass[cls].sort((a,b)=>(b.points+b.showUp)-(a.points+a.showUp));
+    return `<div class="card-dark" style="margin-bottom:16px">
+      <div class="class-group-hdr">${cls}</div>
+      <div style="overflow-x:auto"><table class="results-table" style="min-width:500px">
+        <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Race Pts</th><th style="text-align:right">Show-Up</th><th style="text-align:right">Total</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Events</th></tr></thead>
+        <tbody>${drivers.map((d,i)=>{const total=d.points+d.showUp;return `<tr class="${i===0?'top-row':''}">
+          <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
+          <td style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px">${d.driver}</td>
+          <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
+          <td style="text-align:right;color:var(--blue);font-weight:700">${d.points}</td>
+          <td style="text-align:right;color:var(--text4)">${d.showUp}</td>
+          <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${total}</td>
+          <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
+          <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
+          <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
+          <td style="text-align:center;color:var(--text4)">${d.events}</td>
+        </tr>`;}).join('')}</tbody>
+      </table></div></div>`;
+  }).join('');
+}
+
+function renderSchedule(){
+  const el=document.getElementById('scheduleContent');
+  const ev=getActiveEvent();
+  if(!ev){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No active event.</div>';return;}
+  el.innerHTML=`
+    <div style="margin-bottom:16px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900">${ev.name}</div>
+      <div style="font-size:13px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
+    </div>
+    <div class="card-dark">
+      ${ev.classes.map((c,i)=>`
+        <div class="schedule-item">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text4);min-width:20px">${i+1}</span>
+            <div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${c.name}</div>
+              <div style="font-size:11px;color:var(--text4);margin-top:1px">${c.competitors.length} registered</div>
+            </div>
+          </div>
+          ${statusBadge(c.status)}
+        </div>`).join('')}
+    </div>`;
+}
+
+db.ref('cspull').on('value',snap=>{
+  const data=snap.val();
+  if(data){
+    state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[]})):[]})):[];
+    state.members=data.members?Object.values(data.members):[];
+    state.classes=data.classes?Object.values(data.classes):[];
+    state.activeEventId=data.activeEventId||null;
+  }
+  const ev=getActiveEvent();
+  document.getElementById('headerEvent').textContent=ev?ev.name:'No Active Event';
+  const active=['results','points','schedule'].find(t=>document.getElementById('tab-'+t).classList.contains('active'));
+  if(active==='results')renderViewer();
+  else if(active==='points')renderPoints();
+  else if(active==='schedule')renderSchedule();
+  document.getElementById('statusDot').className='dot';
+  document.getElementById('statusText').textContent='LIVE';
+});
+db.ref('.info/connected').on('value',snap=>{
+  if(!snap.val()){document.getElementById('statusDot').className='dot offline';document.getElementById('statusText').textContent='OFFLINE';}
+});
 </script>
 </body>
 </html>
