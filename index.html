@@ -279,10 +279,16 @@ function initFirebase(){
   db.ref('cspull').on('value', snap=>{
     const data=snap.val();
     if(data){
-      const prev=state.activeEventId;
-      state.events=data.events?Object.values(data.events):[];
+      state.events=data.events?Object.values(data.events).map(ev=>({
+        ...ev,
+        classes:ev.classes?Object.values(ev.classes).map(cls=>({
+          ...cls,
+          competitors:cls.competitors?Object.values(cls.competitors):[],
+          pulls:cls.pulls?Object.values(cls.pulls):[]
+        })):[],
+      })):[];
       state.members=data.members?Object.values(data.members):[];
-      state.classes=data.classes?data.classes:[...DEFAULT_CLASSES];
+      state.classes=data.classes?Object.values(data.classes):[...DEFAULT_CLASSES];
       state.activeEventId=data.activeEventId||null;
       state.activeClassId=data.activeClassId||null;
       if(!state.classes.length)state.classes=[...DEFAULT_CLASSES];
