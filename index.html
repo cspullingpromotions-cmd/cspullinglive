@@ -5,80 +5,177 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CS Pull Live</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#111;color:#fff;min-height:100vh;font-size:14px}
-.header{background:#c0392b;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-.logo{font-size:19px;font-weight:700;letter-spacing:1px;color:#fff}
-.logo span{color:#ffcc00}
-.nav-event{font-size:12px;color:rgba(255,255,255,0.75);margin-top:1px}
-.status-bar{font-size:12px;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:6px}
-.status-dot{width:9px;height:9px;border-radius:50%;background:#2ecc71;display:inline-block}
-.status-dot.offline{background:#e74c3c}
-.tabs{display:flex;background:#1a1a1a;border-bottom:2px solid #c0392b;overflow-x:auto}
-.tab{padding:11px 14px;font-size:11px;font-weight:700;cursor:pointer;color:#666;border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;letter-spacing:0.5px}
-.tab.active{color:#fff;border-bottom-color:#c0392b}
-.tab:hover:not(.active){color:#bbb}
-.view{display:none;padding:14px}
+:root{
+  --red:#c0392b;--red2:#a93226;--red3:#7b1e16;
+  --gold:#f0c030;--gold2:#d4a800;
+  --bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;
+  --border:#2a2a2a;--border2:#333;
+  --text:#fff;--text2:#bbb;--text3:#777;--text4:#444;
+  --green:#1db954;--blue:#3a8fd4;
+}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:stretch;justify-content:space-between;min-height:60px}
+.header-left{display:flex;align-items:center;gap:16px}
+.logo-block{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
+.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--text3);text-transform:uppercase}
+.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;line-height:1;color:var(--text)}
+.logo-main span{color:var(--red)}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:1px}
+.header-divider{width:2px;background:var(--border2);margin:10px 0;flex-shrink:0}
+.header-event{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
+.event-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
+.event-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text2);margin-top:1px}
+.header-right{display:flex;align-items:center;gap:12px}
+.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:1px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.dot.offline{background:var(--red);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* TABS */
+.tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
+.tab{padding:14px 18px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text3);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s;position:relative}
+.tab.active{color:var(--text);border-bottom-color:var(--red)}
+.tab:hover:not(.active){color:var(--text2);background:rgba(255,255,255,.03)}
+
+/* VIEWS */
+.view{display:none;padding:20px}
 .view.active{display:block}
-.sec{font-size:11px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-.card{background:#1e1e1e;border:1px solid #2e2e2e;border-radius:8px;padding:12px;margin-bottom:10px}
-input,select{background:#252525;border:1px solid #3a3a3a;border-radius:6px;color:#fff;padding:7px 10px;font-size:13px;width:100%}
-input:focus,select:focus{outline:none;border-color:#c0392b}
-select option{background:#252525}
-.btn{border:none;border-radius:6px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s}
-.btn-red{background:#c0392b;color:#fff}.btn-red:hover{background:#a93226}
-.btn-gray{background:#2e2e2e;color:#aaa}.btn-gray:hover{background:#3a3a3a}
-.btn-yellow{background:#d4a000;color:#000}.btn-yellow:hover{background:#b88a00}
-.btn-sm{padding:4px 9px;font-size:11px}
-.offline-banner{background:#c0392b;color:#fff;text-align:center;padding:5px;font-size:12px;font-weight:700;display:none}
-label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px}
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:16px;overflow-y:auto}
-.modal-overlay.open{display:flex}
-.modal{background:#1e1e1e;border:1px solid #3a3a3a;border-radius:10px;padding:18px;width:100%;max-width:540px;margin:auto}
-.modal-title{font-size:15px;font-weight:700;margin-bottom:12px}
-.chip{display:inline-flex;align-items:center;gap:4px;background:#252525;border:1px solid #3a3a3a;border-radius:4px;padding:3px 8px;font-size:11px;margin:2px;cursor:pointer}
-.member-chip{background:#1a2e1a;border:1px solid #27ae60;color:#7dde9a;border-radius:4px;padding:2px 8px;font-size:11px;margin:2px;cursor:pointer;display:inline-block}
-.member-chip:hover{background:#27ae60;color:#fff}
-.checkbox-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
-.checkbox-grid label{display:flex;align-items:center;gap:5px;font-size:12px;color:#ccc;text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:#252525;padding:4px 8px;border-radius:5px;border:1px solid #3a3a3a}
-.checkbox-grid input[type=checkbox]{width:auto;margin:0}
-.rank-badge{width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.r1{background:#ffcc00;color:#000}.r2{background:#aaa;color:#000}.r3{background:#cd7f32;color:#fff}.rn{background:#2e2e2e;color:#777}
-.class-chip{display:inline-block;background:#252525;border:1px solid #3a3a3a;border-radius:20px;padding:5px 12px;font-size:12px;margin-right:5px;cursor:pointer;white-space:nowrap;transition:all 0.15s}
-.class-chip.selected{background:#c0392b;border-color:#c0392b;color:#fff}
-.class-chip:hover:not(.selected){background:#2e2e2e}
-.class-select-bar{background:#1a1a1a;border-radius:8px;padding:8px;margin-bottom:12px;overflow-x:auto;white-space:nowrap}
+
+/* TYPOGRAPHY */
+.sec{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-line .sec{margin-bottom:0}
+.sec-line::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* CARDS */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
+.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
+
+/* INPUTS */
+input,select{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:8px 11px;font-size:13px;width:100%;font-family:'Barlow',sans-serif}
+input:focus,select:focus{outline:none;border-color:var(--red);background:#1e1010}
+select option{background:var(--bg3)}
+label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+
+/* BUTTONS */
+.btn{border:none;border-radius:5px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red2)}
+.btn-gray{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}.btn-gray:hover{background:#2e2e2e}
+.btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:var(--gold2)}
+.btn-sm{padding:5px 10px;font-size:11px}
+
+/* RANK BADGES */
+.rank-badge{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
+.r1{background:var(--gold);color:#000}.r2{background:#a8a8a8;color:#000}.r3{background:#a0522d;color:#fff}.rn{background:var(--bg4);color:var(--text3)}
+
+/* OFFLINE */
+.offline-banner{background:var(--red3);color:#fff;text-align:center;padding:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:none;border-bottom:1px solid var(--red)}
+
+/* VIEWER SPECIFIC */
+.class-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 20px;overflow-x:auto;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.class-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .15s;color:var(--text3)}
+.class-chip.selected{background:var(--red);border-color:var(--red);color:#fff}
+.class-chip:hover:not(.selected){background:var(--bg4);color:var(--text)}
+.class-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* LEADER CARD */
+.leader-card{background:linear-gradient(135deg,#1a0a00 0%,#0f0f0f 100%);border:1px solid var(--border2);border-left:4px solid var(--gold);border-radius:6px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.leader-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold2);text-transform:uppercase;margin-bottom:4px}
+.leader-name{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:1px}
+.leader-vehicle{font-size:13px;color:var(--text3);margin-top:4px}
+.leader-dist{font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;color:var(--red);line-height:1;text-align:right}
+.leader-dist-lbl{font-size:11px;color:var(--text3);text-align:right;letter-spacing:1px;font-weight:700;text-transform:uppercase}
+.full-pull-badge{background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;display:inline-block;margin-top:4px}
+
+/* RESULTS TABLE */
+.results-table{width:100%;border-collapse:collapse}
+.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.results-table td{padding:10px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+.results-table tr.top-row td{background:rgba(240,192,48,.04)}
+.results-table tr:hover td{background:rgba(255,255,255,.02)}
+.dist-val{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--red)}
+.result-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase}
+.tag-full{background:var(--green);color:#fff}
+.tag-dq{background:var(--red);color:#fff}
+.tag-broke{background:#5a3a00;color:#f0b040}
+
+/* STATUS BADGES */
+.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
+.s-pending{background:#2a2000;color:#d4a000;border:1px solid #4a3800}
+.s-active{background:#0a2a0a;color:var(--green);border:1px solid #1a5a1a}
+.s-completed{background:#0a1a2a;color:var(--blue);border:1px solid #1a3a5a}
+
+/* PULL SHEET */
 .pull-sheet{width:100%;border-collapse:collapse}
-.pull-sheet th{font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:0.5px;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left}
-.pull-sheet td{padding:5px 6px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
-.pull-sheet tr:hover td{background:#232323}
-.pull-sheet input{padding:5px 7px;font-size:12px}
-.pull-sheet select{padding:4px 6px;font-size:11px}
-.result-tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px}
-.tag-full{background:#1e7e40;color:#fff}
-.tag-dq{background:#c0392b;color:#fff}
-.tag-broke{background:#7a5000;color:#ffa}
-.dist-val{color:#c0392b;font-weight:700}
-.winner-glow td{background:rgba(255,204,0,0.04)}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
-.stat-card{background:#1e1e1e;border:1px solid #2e2e2e;border-radius:8px;padding:10px;text-align:center}
-.stat-val{font-size:22px;font-weight:700;color:#c0392b}
-.stat-lbl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
-.pts-badge{background:#1a2a3a;border:1px solid #1a5a8a;color:#5ab4ff;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:700}
-.class-group-header{font-size:11px;font-weight:700;color:#c0392b;text-transform:uppercase;letter-spacing:1px;padding:8px 0 4px;border-bottom:1px solid #2e2e2e;margin-bottom:6px}
+.pull-sheet th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.pull-sheet td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.pull-sheet tr:hover td{background:rgba(255,255,255,.02)}
+.pull-sheet input{padding:5px 8px;font-size:12px}
+.pull-sheet select{padding:4px 7px;font-size:11px}
+
+/* INPUT CLASS LIST */
+.cls-item{cursor:pointer;padding:10px 12px;border-radius:5px;margin-bottom:5px;border:1px solid var(--border);transition:all .15s;background:var(--bg3)}
+.cls-item:hover{border-color:var(--border2);background:var(--bg4)}
+.cls-item.active-cls{background:#1a0505;border-color:var(--red);border-left:3px solid var(--red)}
+.cls-item-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px}
+.cls-item-sub{font-size:10px;color:var(--text4);margin-top:2px}
+
+/* MEMBER CHIPS */
+.member-chip{background:#0a1a0a;border:1px solid #1a5a1a;color:#7dde9a;border-radius:4px;padding:3px 10px;font-size:11px;margin:2px;cursor:pointer;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
+.member-chip:hover{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* CHECKBOX GRID */
+.checkbox-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.checkbox-grid label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:var(--bg4);padding:5px 9px;border-radius:4px;border:1px solid var(--border2);font-weight:400}
+.checkbox-grid input[type=checkbox]{width:auto;margin:0;accent-color:var(--red)}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:20px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:6px;padding:20px;width:100%;max-width:540px;margin:auto}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+
+/* POINTS */
+.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 5px;border-bottom:2px solid var(--border2);margin-bottom:8px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-bottom:14px}
+.stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:10px;text-align:center}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:var(--red)}
+.stat-lbl{font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:1px;margin-top:2px;font-weight:700}
+
+/* CHIP */
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;font-size:11px;margin:2px;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="offline-banner" id="offlineBanner">OFFLINE MODE — Data saved locally.</div>
+<div class="offline-banner" id="offlineBanner">OFFLINE MODE — Data saved locally. Will sync when connection returns.</div>
+
 <div class="header">
-  <div>
-    <div class="logo">CS PULL <span>LIVE</span></div>
-    <div class="nav-event" id="headerEvent">No event loaded</div>
+  <div class="header-left">
+    <div class="logo-block">
+      <div class="logo-top">Official Scoring</div>
+      <div class="logo-main">CS PULLING <span>PROMOTIONS</span></div>
+      <div class="logo-sub">Live Results &amp; Scoring</div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="header-event">
+      <div class="event-label">Active Event</div>
+      <div class="event-name" id="headerEvent">No Event Loaded</div>
+    </div>
   </div>
-  <div class="status-bar"><span class="status-dot" id="statusDot"></span><span id="statusText">Online</span></div>
+  <div class="header-right">
+    <div class="status-pill">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">ONLINE</span>
+    </div>
+  </div>
 </div>
+
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('viewer')">Viewer</div>
+  <div class="tab active" onclick="switchTab('viewer')">Live Results</div>
   <div class="tab" onclick="switchTab('input')">Input Console</div>
   <div class="tab" onclick="switchTab('events')">Events</div>
   <div class="tab" onclick="switchTab('members')">Members</div>
@@ -87,63 +184,74 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
 </div>
 
 <!-- VIEWER -->
-<div class="view active" id="tab-viewer">
-  <div class="class-select-bar" id="viewerClassBar"><span style="font-size:12px;color:#444">Load an event to view results</span></div>
-  <div id="viewerContent"><div style="text-align:center;padding:40px;color:#444">No event selected.</div></div>
+<div class="view active" id="tab-viewer" style="padding:0">
+  <div class="class-bar" id="viewerClassBar">
+    <span style="font-size:11px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">Load an event to view results</span>
+  </div>
+  <div style="padding:20px" id="viewerContent">
+    <div style="text-align:center;padding:60px 20px;color:var(--text4)">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;letter-spacing:2px;color:var(--border2)">CS PULL LIVE</div>
+      <div style="font-size:13px;margin-top:8px;letter-spacing:1px">Go to Events tab to load an event</div>
+    </div>
+  </div>
 </div>
 
 <!-- INPUT CONSOLE -->
 <div class="view" id="tab-input">
-  <div id="inputNoEvent" style="text-align:center;padding:40px;color:#444">No event loaded. Go to Events tab.</div>
+  <div id="inputNoEvent" style="text-align:center;padding:50px 20px;color:var(--text4)">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;letter-spacing:1px">No Event Loaded</div>
+    <div style="font-size:13px;margin-top:6px">Go to the Events tab to create or load an event.</div>
+  </div>
   <div id="inputConsole" style="display:none">
-    <div class="card" style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
       <div>
-        <div class="sec" style="margin-bottom:1px">Active Event</div>
-        <div style="font-size:15px;font-weight:700" id="inputEventName">—</div>
-        <div style="font-size:11px;color:#555" id="inputEventDate">—</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px" id="inputEventName">—</div>
+        <div style="font-size:12px;color:var(--text3)" id="inputEventDate">—</div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:start">
+    <div style="display:grid;grid-template-columns:230px 1fr;gap:14px;align-items:start">
       <div>
-        <div class="sec">Classes</div>
+        <div class="sec-line"><div class="sec">Classes</div></div>
         <div id="inputClassList"></div>
       </div>
-      <div id="rightPanel"><div style="text-align:center;padding:30px;color:#444;font-size:13px">Select a class on the left.</div></div>
+      <div id="rightPanel">
+        <div style="text-align:center;padding:40px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- EVENTS -->
 <div class="view" id="tab-events">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <div class="sec" style="margin-bottom:0">Events</div>
-    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()">+ New Event</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Events</div></div>
+    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:12px">+ New Event</button>
   </div>
-  <div id="eventsList"><div style="text-align:center;padding:30px;color:#444">No events yet.</div></div>
+  <div id="eventsList"><div style="text-align:center;padding:40px;color:var(--text4)">No events yet.</div></div>
 </div>
 
 <!-- MEMBERS -->
 <div class="view" id="tab-members">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <div class="sec" style="margin-bottom:0">Points Members</div>
-    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()">+ Add Member</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Points Members</div></div>
+    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()" style="margin-left:12px">+ Add Member</button>
   </div>
-  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:10px">
+  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:12px">
   <div id="membersList"></div>
 </div>
 
 <!-- POINTS -->
 <div class="view" id="tab-points">
-  <div class="sec">Season Points Standings</div>
-  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:10px">
+  <div class="sec-line"><div class="sec">Season Points Standings</div></div>
+  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:12px">
   <div id="pointsContent"></div>
 </div>
 
 <!-- CLASSES -->
 <div class="view" id="tab-classes">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <div class="sec" style="margin-bottom:0">Class Library</div>
-    <button class="btn btn-red btn-sm" onclick="openAddClassModal()">+ Add Class</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+    <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Class Library</div></div>
+    <button class="btn btn-red btn-sm" onclick="openAddClassModal()" style="margin-left:12px">+ Add Class</button>
   </div>
   <div id="classesList"></div>
 </div>
@@ -157,13 +265,10 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
     <label>Date</label><input type="date" id="evDate">
     <label>Classes</label>
     <div id="classCheckboxes" class="checkbox-grid"></div>
-    <label style="margin-top:12px">Add a one-time class for this event only</label>
-    <div style="display:flex;gap:6px">
-      <input type="text" id="evCustomClass" placeholder="Custom class name" style="flex:1">
-      <button class="btn btn-gray btn-sm" onclick="addCustomEventClass()">Add</button>
-    </div>
+    <label style="margin-top:12px">One-time class (this event only)</label>
+    <div style="display:flex;gap:6px"><input type="text" id="evCustomClass" placeholder="Custom class name" style="flex:1"><button class="btn btn-gray btn-sm" onclick="addCustomEventClass()">Add</button></div>
     <div id="customEventClasses" style="margin-top:6px"></div>
-    <div style="display:flex;gap:8px;margin-top:14px">
+    <div style="display:flex;gap:8px;margin-top:16px">
       <button class="btn btn-red" onclick="saveEvent()" style="flex:1" id="saveEventBtn">Create Event</button>
       <button class="btn btn-gray" onclick="closeModal('createEventModal')" style="flex:1">Cancel</button>
     </div>
@@ -178,21 +283,9 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
     <label>Driver Name</label><input type="text" id="compDriver" placeholder="e.g. Jake Miller">
     <label>Vehicle Make / Model</label><input type="text" id="compVehicle" placeholder="e.g. 2018 John Deere 8370R">
     <label>Hometown / State</label><input type="text" id="compHome" placeholder="e.g. Grove City, PA">
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn btn-red" onclick="saveCompetitor()" style="flex:1" id="saveCompBtn">Add</button>
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="btn btn-red" onclick="saveCompetitor()" style="flex:1" id="saveCompBtn">Add Driver</button>
       <button class="btn btn-gray" onclick="closeModal('addCompModal')" style="flex:1">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="hookModal">
-  <div class="modal">
-    <div class="modal-title">Set Hook Number</div>
-    <div id="hookDriverName" style="color:#aaa;font-size:13px;margin-bottom:10px"></div>
-    <label>Hook #</label><input type="number" id="hookNumber" placeholder="Assigned at event" min="1">
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn btn-red" onclick="saveHook()" style="flex:1">Save</button>
-      <button class="btn btn-gray" onclick="closeModal('hookModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
@@ -205,7 +298,7 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
     <label>Hometown / State</label><input type="text" id="memHome" placeholder="e.g. Grove City, PA">
     <label>Primary Class(es)</label>
     <div id="memberClassCheckboxes" class="checkbox-grid"></div>
-    <div style="display:flex;gap:8px;margin-top:14px">
+    <div style="display:flex;gap:8px;margin-top:16px">
       <button class="btn btn-red" onclick="saveMember()" style="flex:1" id="saveMemberBtn">Save</button>
       <button class="btn btn-gray" onclick="closeModal('addMemberModal')" style="flex:1">Cancel</button>
     </div>
@@ -216,7 +309,7 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
   <div class="modal">
     <div class="modal-title" id="addClassTitle">Add Class</div>
     <label>Class Name</label><input type="text" id="newClassName" placeholder="e.g. Antique Tractor Pull">
-    <div style="display:flex;gap:8px;margin-top:14px">
+    <div style="display:flex;gap:8px;margin-top:16px">
       <button class="btn btn-red" onclick="saveClass()" style="flex:1" id="saveClassBtn">Add</button>
       <button class="btn btn-gray" onclick="closeModal('addClassModal')" style="flex:1">Cancel</button>
     </div>
@@ -224,376 +317,184 @@ label{display:block;font-size:11px;color:#777;margin-bottom:3px;margin-top:9px;f
 </div>
 
 <script>
-const DEFAULT_CLASSES=[
-  "Super Farm Tractors / Hot Farm Tractors","Limited Pro Stock Tractors",
-  "Light Limited Super Stock Tractors","Pro Stock / Super Stock Tractors",
-  "3.6 Pro Street Semis","Super Semi Trucks","Run What Ya Brung",
-  "410 Super Stock Trucks","Pro Stock Trucks","2.6 Pro Street Diesel Trucks",
-  "Street Stock Semis","Street Gas Trucks","Open Street Diesel Trucks",
-  "Hot Rod V-8 Tractors","Hot Street Semis","Classic Super Stock Tractors",
-  "Hot Rod Big Block V8 Tractors"
-];
-const DEFAULT_COUNT = DEFAULT_CLASSES.length;
-
+const DEFAULT_CLASSES=["Super Farm Tractors / Hot Farm Tractors","Limited Pro Stock Tractors","Light Limited Super Stock Tractors","Pro Stock / Super Stock Tractors","3.6 Pro Street Semis","Super Semi Trucks","Run What Ya Brung","410 Super Stock Trucks","Pro Stock Trucks","2.6 Pro Street Diesel Trucks","Street Stock Semis","Street Gas Trucks","Open Street Diesel Trucks","Hot Rod V-8 Tractors","Hot Street Semis","Classic Super Stock Tractors","Hot Rod Big Block V8 Tractors"];
+const DEFAULT_COUNT=DEFAULT_CLASSES.length;
 let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[]};
-let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null,hookCompId=null;
+let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null;
 let viewerActiveClass=null,customEventClasses=[];
 
-function loadState(){
-  try{const s=localStorage.getItem('cspull_v4');if(s)state=JSON.parse(s);}catch(e){}
-  if(!state.classes||!state.classes.length)state.classes=[...DEFAULT_CLASSES];
-  if(!state.members)state.members=[];
-  if(!state.events)state.events=[];
-}
-function saveState(){try{localStorage.setItem('cspull_v4',JSON.stringify(state));}catch(e){}}
+function loadState(){try{const s=localStorage.getItem('cspull_v5');if(s)state=JSON.parse(s);}catch(e){}if(!state.classes||!state.classes.length)state.classes=[...DEFAULT_CLASSES];if(!state.members)state.members=[];if(!state.events)state.events=[];}
+function saveState(){try{localStorage.setItem('cspull_v5',JSON.stringify(state));}catch(e){}}
 function uuid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
 function getActiveEvent(){return state.events.find(e=>e.id===state.activeEventId)||null;}
-function getActiveClass(){
-  const ev=getActiveEvent();if(!ev||!state.activeClassId)return null;
-  return ev.classes.find(c=>c.id===state.activeClassId)||null;
-}
+function getActiveClass(){const ev=getActiveEvent();if(!ev||!state.activeClassId)return null;return ev.classes.find(c=>c.id===state.activeClassId)||null;}
+
 function switchTab(t){
   ['viewer','input','events','members','points','classes'].forEach((n,i)=>{
     document.querySelectorAll('.tab')[i].classList.toggle('active',n===t);
     document.getElementById('tab-'+n).classList.toggle('active',n===t);
   });
-  if(t==='viewer')renderViewer();
-  if(t==='input')renderInput();
-  if(t==='events')renderEvents();
-  if(t==='members')renderMembers();
-  if(t==='points')renderPoints();
-  if(t==='classes')renderClasses();
+  if(t==='viewer')renderViewer();if(t==='input')renderInput();if(t==='events')renderEvents();
+  if(t==='members')renderMembers();if(t==='points')renderPoints();if(t==='classes')renderClasses();
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ---- POINTS CALCULATION ----
-function calcPoints(position, totalCompetitors, result, isDroppedHook){
-  if(result==='dq') return 0;
-  if(isDroppedHook){
-    // last place points minus 2
-    const lastPts = getPosByPosition(totalCompetitors);
-    return Math.max(0, lastPts - 2);
-  }
-  return getPosByPosition(position);
-}
-function getPosByPosition(pos){
-  if(pos===1) return 50;
-  if(pos===2) return 48;
-  if(pos===3) return 46;
-  // decreases by 2 each spot, min 26
-  const pts = 50 - ((pos-1)*2);
-  if(pts >= 26) return pts;
-  return 24;
-}
-function showUpPoints(){ return 20; }
+function statusBadge(s){return `<span class="status-badge s-${s}">${s}</span>`;}
+function statusDot(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return `<span class="class-status-dot" style="background:${c}"></span>`;}
 
-// Build season standings across all completed classes in all events
+// POINTS
+function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+function getRankedPulls(cls){
+  return [...cls.competitors].map(comp=>{
+    const pull=cls.pulls.find(p=>p.compId===comp.id);
+    const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';
+    return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
+  }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
+}
+function getRank(cls,compId){const ranked=getRankedPulls(cls);const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);return idx>=0?idx+1:null;}
 function buildStandings(){
-  // Map: memberId or driverKey -> {driver, vehicle, home, classes:{className:{points,dist,wins,seconds,thirds,events}}}
-  const standings = {};
-
-  function getKey(driver){ return driver.trim().toLowerCase(); }
-
-  state.events.forEach(ev => {
-    ev.classes.forEach(cls => {
-      if(!cls.pulls || !cls.pulls.length) return;
-      // Only count completed classes
-      const validPulls = cls.pulls.filter(p => p.result && p.result !== 'dq' && p.result !== 'broke');
-      const sorted = [...cls.competitors].map(comp => {
-        const pull = cls.pulls.find(p=>p.compId===comp.id);
-        return {comp, pull, distNum: pull ? (pull.distNum||0) : 0};
-      }).sort((a,b)=>b.distNum-a.distNum);
-
-      const total = sorted.length;
-
-      sorted.forEach((row, idx) => {
-        const pull = row.pull;
-        const comp = row.comp;
-        const key = getKey(comp.driver);
-        if(!standings[key]){
-          standings[key]={driver:comp.driver,vehicle:comp.vehicle||'',home:comp.home||'',classes:{}};
-        }
-        if(!standings[key].classes[cls.name]){
-          standings[key].classes[cls.name]={points:0,dist:0,wins:0,seconds:0,thirds:0,events:0,showUp:0};
-        }
-        const s = standings[key].classes[cls.name];
-        s.events++;
-        s.showUp += 20;
-
-        if(!pull || !pull.result){ return; }
-        if(pull.result==='dq'){ return; } // 0 points
-
-        const pos = idx+1;
-        const pts = getPosByPosition(pos);
-        s.points += pts;
-        const d = parseFloat(pull.dist)||0;
-        s.dist += d;
-        if(pos===1) s.wins++;
-        if(pos===2) s.seconds++;
-        if(pos===3) s.thirds++;
+  const standings={};
+  function getKey(d){return d.trim().toLowerCase();}
+  state.events.forEach(ev=>{
+    ev.classes.forEach(cls=>{
+      if(!cls.pulls||!cls.pulls.length)return;
+      const ranked=getRankedPulls(cls);
+      ranked.forEach((row,idx)=>{
+        const comp=row.comp;const pull=row.pull;
+        const key=getKey(comp.driver);
+        if(!standings[key])standings[key]={driver:comp.driver,vehicle:comp.vehicle||'',home:comp.home||'',classes:{}};
+        if(!standings[key].classes[cls.name])standings[key].classes[cls.name]={points:0,dist:0,wins:0,seconds:0,thirds:0,events:0,showUp:0};
+        const s=standings[key].classes[cls.name];
+        s.events++;s.showUp+=20;
+        if(!pull||!pull.result||pull.result==='dq')return;
+        const pos=idx+1;s.points+=getPosByPosition(pos);
+        const d=parseFloat(pull.dist)||0;s.dist+=d;
+        if(pos===1)s.wins++;if(pos===2)s.seconds++;if(pos===3)s.thirds++;
       });
     });
   });
   return standings;
 }
-
 function renderPoints(){
-  const el = document.getElementById('pointsContent');
-  const q = (document.getElementById('pointsSearch')||{}).value||'';
-  const standings = buildStandings();
-
-  // Group by class
-  const byClass = {};
-  Object.values(standings).forEach(driver => {
-    Object.keys(driver.classes).forEach(cls => {
-      if(!byClass[cls]) byClass[cls]=[];
-      if(!q || driver.driver.toLowerCase().includes(q.toLowerCase())){
+  const el=document.getElementById('pointsContent');
+  const q=(document.getElementById('pointsSearch')||{}).value||'';
+  const standings=buildStandings();
+  const byClass={};
+  Object.values(standings).forEach(driver=>{
+    Object.keys(driver.classes).forEach(cls=>{
+      if(!byClass[cls])byClass[cls]=[];
+      if(!q||driver.driver.toLowerCase().includes(q.toLowerCase()))
         byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,home:driver.home,...driver.classes[cls]});
-      }
     });
   });
-
-  if(!Object.keys(byClass).length){
-    el.innerHTML='<div style="text-align:center;padding:30px;color:#444">No points data yet. Complete events and record pull results to generate standings.</div>';
-    return;
-  }
-
-  el.innerHTML = Object.keys(byClass).sort().map(cls => {
-    const drivers = byClass[cls].sort((a,b)=>(b.points+b.showUp)-(a.points+a.showUp));
-    return `
-      <div class="card" style="margin-bottom:14px">
-        <div class="class-group-header">${cls}</div>
-        <div style="overflow-x:auto">
-          <table style="width:100%;border-collapse:collapse;min-width:500px">
-            <thead><tr>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Pos</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Driver</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Vehicle</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">Pts</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">Show-Up</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">Total</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">1st</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">2nd</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">3rd</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">Total Dist</th>
-              <th style="font-size:10px;color:#555;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:right">Events</th>
-            </tr></thead>
-            <tbody>${drivers.map((d,i)=>{
-              const total = d.points + d.showUp;
-              return `<tr style="${i===0?'background:rgba(255,204,0,0.04)':''}">
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a"><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;font-weight:${i<3?'700':'400'}">${d.driver}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;color:#666;font-size:12px">${d.vehicle||''}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#5ab4ff">${d.points}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#555">${d.showUp}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;font-weight:700;color:#c0392b">${total}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#ffcc00">${d.wins}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#aaa">${d.seconds}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#cd7f32">${d.thirds}</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#888">${d.dist.toFixed(1)} ft</td>
-                <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;text-align:right;color:#555">${d.events}</td>
-              </tr>`;
-            }).join('')}</tbody>
-          </table>
-        </div>
-      </div>`;
+  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
+  el.innerHTML=Object.keys(byClass).sort().map(cls=>{
+    const drivers=byClass[cls].sort((a,b)=>(b.points+b.showUp)-(a.points+a.showUp));
+    return `<div class="card-dark" style="margin-bottom:16px">
+      <div class="class-group-hdr">${cls}</div>
+      <div style="overflow-x:auto"><table class="results-table" style="min-width:580px">
+        <thead><tr>
+          <th>Pos</th><th>Driver</th><th>Vehicle</th>
+          <th style="text-align:right">Race Pts</th><th style="text-align:right">Show-Up</th><th style="text-align:right">Total</th>
+          <th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th>
+          <th style="text-align:right">Dist</th><th style="text-align:center">Events</th>
+        </tr></thead>
+        <tbody>${drivers.map((d,i)=>{const total=d.points+d.showUp;return `<tr class="${i===0?'top-row':''}">
+          <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
+          <td style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px;letter-spacing:.5px">${d.driver}</td>
+          <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
+          <td style="text-align:right;color:var(--blue);font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${d.points}</td>
+          <td style="text-align:right;color:var(--text4);font-size:13px">${d.showUp}</td>
+          <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${total}</td>
+          <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
+          <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
+          <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
+          <td style="text-align:right;color:var(--text3);font-size:12px">${d.dist.toFixed(1)} ft</td>
+          <td style="text-align:center;color:var(--text4)">${d.events}</td>
+        </tr>`;}).join('')}</tbody>
+      </table></div></div>`;
   }).join('');
 }
 
-// ---- CLASSES ----
+// CLASSES
 function renderClasses(){
   document.getElementById('classesList').innerHTML=state.classes.map((c,i)=>`
-    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;margin-bottom:7px">
-      <span>${c}</span>
-      <div style="display:flex;gap:5px;align-items:center">
-        <button class="btn btn-yellow btn-sm" onclick="openEditClassModal(${i})">Edit</button>
-        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:10px;color:#444;padding:4px">Default</span>`}
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;margin-bottom:6px">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:.5px">${c}</span>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button class="btn btn-gold btn-sm" onclick="openEditClassModal(${i})">Edit</button>
+        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:10px;color:var(--text4);letter-spacing:1px">DEFAULT</span>`}
       </div>
     </div>`).join('');
 }
-function openAddClassModal(){
-  editingClassIdx=null;
-  document.getElementById('addClassTitle').textContent='Add Class';
-  document.getElementById('saveClassBtn').textContent='Add';
-  document.getElementById('newClassName').value='';
-  openModal('addClassModal');
-}
-function openEditClassModal(i){
-  editingClassIdx=i;
-  document.getElementById('addClassTitle').textContent='Edit Class';
-  document.getElementById('saveClassBtn').textContent='Save';
-  document.getElementById('newClassName').value=state.classes[i];
-  openModal('addClassModal');
-}
-function saveClass(){
-  const name=document.getElementById('newClassName').value.trim();
-  if(!name){alert('Enter a class name.');return;}
-  if(editingClassIdx!==null){state.classes[editingClassIdx]=name;}
-  else{if(state.classes.includes(name)){alert('Class already exists.');return;}state.classes.push(name);}
-  saveState();closeModal('addClassModal');renderClasses();
-}
+function openAddClassModal(){editingClassIdx=null;document.getElementById('addClassTitle').textContent='Add Class';document.getElementById('saveClassBtn').textContent='Add';document.getElementById('newClassName').value='';openModal('addClassModal');}
+function openEditClassModal(i){editingClassIdx=i;document.getElementById('addClassTitle').textContent='Edit Class';document.getElementById('saveClassBtn').textContent='Save';document.getElementById('newClassName').value=state.classes[i];openModal('addClassModal');}
+function saveClass(){const name=document.getElementById('newClassName').value.trim();if(!name){alert('Enter a class name.');return;}if(editingClassIdx!==null){state.classes[editingClassIdx]=name;}else{if(state.classes.includes(name)){alert('Class already exists.');return;}state.classes.push(name);}saveState();closeModal('addClassModal');renderClasses();}
 function deleteClass(i){if(!confirm('Remove this class?'))return;state.classes.splice(i,1);saveState();renderClasses();}
 
-// ---- MEMBERS ----
+// MEMBERS
 function renderMembers(){
   const q=(document.getElementById('memberSearch')||{}).value||'';
   const filtered=state.members.filter(m=>!q||m.driver.toLowerCase().includes(q.toLowerCase()));
   const el=document.getElementById('membersList');
-  if(!filtered.length){el.innerHTML='<div style="text-align:center;padding:30px;color:#444">No members found.</div>';return;}
-
-  // Group by class
+  if(!filtered.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No members found.</div>';return;}
   const byClass={};
-  filtered.forEach(m=>{
-    const classes=m.classes&&m.classes.length?m.classes:['Unassigned'];
-    classes.forEach(c=>{
-      if(!byClass[c])byClass[c]=[];
-      byClass[c].push(m);
-    });
-  });
-
+  filtered.forEach(m=>{const classes=m.classes&&m.classes.length?m.classes:['Unassigned'];classes.forEach(c=>{if(!byClass[c])byClass[c]=[];byClass[c].push(m);});});
   el.innerHTML=Object.keys(byClass).sort().map(cls=>`
-    <div class="class-group-header">${cls}</div>
+    <div class="class-group-hdr">${cls}</div>
     ${byClass[cls].sort((a,b)=>a.driver.localeCompare(b.driver)).map(m=>`
       <div class="card" style="margin-bottom:6px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
           <div>
-            <div style="font-weight:700;font-size:14px">${m.driver}</div>
-            <div style="font-size:11px;color:#666;margin-top:2px">${m.vehicle||''} ${m.home?'· '+m.home:''}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:.5px">${m.driver}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px">${m.vehicle||''} ${m.home?'· '+m.home:''}</div>
           </div>
-          <div style="display:flex;gap:5px">
-            <button class="btn btn-yellow btn-sm" onclick="openEditMemberModal('${m.id}')">Edit</button>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-gold btn-sm" onclick="openEditMemberModal('${m.id}')">Edit</button>
             <button class="btn btn-gray btn-sm" onclick="deleteMember('${m.id}')">Del</button>
           </div>
         </div>
-      </div>`).join('')}
-  `).join('');
+      </div>`).join('')}`).join('');
 }
-function buildMemberClassCBs(sel){
-  return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');
-}
-function openAddMemberModal(){
-  editingMemberId=null;
-  document.getElementById('addMemberTitle').textContent='Add Points Member';
-  document.getElementById('saveMemberBtn').textContent='Add Member';
-  ['memDriver','memVehicle','memHome'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs([]);
-  openModal('addMemberModal');
-}
-function openEditMemberModal(id){
-  const m=state.members.find(x=>x.id===id);if(!m)return;
-  editingMemberId=id;
-  document.getElementById('addMemberTitle').textContent='Edit Member';
-  document.getElementById('saveMemberBtn').textContent='Save Changes';
-  document.getElementById('memDriver').value=m.driver||'';
-  document.getElementById('memVehicle').value=m.vehicle||'';
-  document.getElementById('memHome').value=m.home||'';
-  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs(m.classes||[]);
-  openModal('addMemberModal');
-}
-function saveMember(){
-  const driver=document.getElementById('memDriver').value.trim();
-  if(!driver){alert('Driver name required.');return;}
-  const classes=[...document.querySelectorAll('#memberClassCheckboxes input:checked')].map(i=>i.value);
-  const data={driver,vehicle:document.getElementById('memVehicle').value.trim(),home:document.getElementById('memHome').value.trim(),classes};
-  if(editingMemberId){
-    const idx=state.members.findIndex(m=>m.id===editingMemberId);
-    if(idx>-1)state.members[idx]={...state.members[idx],...data};
-  } else {state.members.push({id:uuid(),...data});}
-  saveState();closeModal('addMemberModal');renderMembers();
-}
+function buildMemberClassCBs(sel){return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
+function openAddMemberModal(){editingMemberId=null;document.getElementById('addMemberTitle').textContent='Add Points Member';document.getElementById('saveMemberBtn').textContent='Add Member';['memDriver','memVehicle','memHome'].forEach(id=>document.getElementById(id).value='');document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs([]);openModal('addMemberModal');}
+function openEditMemberModal(id){const m=state.members.find(x=>x.id===id);if(!m)return;editingMemberId=id;document.getElementById('addMemberTitle').textContent='Edit Member';document.getElementById('saveMemberBtn').textContent='Save Changes';document.getElementById('memDriver').value=m.driver||'';document.getElementById('memVehicle').value=m.vehicle||'';document.getElementById('memHome').value=m.home||'';document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs(m.classes||[]);openModal('addMemberModal');}
+function saveMember(){const driver=document.getElementById('memDriver').value.trim();if(!driver){alert('Driver name required.');return;}const classes=[...document.querySelectorAll('#memberClassCheckboxes input:checked')].map(i=>i.value);const data={driver,vehicle:document.getElementById('memVehicle').value.trim(),home:document.getElementById('memHome').value.trim(),classes};if(editingMemberId){const idx=state.members.findIndex(m=>m.id===editingMemberId);if(idx>-1)state.members[idx]={...state.members[idx],...data};}else{state.members.push({id:uuid(),...data});}saveState();closeModal('addMemberModal');renderMembers();}
 function deleteMember(id){if(!confirm('Remove?'))return;state.members=state.members.filter(m=>m.id!==id);saveState();renderMembers();}
 
-// ---- EVENTS ----
+// EVENTS
 function renderEvents(){
   const el=document.getElementById('eventsList');
-  if(!state.events.length){el.innerHTML='<div style="text-align:center;padding:30px;color:#444">No events yet.</div>';return;}
+  if(!state.events.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No events yet.</div>';return;}
   el.innerHTML=state.events.map(ev=>`
-    <div class="card" style="border-left:3px solid ${ev.id===state.activeEventId?'#c0392b':'#2e2e2e'}">
+    <div class="card" style="border-left:3px solid ${ev.id===state.activeEventId?'var(--red)':'var(--border)'}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
         <div>
-          <div style="font-weight:700;font-size:15px">${ev.name}</div>
-          <div style="font-size:11px;color:#555;margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
-          <div style="font-size:11px;color:#444;margin-top:3px">${ev.classes.length} classes</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;letter-spacing:.5px">${ev.name}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
+          <div style="font-size:11px;color:var(--text4);margin-top:3px">${ev.classes.length} classes</div>
         </div>
-        <div style="display:flex;gap:5px;flex-wrap:wrap">
-          ${ev.id!==state.activeEventId?`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`:`<span style="font-size:11px;color:#c0392b;font-weight:700;padding:4px 0">Active</span>`}
-          <button class="btn btn-yellow btn-sm" onclick="openEditEventModal('${ev.id}')">Edit</button>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+          ${ev.id!==state.activeEventId?`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`:`<span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px">ACTIVE</span>`}
+          <button class="btn btn-gold btn-sm" onclick="openEditEventModal('${ev.id}')">Edit</button>
           <button class="btn btn-gray btn-sm" onclick="deleteEvent('${ev.id}')">Del</button>
         </div>
       </div>
     </div>`).join('');
 }
-function buildClassCBs(sel){
-  return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');
-}
-function openCreateEventModal(){
-  editingEventId=null;customEventClasses=[];
-  document.getElementById('createEventTitle').textContent='New Event';
-  document.getElementById('saveEventBtn').textContent='Create Event';
-  ['evName','evLocation','evCustomClass'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('evDate').value=new Date().toISOString().slice(0,10);
-  document.getElementById('customEventClasses').innerHTML='';
-  document.getElementById('classCheckboxes').innerHTML=buildClassCBs([]);
-  openModal('createEventModal');
-}
-function openEditEventModal(id){
-  const ev=state.events.find(e=>e.id===id);if(!ev)return;
-  editingEventId=id;
-  customEventClasses=ev.classes.filter(c=>!state.classes.includes(c.name)).map(c=>c.name);
-  document.getElementById('createEventTitle').textContent='Edit Event';
-  document.getElementById('saveEventBtn').textContent='Save Changes';
-  document.getElementById('evName').value=ev.name;
-  document.getElementById('evLocation').value=ev.location||'';
-  document.getElementById('evDate').value=ev.date||'';
-  document.getElementById('evCustomClass').value='';
-  document.getElementById('classCheckboxes').innerHTML=buildClassCBs(ev.classes.map(c=>c.name));
-  renderCustomEventClasses();
-  openModal('createEventModal');
-}
-function addCustomEventClass(){
-  const val=document.getElementById('evCustomClass').value.trim();if(!val)return;
-  if(!customEventClasses.includes(val))customEventClasses.push(val);
-  document.getElementById('evCustomClass').value='';renderCustomEventClasses();
-}
+function buildClassCBs(sel){return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
+function openCreateEventModal(){editingEventId=null;customEventClasses=[];document.getElementById('createEventTitle').textContent='New Event';document.getElementById('saveEventBtn').textContent='Create Event';['evName','evLocation','evCustomClass'].forEach(id=>document.getElementById(id).value='');document.getElementById('evDate').value=new Date().toISOString().slice(0,10);document.getElementById('customEventClasses').innerHTML='';document.getElementById('classCheckboxes').innerHTML=buildClassCBs([]);openModal('createEventModal');}
+function openEditEventModal(id){const ev=state.events.find(e=>e.id===id);if(!ev)return;editingEventId=id;customEventClasses=ev.classes.filter(c=>!state.classes.includes(c.name)).map(c=>c.name);document.getElementById('createEventTitle').textContent='Edit Event';document.getElementById('saveEventBtn').textContent='Save Changes';document.getElementById('evName').value=ev.name;document.getElementById('evLocation').value=ev.location||'';document.getElementById('evDate').value=ev.date||'';document.getElementById('evCustomClass').value='';document.getElementById('classCheckboxes').innerHTML=buildClassCBs(ev.classes.map(c=>c.name));renderCustomEventClasses();openModal('createEventModal');}
+function addCustomEventClass(){const val=document.getElementById('evCustomClass').value.trim();if(!val)return;if(!customEventClasses.includes(val))customEventClasses.push(val);document.getElementById('evCustomClass').value='';renderCustomEventClasses();}
 function removeCustomEventClass(name){customEventClasses=customEventClasses.filter(c=>c!==name);renderCustomEventClasses();}
-function renderCustomEventClasses(){
-  document.getElementById('customEventClasses').innerHTML=customEventClasses.map(c=>`
-    <span class="chip">${c} <span onclick="removeCustomEventClass(this.parentElement.textContent.trim().slice(0,-1).trim())" style="color:#c0392b;font-weight:700;cursor:pointer">x</span></span>`).join('');
-}
-function saveEvent(){
-  const name=document.getElementById('evName').value.trim();
-  const loc=document.getElementById('evLocation').value.trim();
-  const date=document.getElementById('evDate').value;
-  const selected=[...document.querySelectorAll('#classCheckboxes input:checked')].map(i=>i.value);
-  const allClasses=[...selected,...customEventClasses];
-  if(!name){alert('Enter an event name.');return;}
-  if(!allClasses.length){alert('Select at least one class.');return;}
-  if(editingEventId){
-    const ev=state.events.find(e=>e.id===editingEventId);
-    ev.name=name;ev.location=loc;ev.date=date;
-    const existing=ev.classes.map(c=>c.name);
-    allClasses.forEach(cn=>{if(!existing.includes(cn))ev.classes.push({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[]});});
-    ev.classes=ev.classes.filter(c=>allClasses.includes(c.name));
-  } else {
-    const ev={id:uuid(),name,location:loc,date,classes:allClasses.map(cn=>({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[]}))};
-    state.events.unshift(ev);state.activeEventId=ev.id;
-  }
-  saveState();closeModal('createEventModal');renderEvents();renderInput();updateHeader();
-}
+function renderCustomEventClasses(){document.getElementById('customEventClasses').innerHTML=customEventClasses.map(c=>`<span class="chip">${c} <span onclick="removeCustomEventClass('${c.replace(/'/g,"\\'")}')" style="color:var(--red);font-weight:700;cursor:pointer;margin-left:2px">×</span></span>`).join('');}
+function saveEvent(){const name=document.getElementById('evName').value.trim();const loc=document.getElementById('evLocation').value.trim();const date=document.getElementById('evDate').value;const selected=[...document.querySelectorAll('#classCheckboxes input:checked')].map(i=>i.value);const allClasses=[...selected,...customEventClasses];if(!name){alert('Enter an event name.');return;}if(!allClasses.length){alert('Select at least one class.');return;}if(editingEventId){const ev=state.events.find(e=>e.id===editingEventId);ev.name=name;ev.location=loc;ev.date=date;const existing=ev.classes.map(c=>c.name);allClasses.forEach(cn=>{if(!existing.includes(cn))ev.classes.push({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[]});});ev.classes=ev.classes.filter(c=>allClasses.includes(c.name));}else{const ev={id:uuid(),name,location:loc,date,classes:allClasses.map(cn=>({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[]}))};state.events.unshift(ev);state.activeEventId=ev.id;}saveState();closeModal('createEventModal');renderEvents();renderInput();updateHeader();}
 function loadEvent(id){state.activeEventId=id;state.activeClassId=null;saveState();updateHeader();renderEvents();renderInput();renderViewer();}
-function deleteEvent(id){
-  if(!confirm('Delete this event and all data?'))return;
-  state.events=state.events.filter(e=>e.id!==id);
-  if(state.activeEventId===id)state.activeEventId=null;
-  saveState();renderEvents();renderInput();updateHeader();
-}
-function updateHeader(){
-  const ev=getActiveEvent();
-  document.getElementById('headerEvent').textContent=ev?ev.name+(ev.location?' — '+ev.location:''):'No event loaded';
-}
+function deleteEvent(id){if(!confirm('Delete this event and all data?'))return;state.events=state.events.filter(e=>e.id!==id);if(state.activeEventId===id)state.activeEventId=null;saveState();renderEvents();renderInput();updateHeader();}
+function updateHeader(){const ev=getActiveEvent();document.getElementById('headerEvent').textContent=ev?ev.name+(ev.location?' — '+ev.location:''):'No Event Loaded';}
 
-// ---- INPUT CONSOLE ----
+// INPUT CONSOLE
 function renderInput(){
   const ev=getActiveEvent();
   document.getElementById('inputNoEvent').style.display=ev?'none':'block';
@@ -602,11 +503,14 @@ function renderInput(){
   document.getElementById('inputEventName').textContent=ev.name;
   document.getElementById('inputEventDate').textContent=(ev.location||'')+(ev.date?' · '+ev.date:'');
   document.getElementById('inputClassList').innerHTML=ev.classes.map(c=>`
-    <div onclick="selectClass('${c.id}')" style="cursor:pointer;padding:9px 10px;border-radius:6px;margin-bottom:5px;background:${state.activeClassId===c.id?'#2a0a0a':'#1e1e1e'};border:1px solid ${state.activeClassId===c.id?'#c0392b':'#2e2e2e'}">
-      <div style="font-weight:${state.activeClassId===c.id?'700':'500'};font-size:12px;color:${state.activeClassId===c.id?'#fff':'#ccc'}">${c.name}</div>
-      <div style="font-size:10px;color:#555;margin-top:2px">${c.competitors.length} drivers · ${c.pulls.length} pulls</div>
-      <div style="margin-top:5px">
-        <select style="width:100%;font-size:10px;padding:3px 5px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
+    <div class="cls-item ${state.activeClassId===c.id?'active-cls':''}" onclick="selectClass('${c.id}')">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        ${statusDot(c.status)}
+        <div class="cls-item-name" style="color:${state.activeClassId===c.id?'#fff':'var(--text2)'}">${c.name}</div>
+      </div>
+      <div class="cls-item-sub">${c.competitors.length} drivers · ${c.pulls.length} pulls</div>
+      <div style="margin-top:6px">
+        <select style="width:100%;font-size:10px;padding:3px 6px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
           <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
           <option value="active" ${c.status==='active'?'selected':''}>Active</option>
           <option value="completed" ${c.status==='completed'?'selected':''}>Completed</option>
@@ -615,293 +519,184 @@ function renderInput(){
     </div>`).join('');
   renderRightPanel();
 }
-function setClassStatus(classId,status){
-  const ev=getActiveEvent();if(!ev)return;
-  const cls=ev.classes.find(c=>c.id===classId);
-  if(cls){cls.status=status;saveState();renderInput();renderViewer();}
-}
+function setClassStatus(classId,status){const ev=getActiveEvent();if(!ev)return;const cls=ev.classes.find(c=>c.id===classId);if(cls){cls.status=status;saveState();renderInput();renderViewer();}}
 function selectClass(classId){state.activeClassId=classId;saveState();renderInput();}
-
-function getSortedCompetitors(cls){
-  return [...cls.competitors].sort((a,b)=>{
-    const an=parseInt(a.hook)||9999,bn=parseInt(b.hook)||9999;
-    return an-bn;
-  });
-}
-
-function getRankedPulls(cls){
-  // Sort by distNum descending, DQ/broke go to bottom
-  return [...cls.competitors].map(comp=>{
-    const pull=cls.pulls.find(p=>p.compId===comp.id);
-    const valid = pull && pull.result && pull.result!=='dq' && pull.result!=='broke';
-    return {comp,pull,distNum:valid?(pull.distNum||0):0,valid};
-  }).sort((a,b)=>{
-    if(a.valid&&!b.valid)return -1;
-    if(!a.valid&&b.valid)return 1;
-    return b.distNum-a.distNum;
-  });
-}
-
-function getRank(cls,compId){
-  const ranked=getRankedPulls(cls);
-  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
-  return idx>=0?idx+1:null;
-}
+function getSortedCompetitors(cls){return[...cls.competitors].sort((a,b)=>{const an=parseInt(a.hook)||9999,bn=parseInt(b.hook)||9999;return an-bn;});}
 
 function renderRightPanel(){
   const cls=getActiveClass();
   const el=document.getElementById('rightPanel');
-  if(!cls){el.innerHTML='<div style="text-align:center;padding:30px;color:#444;font-size:13px">Select a class on the left.</div>';return;}
-
-  const comps = cls.status==='completed' ? getRankedPulls(cls).map(r=>r.comp) : getSortedCompetitors(cls);
+  if(!cls){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>';return;}
+  const comps=cls.status==='completed'?getRankedPulls(cls).map(r=>r.comp):getSortedCompetitors(cls);
   const suggestions=state.members.filter(m=>(m.classes||[]).includes(cls.name));
-
   el.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-weight:700;font-size:15px">${cls.name}</div>
-        <div style="font-size:11px;color:#555">${comps.length} competitors${cls.status==='completed'?' · Sorted by finish':' · Sorted by hook #'}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px">${cls.name}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">${comps.length} competitors · ${cls.status==='completed'?'Sorted by finish':'Sorted by hook #'}</div>
       </div>
-      <button class="btn btn-red btn-sm" onclick="openAddCompModal()">+ Add Driver</button>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${statusBadge(cls.status)}
+        <button class="btn btn-red btn-sm" onclick="openAddCompModal()">+ Add Driver</button>
+      </div>
     </div>
-    ${suggestions.length?`<div style="background:#111;border:1px solid #1e3a1e;border-radius:6px;padding:8px;margin-bottom:10px">
-      <div style="font-size:10px;color:#555;margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px">Points members — tap to add:</div>
+    ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:5px;padding:10px;margin-bottom:12px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Points Members — Tap to Add</div>
       ${suggestions.map(m=>`<span class="member-chip" onclick="quickAddMember('${m.id}')">${m.driver}</span>`).join('')}
     </div>`:''}
     <div style="overflow-x:auto">
       <table class="pull-sheet">
-        <thead>
-          <tr>
-            <th style="width:28px">${cls.status==='completed'?'Pos':'#'}</th>
-            <th style="width:50px">Hook</th>
-            <th>Driver</th>
-            <th>Vehicle</th>
-            <th style="width:95px">Dist (ft)</th>
-            <th style="width:70px">Speed (mph)</th>
-            <th style="width:115px">Result</th>
-            <th style="width:80px"></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${comps.length?comps.map((comp)=>{
-            const pull=cls.pulls.find(p=>p.compId===comp.id);
-            const rank=getRank(cls,comp.id);
-            const isCompleted=cls.status==='completed';
-            return `<tr id="row-${comp.id}" class="${rank===1?'winner-glow':''}">
-              <td><span class="rank-badge ${rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn'}">${isCompleted?(rank||'—'):(comp.hook||'—')}</span></td>
-              <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:44px;padding:4px;font-size:11px"></td>
-              <td style="font-weight:600;font-size:13px">${comp.driver}</td>
-              <td style="color:#888;font-size:11px">${comp.vehicle||''}</td>
-              <td><input type="number" step="0.1" min="0" placeholder="0.0" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:80px"></td>
-              <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:58px"></td>
-              <td>
-                <select onchange="updatePullResult('${comp.id}',this.value)" style="width:108px">
-                  <option value="" ${!pull||!pull.result?'selected':''}>—</option>
-                  <option value="distance" ${pull&&pull.result==='distance'?'selected':''}>Distance</option>
-                  <option value="full_pull" ${pull&&pull.result==='full_pull'?'selected':''}>Full Pull</option>
-                  <option value="dq" ${pull&&pull.result==='dq'?'selected':''}>DQ</option>
-                  <option value="broke" ${pull&&pull.result==='broke'?'selected':''}>Broke</option>
-                </select>
-              </td>
-              <td style="white-space:nowrap">
-                <button class="btn btn-yellow btn-sm" onclick="openEditCompModal('${comp.id}')">Edit</button>
-                <button class="btn btn-gray btn-sm" onclick="removeCompetitor('${comp.id}')">Del</button>
-              </td>
-            </tr>`;
-          }).join(''):`<tr><td colspan="8" style="text-align:center;padding:20px;color:#444">No drivers yet.</td></tr>`}
+        <thead><tr>
+          <th style="width:30px">${cls.status==='completed'?'Pos':'Ord'}</th>
+          <th style="width:52px">Hook</th>
+          <th>Driver</th><th>Vehicle</th>
+          <th style="width:95px">Dist (ft)</th>
+          <th style="width:72px">Speed</th>
+          <th style="width:112px">Result</th>
+          <th style="width:82px"></th>
+        </tr></thead>
+        <tbody>${comps.length?comps.map((comp,idx)=>{
+          const pull=cls.pulls.find(p=>p.compId===comp.id);
+          const rank=getRank(cls,comp.id);
+          const isCompleted=cls.status==='completed';
+          return `<tr id="row-${comp.id}" class="${rank===1?'top-row':''}">
+            <td><span class="rank-badge ${rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn'}">${isCompleted?(rank||'—'):(idx+1)}</span></td>
+            <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:44px;padding:4px;font-size:11px"></td>
+            <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.3px">${comp.driver}</td>
+            <td style="color:var(--text3);font-size:11px">${comp.vehicle||''}</td>
+            <td><input type="number" step="0.1" min="0" placeholder="0.0" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:80px"></td>
+            <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:58px"></td>
+            <td><select onchange="updatePullResult('${comp.id}',this.value)" style="width:106px">
+              <option value="" ${!pull||!pull.result?'selected':''}>—</option>
+              <option value="distance" ${pull&&pull.result==='distance'?'selected':''}>Distance</option>
+              <option value="full_pull" ${pull&&pull.result==='full_pull'?'selected':''}>Full Pull</option>
+              <option value="dq" ${pull&&pull.result==='dq'?'selected':''}>DQ</option>
+              <option value="broke" ${pull&&pull.result==='broke'?'selected':''}>Broke</option>
+            </select></td>
+            <td style="white-space:nowrap">
+              <button class="btn btn-gold btn-sm" onclick="openEditCompModal('${comp.id}')">Edit</button>
+              <button class="btn btn-gray btn-sm" onclick="removeCompetitor('${comp.id}')">Del</button>
+            </td>
+          </tr>`;
+        }).join(''):`<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">NO DRIVERS YET — ADD DRIVERS ABOVE</td></tr>`}
         </tbody>
       </table>
     </div>`;
 }
 
-function updateHook(compId,val){
-  const cls=getActiveClass();if(!cls)return;
-  const comp=cls.competitors.find(c=>c.id===compId);
-  if(comp){comp.hook=val;saveState();}
-}
-
+function updateHook(compId,val){const cls=getActiveClass();if(!cls)return;const comp=cls.competitors.find(c=>c.id===compId);if(comp){comp.hook=val;saveState();}}
 function updatePullField(compId,field,val){
   const cls=getActiveClass();if(!cls)return;
   let pull=cls.pulls.find(p=>p.compId===compId);
   if(!pull){pull={id:uuid(),compId,dist:'',speed:'',result:'distance',distNum:0};cls.pulls.push(pull);}
-  if(field==='dist'){
-    const n=parseFloat(val);
-    pull.dist=isNaN(n)?'':n.toFixed(1);
-    pull.distNum=isNaN(n)?0:(pull.result==='full_pull'?999999+n:n);
-  }
+  if(field==='dist'){const n=parseFloat(val);pull.dist=isNaN(n)?'':n.toFixed(1);pull.distNum=isNaN(n)?0:(pull.result==='full_pull'?999999+n:n);}
   if(field==='speed'){pull.speed=val?parseFloat(val).toFixed(1):'';}
-  saveState();renderViewer();
-  refreshRankBadges();
+  saveState();renderViewer();refreshRankBadges();
 }
-
 function updatePullResult(compId,result){
   const cls=getActiveClass();if(!cls)return;
   let pull=cls.pulls.find(p=>p.compId===compId);
   if(!pull){pull={id:uuid(),compId,dist:'',speed:'',result:'',distNum:0};cls.pulls.push(pull);}
-  pull.result=result;
-  const n=parseFloat(pull.dist);
+  pull.result=result;const n=parseFloat(pull.dist);
   pull.distNum=(result==='dq'||result==='broke')?0:(result==='full_pull'?999999+(isNaN(n)?0:n):(isNaN(n)?0:n));
-  saveState();renderViewer();
-  refreshRankBadges();
+  saveState();renderViewer();refreshRankBadges();
 }
-
 function refreshRankBadges(){
   const cls=getActiveClass();if(!cls)return;
   cls.competitors.forEach(c=>{
-    const r=getRank(cls,c.id);
-    const badge=document.querySelector('#row-'+c.id+' .rank-badge');
-    if(badge&&cls.status!=='completed'){
-      badge.textContent=r||'—';
-      badge.className='rank-badge '+(r===1?'r1':r===2?'r2':r===3?'r3':'rn');
-    }
+    const r=getRank(cls,c.id);const badge=document.querySelector('#row-'+c.id+' .rank-badge');
+    if(badge&&cls.status!=='completed'){badge.textContent=r||'—';badge.className='rank-badge '+(r===1?'r1':r===2?'r2':r===3?'r3':'rn');}
   });
 }
+function removeCompetitor(compId){const cls=getActiveClass();if(!cls)return;if(!confirm('Remove this driver?'))return;cls.competitors=cls.competitors.filter(c=>c.id!==compId);cls.pulls=cls.pulls.filter(p=>p.compId!==compId);saveState();renderInput();renderViewer();}
+function quickAddMember(memberId){const cls=getActiveClass();if(!cls)return;const m=state.members.find(x=>x.id===memberId);if(!m)return;if(cls.competitors.find(c=>c.driver===m.driver)){alert(m.driver+' is already in this class.');return;}cls.competitors.push({id:uuid(),hook:'',driver:m.driver,vehicle:m.vehicle||'',home:m.home||''});saveState();renderInput();}
+function openAddCompModal(){editingCompId=null;document.getElementById('addCompTitle').textContent='Add Driver';document.getElementById('saveCompBtn').textContent='Add Driver';['compHook','compDriver','compVehicle','compHome'].forEach(id=>document.getElementById(id).value='');const cls=getActiveClass();const suggestions=cls?state.members.filter(m=>(m.classes||[]).includes(cls.name)):[];document.getElementById('memberSuggestions').innerHTML=suggestions.length?'<div style="font-size:10px;color:var(--text4);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join(''):'';openModal('addCompModal');}
+function openEditCompModal(compId){const cls=getActiveClass();if(!cls)return;const comp=cls.competitors.find(c=>c.id===compId);if(!comp)return;editingCompId=compId;document.getElementById('addCompTitle').textContent='Edit Driver';document.getElementById('saveCompBtn').textContent='Save Changes';document.getElementById('compHook').value=comp.hook||'';document.getElementById('compDriver').value=comp.driver||'';document.getElementById('compVehicle').value=comp.vehicle||'';document.getElementById('compHome').value=comp.home||'';document.getElementById('memberSuggestions').innerHTML='';openModal('addCompModal');}
+function fillFromMember(id){const m=state.members.find(x=>x.id===id);if(!m)return;document.getElementById('compDriver').value=m.driver||'';document.getElementById('compVehicle').value=m.vehicle||'';document.getElementById('compHome').value=m.home||'';document.getElementById('compHook').value='';}
+function saveCompetitor(){const driver=document.getElementById('compDriver').value.trim();if(!driver){alert('Driver name required.');return;}const data={hook:document.getElementById('compHook').value.trim(),driver,vehicle:document.getElementById('compVehicle').value.trim(),home:document.getElementById('compHome').value.trim()};if(editingCompId){const cls=getActiveClass();const idx=cls.competitors.findIndex(c=>c.id===editingCompId);if(idx>-1)cls.competitors[idx]={...cls.competitors[idx],...data};}else{const cls=getActiveClass();if(!cls)return;cls.competitors.push({id:uuid(),...data});}saveState();closeModal('addCompModal');renderInput();}
 
-function removeCompetitor(compId){
-  const cls=getActiveClass();if(!cls)return;
-  if(!confirm('Remove this driver?'))return;
-  cls.competitors=cls.competitors.filter(c=>c.id!==compId);
-  cls.pulls=cls.pulls.filter(p=>p.compId!==compId);
-  saveState();renderInput();renderViewer();
-}
-
-function quickAddMember(memberId){
-  const cls=getActiveClass();if(!cls)return;
-  const m=state.members.find(x=>x.id===memberId);if(!m)return;
-  if(cls.competitors.find(c=>c.driver===m.driver)){alert(m.driver+' is already in this class.');return;}
-  cls.competitors.push({id:uuid(),hook:'',driver:m.driver,vehicle:m.vehicle||'',home:m.home||''});
-  saveState();renderInput();
-}
-
-function openAddCompModal(){
-  editingCompId=null;
-  document.getElementById('addCompTitle').textContent='Add Driver';
-  document.getElementById('saveCompBtn').textContent='Add';
-  ['compHook','compDriver','compVehicle','compHome'].forEach(id=>document.getElementById(id).value='');
-  const cls=getActiveClass();
-  const suggestions=cls?state.members.filter(m=>(m.classes||[]).includes(cls.name)):[];
-  document.getElementById('memberSuggestions').innerHTML=suggestions.length
-    ?'<div style="font-size:10px;color:#555;margin-bottom:4px">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join('')
-    :'';
-  openModal('addCompModal');
-}
-function openEditCompModal(compId){
-  const cls=getActiveClass();if(!cls)return;
-  const comp=cls.competitors.find(c=>c.id===compId);if(!comp)return;
-  editingCompId=compId;
-  document.getElementById('addCompTitle').textContent='Edit Driver';
-  document.getElementById('saveCompBtn').textContent='Save Changes';
-  document.getElementById('compHook').value=comp.hook||'';
-  document.getElementById('compDriver').value=comp.driver||'';
-  document.getElementById('compVehicle').value=comp.vehicle||'';
-  document.getElementById('compHome').value=comp.home||'';
-  document.getElementById('memberSuggestions').innerHTML='';
-  openModal('addCompModal');
-}
-function fillFromMember(id){
-  const m=state.members.find(x=>x.id===id);if(!m)return;
-  document.getElementById('compDriver').value=m.driver||'';
-  document.getElementById('compVehicle').value=m.vehicle||'';
-  document.getElementById('compHome').value=m.home||'';
-  document.getElementById('compHook').value='';
-}
-function saveCompetitor(){
-  const driver=document.getElementById('compDriver').value.trim();
-  if(!driver){alert('Driver name required.');return;}
-  const data={hook:document.getElementById('compHook').value.trim(),driver,vehicle:document.getElementById('compVehicle').value.trim(),home:document.getElementById('compHome').value.trim()};
-  if(editingCompId){
-    const cls=getActiveClass();
-    const idx=cls.competitors.findIndex(c=>c.id===editingCompId);
-    if(idx>-1)cls.competitors[idx]={...cls.competitors[idx],...data};
-  } else {
-    const cls=getActiveClass();if(!cls)return;
-    cls.competitors.push({id:uuid(),...data});
-  }
-  saveState();closeModal('addCompModal');renderInput();
-}
-
-// ---- VIEWER ----
+// VIEWER
 function pullDisplayViewer(p){
-  if(!p||!p.result)return '<span style="color:#333">—</span>';
+  if(!p||!p.result)return '<span style="color:var(--text4)">—</span>';
   if(p.result==='dq')return '<span class="result-tag tag-dq">DQ</span>';
   if(p.result==='broke')return '<span class="result-tag tag-broke">Broke</span>';
-  const spd=p.speed?` <span style="font-size:10px;color:#777">${p.speed} mph</span>`:'';
+  const spd=p.speed?` <span style="font-size:11px;color:var(--text3);font-weight:600">${p.speed} mph</span>`:'';
   if(p.result==='full_pull')return `<span class="dist-val">${p.dist} ft</span> <span class="result-tag tag-full">Full Pull</span>${spd}`;
   return `<span class="dist-val">${p.dist} ft</span>${spd}`;
 }
-
 function renderViewer(){
   const ev=getActiveEvent();
   const bar=document.getElementById('viewerClassBar');
   const content=document.getElementById('viewerContent');
   if(!ev){
-    bar.innerHTML='<span style="font-size:12px;color:#444">Load an event to view results</span>';
-    content.innerHTML='<div style="text-align:center;padding:40px;color:#444">No event selected.</div>';return;
+    bar.innerHTML='<span style="font-size:11px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1px;text-transform:uppercase">Load an event to view results</span>';
+    content.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:48px;font-weight:900;letter-spacing:2px;color:var(--border2)">CS PULL LIVE</div><div style="font-size:13px;margin-top:8px;letter-spacing:1px">Go to Events tab to load an event</div></div>';return;
   }
-  bar.innerHTML=ev.classes.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${c.name}</span>`).join('');
+  bar.innerHTML=ev.classes.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${statusDot(c.status)} ${c.name}</span>`).join('');
   if(!viewerActiveClass){
-    content.innerHTML=`<div class="card">${ev.classes.map(c=>`
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #1e1e1e">
-        <span style="font-size:13px">${c.name}</span>
-        <span style="font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;background:${c.status==='active'?'#1e7e40':c.status==='completed'?'#1a3a5a':'#333'};color:${c.status==='active'?'#fff':c.status==='completed'?'#5ab4ff':'#f39c12'}">${c.status}</span>
-      </div>`).join('')}</div>`;return;
+    content.innerHTML=`
+      <div style="margin-bottom:16px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px">${ev.name}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
+      </div>
+      <div class="card-dark">
+        ${ev.classes.map(c=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600;letter-spacing:.5px">${c.name}</div>
+          ${statusBadge(c.status)}
+        </div>`).join('')}
+      </div>`;return;
   }
   const cls=ev.classes.find(c=>c.id===viewerActiveClass);if(!cls)return;
-
-  // Always rank by distance for viewer
   const ranked=getRankedPulls(cls);
   const leader=ranked[0];
-
   content.innerHTML=`
-    <div style="margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-size:17px;font-weight:700">${cls.name}</div>
-        <div style="font-size:11px;color:#555">${ev.name} · ${ev.date||''}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:1px">${cls.name}</div>
+        <div style="font-size:12px;color:var(--text3)">${ev.name} · ${ev.location||''} · ${ev.date||''}</div>
       </div>
-      <span style="font-size:12px;padding:4px 12px;border-radius:10px;font-weight:700;background:${cls.status==='active'?'#1e7e40':cls.status==='completed'?'#1a3a5a':'#333'};color:${cls.status==='active'?'#fff':cls.status==='completed'?'#5ab4ff':'#f39c12'}">${cls.status.toUpperCase()}</span>
+      ${statusBadge(cls.status)}
     </div>
     ${leader&&leader.valid?`
-    <div class="card" style="border-left:3px solid #ffcc00;margin-bottom:12px">
-      <div style="font-size:10px;color:#555;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px">${cls.status==='completed'?'Winner':'Current Leader'}</div>
-      <div style="font-size:19px;font-weight:700;color:#ffcc00">${leader.comp.driver}</div>
-      <div style="font-size:13px;color:#c0392b;font-weight:700;margin-top:2px">${leader.pull.result==='full_pull'?leader.pull.dist+' ft — FULL PULL':leader.pull.dist+' ft'}${leader.pull.speed?' · '+leader.pull.speed+' mph':''}</div>
-      <div style="font-size:11px;color:#555;margin-top:2px">${leader.comp.vehicle||''} ${leader.comp.home?'· '+leader.comp.home:''}</div>
+    <div class="leader-card">
+      <div>
+        <div class="leader-label">${cls.status==='completed'?'Class Winner':'Current Leader'}</div>
+        <div class="leader-name">${leader.comp.driver}</div>
+        <div class="leader-vehicle">${leader.comp.vehicle||''} ${leader.comp.home?'· '+leader.comp.home:''}</div>
+        ${leader.pull.result==='full_pull'?'<div class="full-pull-badge">Full Pull</div>':''}
+      </div>
+      <div>
+        <div class="leader-dist">${leader.pull.dist}</div>
+        <div class="leader-dist-lbl">feet${leader.pull.speed?' · '+leader.pull.speed+' mph':''}</div>
+      </div>
     </div>`:''}
-    <div class="card" style="padding:10px;overflow-x:auto">
-      <table style="width:100%;border-collapse:collapse;min-width:420px">
-        <thead><tr>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Pos</th>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Hook</th>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Driver</th>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Vehicle</th>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Hometown</th>
-          <th style="font-size:10px;color:#444;font-weight:700;text-transform:uppercase;padding:5px 6px;border-bottom:1px solid #2a2a2a;text-align:left">Result</th>
-        </tr></thead>
-        <tbody>${ranked.map((row,i)=>{
-          const isDQ=row.pull&&(row.pull.result==='dq'||row.pull.result==='broke');
-          const hasResult=row.pull&&row.pull.result;
-          return `<tr class="${i===0&&row.valid?'winner-glow':''}">
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a"><span class="rank-badge ${!hasResult||isDQ?'rn':i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${!hasResult||isDQ?'—':i+1}</span></td>
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;color:#555;font-size:12px">${row.comp.hook||'—'}</td>
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;font-weight:${i<3&&row.valid?'700':'400'}">${row.comp.driver}</td>
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;color:#666;font-size:12px">${row.comp.vehicle||''}</td>
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a;color:#555;font-size:11px">${row.comp.home||''}</td>
-            <td style="padding:7px 6px;border-bottom:1px solid #1a1a1a">${pullDisplayViewer(row.pull)}</td>
-          </tr>`;
-        }).join('')}</tbody>
-      </table>
+    <div class="card-dark" style="padding:0;overflow:hidden">
+      <div style="overflow-x:auto">
+        <table class="results-table" style="min-width:440px">
+          <thead><tr>
+            <th style="width:36px">Pos</th><th style="width:52px">Hook</th>
+            <th>Driver</th><th>Vehicle</th><th>Hometown</th><th>Result</th>
+          </tr></thead>
+          <tbody>${ranked.map((row,i)=>{
+            const isDQ=row.pull&&(row.pull.result==='dq'||row.pull.result==='broke');
+            const hasResult=row.pull&&row.pull.result;
+            return `<tr class="${i===0&&row.valid?'top-row':''}">
+              <td><span class="rank-badge ${!hasResult||isDQ?'rn':i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${!hasResult||isDQ?'—':i+1}</span></td>
+              <td style="color:var(--text4);font-size:12px">${row.comp.hook||'—'}</td>
+              <td style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:${i<3&&row.valid?'700':'400'};letter-spacing:.3px">${row.comp.driver}</td>
+              <td style="color:var(--text3);font-size:12px">${row.comp.vehicle||''}</td>
+              <td style="color:var(--text4);font-size:11px">${row.comp.home||''}</td>
+              <td>${pullDisplayViewer(row.pull)}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table>
+      </div>
     </div>`;
 }
 function viewClass(id){viewerActiveClass=id;renderViewer();}
 
-function checkOnline(){
-  const on=navigator.onLine;
-  document.getElementById('statusDot').className='status-dot'+(on?'':' offline');
-  document.getElementById('statusText').textContent=on?'Online':'Offline';
-  document.getElementById('offlineBanner').style.display=on?'none':'block';
-}
-window.addEventListener('online',checkOnline);
-window.addEventListener('offline',checkOnline);
+function checkOnline(){const on=navigator.onLine;document.getElementById('statusDot').className='dot'+(on?'':' offline');document.getElementById('statusText').textContent=on?'ONLINE':'OFFLINE';document.getElementById('offlineBanner').style.display=on?'none':'block';}
+window.addEventListener('online',checkOnline);window.addEventListener('offline',checkOnline);
 loadState();checkOnline();updateHeader();renderViewer();renderClasses();
 </script>
 </body>
