@@ -173,7 +173,10 @@ footer{background:var(--bg2);border-top:2px solid var(--border);padding:28px 20p
   <div style="padding:20px" id="viewerContent"></div>
 </div>
 <div class="view" id="tab-points" style="padding:20px">
-  <div class="sec-line"><div class="sec">Season Points Standings</div></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+    <div class="sec-line" style="flex:1;margin-bottom:0;min-width:180px"><div class="sec">Season Points Standings</div></div>
+    <button onclick="printPoints()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🖨 Print Standings</button>
+  </div>
   <div id="pointsContent"></div>
 </div>
 <div class="view" id="tab-drivers" style="padding:20px">
@@ -188,7 +191,10 @@ footer{background:var(--bg2);border-top:2px solid var(--border);padding:28px 20p
   </div>
 </div>
 <div class="view" id="tab-schedule" style="padding:20px">
-  <div class="sec-line"><div class="sec">Event Schedule</div></div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+    <div class="sec-line" style="flex:1;margin-bottom:0;min-width:180px"><div class="sec">Event Schedule</div></div>
+    <button onclick="printSchedule()" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:4px;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🖨 Print Schedule</button>
+  </div>
   <div id="scheduleContent"></div>
   <div id="eventDetailPanel" style="display:none;margin-top:14px"></div>
 </div>
@@ -208,6 +214,208 @@ let state={events:[],activeEventId:null,members:[],classes:[],manualPoints:{},co
 let viewerActiveClass=null,selectedScheduleEvent=null,currentDriverKey=null;
 let prevPositions={};
 document.getElementById('footerYear').textContent=new Date().getFullYear();
+
+// PRINT HELPERS
+function escHTML(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function openPrintWindow(title,contentHTML,subtitle){
+  const w=window.open('','_blank','width=900,height=1100');
+  if(!w){alert('Please allow popups for this site to print.');return;}
+  const logo=state.logo||'';
+  const logoHTML=logo?`<img src="${logo}" style="max-height:52px;width:auto">`:`<div style="font-family:'Barlow Condensed',sans-serif;font-size:20pt;font-weight:900;letter-spacing:2px;line-height:1">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>`;
+  const c=state.contact||{};
+  const footerBits=[c.phone,c.email,c.website].filter(Boolean).join(' · ');
+  const subLine=subtitle||footerBits||'Official Scoring &amp; Results';
+  const css=`
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Barlow',system-ui,sans-serif;color:#000;background:#eee;font-size:10.5pt;line-height:1.35}
+    .page{max-width:8in;margin:20px auto;background:#fff;padding:0.5in 0.5in 0.35in;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+    .hdr{border-bottom:3px solid #c0392b;padding-bottom:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .hdr .title{font-family:'Barlow Condensed',sans-serif;font-size:22pt;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#c0392b;line-height:1}
+    .hdr .subtitle{font-family:'Barlow Condensed',sans-serif;font-size:9pt;font-weight:600;letter-spacing:2px;color:#666;margin-top:4px;text-transform:uppercase}
+    .ftr{border-top:1px solid #ccc;padding-top:6px;margin-top:22px;font-size:8.5pt;color:#777;display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+    h2{font-family:'Barlow Condensed',sans-serif;font-size:13pt;font-weight:800;margin:14px 0 5px;padding:5px 9px;background:#1a1a1a;color:#fff;border-left:5px solid #c0392b;text-transform:uppercase;letter-spacing:1.5px;page-break-after:avoid}
+    h2:first-of-type{margin-top:0}
+    h2 .np{font-family:'Barlow',sans-serif;font-size:8pt;color:#f0c030;font-weight:normal;letter-spacing:1px;margin-left:6px}
+    .class-section{page-break-inside:avoid;margin-bottom:6px}
+    table{width:100%;border-collapse:collapse;margin-bottom:6px}
+    thead{display:table-header-group}
+    tr{page-break-inside:avoid}
+    th{font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:5px 6px;border-bottom:1.5px solid #000;text-align:left;background:#f5f5f5;color:#333}
+    td{padding:5px 6px;border-bottom:1px solid #ddd;font-size:10pt;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    .rank{font-family:'Barlow Condensed',sans-serif;font-size:11pt;font-weight:900;text-align:center;width:30px}
+    .rank-1{color:#a08000}.rank-2{color:#555}.rank-3{color:#8B4513}
+    .driver-name{font-weight:700}
+    .num{font-family:'Barlow Condensed',sans-serif;font-weight:700;text-align:right;white-space:nowrap}
+    .dist{color:#c0392b;font-size:11pt}
+    .muted{color:#777;font-size:8.5pt;font-weight:400}
+    .pts{color:#c0392b;font-size:12pt}
+    .evt-banner{background:#1a1a1a;color:#fff;padding:10px 14px;border-radius:3px;margin-bottom:14px}
+    .evt-banner .name{font-family:'Barlow Condensed',sans-serif;font-size:15pt;font-weight:800;letter-spacing:1px;line-height:1.1}
+    .evt-banner .meta{font-size:10pt;color:#ccc;margin-top:3px}
+    .evt-banner .notes{font-size:9.5pt;color:#f0c030;margin-top:6px;font-style:italic}
+    .empty{padding:10px;color:#888;font-size:9.5pt;font-style:italic;text-align:center}
+    .print-btn{position:fixed;top:14px;right:14px;background:#c0392b;color:#fff;border:none;padding:10px 20px;font-family:'Barlow Condensed',sans-serif;font-size:11pt;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100}
+    .print-btn:hover{background:#a93226}
+    .close-btn{position:fixed;top:14px;right:130px;background:#555;color:#fff;border:none;padding:10px 18px;font-family:'Barlow Condensed',sans-serif;font-size:11pt;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:3px;box-shadow:0 3px 10px rgba(0,0,0,.25);z-index:100}
+    @media print{
+      body{background:#fff}
+      .page{box-shadow:none;margin:0;padding:0 0.3in;max-width:none}
+      .no-print{display:none !important}
+      @page{margin:0.5in 0.4in}
+    }
+  `;
+  const now=new Date();
+  const dateStr=now.toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'})+' · '+now.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'});
+  w.document.open();
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escHTML(title)}</title><style>${css}</style></head><body>
+    <button class="close-btn no-print" onclick="window.close()">Close</button>
+    <button class="print-btn no-print" onclick="window.print()">Print</button>
+    <div class="page">
+      <div class="hdr">
+        <div><div class="title">${escHTML(title)}</div><div class="subtitle">${subLine}</div></div>
+        <div>${logoHTML}</div>
+      </div>
+      ${contentHTML}
+      <div class="ftr"><span>Generated ${dateStr}</span><span>cspulling.com</span></div>
+    </div>
+    <script>window.addEventListener('load',function(){setTimeout(function(){window.print();},350);});<\/script>
+    </body></html>`);
+  w.document.close();
+}
+
+function printSchedule(){
+  const events=[...state.events].sort((a,b)=>new Date(a.date||0)-new Date(b.date||0));
+  if(!events.length){alert('No events on the schedule to print.');return;}
+  const year=events[0]&&events[0].date?new Date(events[0].date).getFullYear():new Date().getFullYear();
+  const content=`<table>
+    <thead><tr><th style="width:110px">Date</th><th>Event</th><th>Venue</th><th style="width:32%">Classes</th></tr></thead>
+    <tbody>${events.map(ev=>{
+      const dt=ev.date?(ev.date+(ev.endDate&&ev.endDate!==ev.date?' – '+ev.endDate:'')):'TBD';
+      const time=ev.time?formatTime12(ev.time)+(ev.timezone?' '+ev.timezone:''):'';
+      const venue=[ev.location,ev.address,ev.city,ev.state].filter(Boolean).join(', ');
+      const classOrder=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+      return `<tr>
+        <td><div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:10.5pt">${escHTML(dt)}</div>${time?`<div class="muted">${escHTML(time)}</div>`:''}</td>
+        <td><div class="driver-name" style="font-size:11pt">${escHTML(ev.name)}</div>${ev.notes?`<div class="muted" style="font-style:italic;margin-top:2px">${escHTML(ev.notes)}</div>`:''}</td>
+        <td style="font-size:9.5pt">${escHTML(venue)||'<span class="muted">—</span>'}</td>
+        <td style="font-size:9pt">${classOrder.map((c,i)=>`<div style="margin-bottom:1px">${i+1}. ${escHTML(c.name)}${c.pointsClass===false?' <span class="muted">(NP)</span>':''}</div>`).join('')}</td>
+      </tr>`;
+    }).join('')}</tbody></table>`;
+  openPrintWindow(`${year} Season Schedule`,content);
+}
+
+function printEventResults(evId){
+  const ev=state.events.find(e=>e.id===evId);
+  if(!ev){alert('Event not found.');return;}
+  const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+  const hasAny=ordered.some(c=>(c.pulls||[]).some(p=>p.result));
+  if(!hasAny){alert('No pull results recorded for this event yet.');return;}
+  const content=`
+    <div class="evt-banner">
+      <div class="name">${escHTML(ev.name)}</div>
+      <div class="meta">${escHTML(formatDT(ev))}${formatLoc(ev)?' · '+escHTML(formatLoc(ev)):''}</div>
+      ${ev.notes?`<div class="notes">${escHTML(ev.notes)}</div>`:''}
+    </div>
+    ${ordered.map(cls=>renderClassResultsPrint(ev,cls)).join('')}`;
+  openPrintWindow(`${ev.name} — Results`,content,ev.date?escHTML(formatDT(ev)):'');
+}
+
+function printClassResults(evId,clsId){
+  const ev=state.events.find(e=>e.id===evId);if(!ev){alert('Event not found.');return;}
+  const cls=ev.classes.find(c=>c.id===clsId);if(!cls){alert('Class not found.');return;}
+  const hasAny=(cls.pulls||[]).some(p=>p.result);
+  if(!hasAny){alert('No pull results recorded for this class yet.');return;}
+  const content=`
+    <div class="evt-banner">
+      <div class="name">${escHTML(ev.name)}</div>
+      <div class="meta">${escHTML(formatDT(ev))}${formatLoc(ev)?' · '+escHTML(formatLoc(ev)):''}</div>
+    </div>
+    ${renderClassResultsPrint(ev,cls)}`;
+  openPrintWindow(`${cls.name} — Results`,content,ev.name);
+}
+
+function renderClassResultsPrint(ev,cls){
+  const ranked=getRankedPulls(cls);
+  const hasResults=ranked.some(r=>r.valid||(r.pull&&(r.pull.result==='dq'||r.pull.result==='broke')));
+  const showPts=cls.pointsClass!==false;
+  return `<div class="class-section">
+    <h2>${escHTML(cls.name)}${cls.pointsClass===false?' <span class="np">NON-POINTS</span>':''}</h2>
+    ${hasResults?`<table>
+      <thead><tr>
+        <th class="rank">Pos</th>
+        <th style="width:42px">Hook</th>
+        <th>Driver</th>
+        <th>Vehicle</th>
+        <th class="num" style="width:70px">Distance</th>
+        <th class="num" style="width:52px">Speed</th>
+        <th style="width:70px">Result</th>
+        ${showPts?'<th class="num" style="width:36px">Pts</th>':''}
+      </tr></thead>
+      <tbody>${ranked.map((row,i)=>{
+        const pull=row.pull;const isDQ=pull&&(pull.result==='dq'||pull.result==='broke');
+        const pos=!row.valid||isDQ?'—':(i+1);
+        const rkClass=i===0&&row.valid?'rank-1':i===1&&row.valid?'rank-2':i===2&&row.valid?'rank-3':'';
+        const pts=showPts&&pull&&pull.result&&!isDQ?getPoints(ev.id,cls.id,row.comp.id,cls):'';
+        const label=pull?(pull.result==='full_pull'?'Full Pull':pull.result==='dq'?'DQ':pull.result==='broke'?'Broke':pull.result==='distance'?'Distance':'—'):'—';
+        return `<tr>
+          <td class="rank ${rkClass}">${pos}</td>
+          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700">${escHTML(row.comp.hook||'—')}</td>
+          <td><div class="driver-name">${escHTML(row.comp.driver)}</div>${row.comp.home?`<div class="muted">${escHTML(row.comp.home)}</div>`:''}</td>
+          <td>${escHTML(row.comp.vehicle||'')}${row.comp.vehicleName?`<div class="muted">${escHTML(row.comp.vehicleName)}</div>`:''}</td>
+          <td class="num dist">${row.valid&&pull?parseFloat(pull.dist).toFixed(3):'—'}</td>
+          <td class="num">${pull&&pull.speed?escHTML(pull.speed):'—'}</td>
+          <td style="font-size:9.5pt">${label}</td>
+          ${showPts?`<td class="num pts">${pts||''}</td>`:''}
+        </tr>`;
+      }).join('')}</tbody>
+    </table>`:`<div class="empty">No results recorded.</div>`}
+  </div>`;
+}
+
+function printPoints(){
+  const standings=buildStandings();const byClass={};
+  Object.values(standings).forEach(driver=>{
+    Object.keys(driver.classes).forEach(cls=>{
+      const c=driver.classes[cls];
+      if(!c.pulls.some(p=>p.isPointsClass))return;
+      if(!byClass[cls])byClass[cls]=[];
+      byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,vehicleName:driver.vehicleName,home:driver.home,...c});
+    });
+  });
+  if(!Object.keys(byClass).length){alert('No points data to print yet.');return;}
+  const year=new Date().getFullYear();
+  const content=Object.keys(byClass).sort().map(cls=>{
+    const drivers=byClass[cls].sort((a,b)=>b.totalPoints-a.totalPoints);
+    return `<div class="class-section">
+      <h2>${escHTML(cls)}</h2>
+      <table>
+        <thead><tr>
+          <th class="rank">Pos</th>
+          <th>Driver</th>
+          <th>Vehicle</th>
+          <th class="num" style="width:48px">Pts</th>
+          <th class="num" style="width:28px">1st</th>
+          <th class="num" style="width:28px">2nd</th>
+          <th class="num" style="width:28px">3rd</th>
+          <th class="num" style="width:44px">Events</th>
+        </tr></thead>
+        <tbody>${drivers.map((d,i)=>`<tr>
+          <td class="rank ${i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':''}">${i+1}</td>
+          <td><div class="driver-name">${escHTML(d.driver)}</div>${d.home?`<div class="muted">${escHTML(d.home)}</div>`:''}</td>
+          <td>${escHTML(d.vehicle||'')}${d.vehicleName?`<div class="muted">${escHTML(d.vehicleName)}</div>`:''}</td>
+          <td class="num pts">${d.totalPoints}</td>
+          <td class="num">${d.wins}</td>
+          <td class="num">${d.seconds}</td>
+          <td class="num">${d.thirds}</td>
+          <td class="num">${d.pulls.length}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+  openPrintWindow(`${year} Season Points Standings`,content);
+}
 
 function switchTab(t){
   ['home','results','points','drivers','schedule'].forEach((n,i)=>{
@@ -294,12 +502,16 @@ function renderViewer(){
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
   bar.innerHTML=ordered.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${statusDotEl(c.status)} ${c.name}</span>`).join('');
   if(!viewerActiveClass){
+    const hasResults=ordered.some(c=>(c.pulls||[]).some(p=>p.result));
     // Show clickable class cards
     content.innerHTML=`
-      <div style="margin-bottom:16px">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px">${ev.name}</div>
-        <div style="font-size:13px;color:var(--text3);margin-top:3px">${formatDT(ev)} · ${formatLoc(ev)}</div>
-        <div style="font-size:13px;color:var(--text4);margin-top:4px">Select a class below to view live results</div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:10px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px">${ev.name}</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:3px">${formatDT(ev)} · ${formatLoc(ev)}</div>
+          <div style="font-size:13px;color:var(--text4);margin-top:4px">Select a class below to view live results</div>
+        </div>
+        ${hasResults?`<button onclick="printEventResults('${ev.id}')" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:4px;white-space:nowrap" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🖨 Print All Results</button>`:''}
       </div>
       <div>${ordered.map(c=>{
         const ranked=getRankedPulls(c);const leader=ranked[0];
@@ -328,7 +540,10 @@ function renderViewer(){
     <button onclick="viewerActiveClass=null;renderViewer()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:0;margin-bottom:14px">← All Classes</button>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div><div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:1px">${cls.name}</div><div style="font-size:13px;color:var(--text3)">${ev.name} · ${formatDT(ev)}</div></div>
-      ${statusBadge(cls.status)}
+      <div style="display:flex;align-items:center;gap:8px">
+        ${statusBadge(cls.status)}
+        ${(cls.pulls||[]).some(p=>p.result)?`<button onclick="printClassResults('${ev.id}','${cls.id}')" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:6px 12px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:4px;white-space:nowrap" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🖨 Print</button>`:''}
+      </div>
     </div>
     ${hasPullOff?`<div class="pulloff-badge"><span style="font-size:18px">⚡</span> PULL-OFF — ${pullOffCount} drivers tied at ${fmtDist(leader.pull.dist)} ft</div>`:''}
     ${leader&&leader.valid?`
@@ -757,16 +972,20 @@ function showEventDetail(evId){
   if(!ev){panel.style.display='none';return;}
   panel.style.display='block';
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+  const hasResults=ordered.some(c=>(c.pulls||[]).some(p=>p.result));
   panel.innerHTML=`<div class="card" style="border-top:3px solid var(--red)">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-      <div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;flex-wrap:wrap">
+      <div style="flex:1;min-width:180px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900">${ev.name}</div>
         <div style="font-size:13px;color:var(--text3);margin-top:3px">${formatDT(ev)}</div>
         <div style="font-size:12px;color:var(--text4);margin-top:2px">${[ev.address,ev.city,ev.state].filter(Boolean).join(', ')}</div>
         ${ev.location?`<div style="font-size:12px;color:var(--text4)">${ev.location}</div>`:''}
         ${ev.notes?`<div style="font-size:12px;color:var(--text3);margin-top:6px;background:var(--bg4);padding:8px 10px;border-radius:4px;line-height:1.5">${ev.notes}</div>`:''}
       </div>
-      <button onclick="document.getElementById('eventDetailPanel').style.display='none';selectedScheduleEvent=null" style="background:none;border:none;color:var(--text4);cursor:pointer;font-size:20px;padding:4px">×</button>
+      <div style="display:flex;gap:6px;align-items:flex-start">
+        ${hasResults?`<button onclick="printEventResults('${ev.id}')" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);padding:6px 12px;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:4px;white-space:nowrap" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">🖨 Print Results</button>`:''}
+        <button onclick="document.getElementById('eventDetailPanel').style.display='none';selectedScheduleEvent=null" style="background:none;border:none;color:var(--text4);cursor:pointer;font-size:20px;padding:4px;line-height:1">×</button>
+      </div>
     </div>
     <div class="sec-line"><div class="sec">Class Order</div></div>
     ${ordered.map((c,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
