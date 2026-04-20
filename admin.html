@@ -11,96 +11,101 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--red:#c0392b;--red2:#a93226;--gold:#f0c030;--gold2:#d4a800;--bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;--border:#2a2a2a;--border2:#333;--text:#fff;--text2:#bbb;--text3:#888;--text4:#555;--green:#1db954;--blue:#3a8fd4;}
 body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:16px}
-.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:stretch;justify-content:space-between;min-height:68px}
-.header-left{display:flex;align-items:center;gap:16px}
-.logo-block{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
-.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
-.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;letter-spacing:2px;line-height:1}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:12px;flex-wrap:wrap}
+.logo-block{display:flex;flex-direction:column;justify-content:center}
+.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
+.logo-img{max-height:48px;width:auto;display:block}
+.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;line-height:1}
 .logo-main span{color:var(--red)}
-.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:2px}
-.header-divider{width:2px;background:var(--border2);margin:10px 0;flex-shrink:0}
-.header-event{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
-.event-label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
-.event-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text2);margin-top:1px}
-.header-right{display:flex;align-items:center;gap:10px}
-.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.header-center{display:flex;flex-direction:column;justify-content:center}
+.event-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
+.event-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text2);margin-top:1px}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 .dot.offline{background:var(--red);animation:none}
 .dot.syncing{background:var(--gold);animation:pulse .5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
-.tab{padding:16px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text4);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s}
+.tab{padding:14px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text4);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s}
 .tab.active{color:var(--text);border-bottom-color:var(--red)}
 .tab:hover:not(.active){color:var(--text2);background:rgba(255,255,255,.03)}
 .view{display:none;padding:20px}.view.active{display:block}
-.sec{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
-.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.sec{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:14px}
 .sec-line .sec{margin-bottom:0}
 .sec-line::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
-.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
-input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:9px 12px;font-size:14px;width:100%;font-family:'Barlow',sans-serif}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:8px 10px;font-size:13px;width:100%;font-family:'Barlow',sans-serif}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red);background:#1e1010}
 select option{background:var(--bg3)}
-label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
-.btn{border:none;border-radius:5px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.btn{border:none;border-radius:5px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
 .btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red2)}
 .btn-gray{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}.btn-gray:hover{background:#2e2e2e}
 .btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:var(--gold2)}
 .btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#2a7fc4}
-.btn-sm{padding:5px 11px;font-size:12px}
-.rank-badge{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
+.btn-sm{padding:5px 10px;font-size:11px}
+.rank-badge{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
 .r1{background:var(--gold);color:#000}.r2{background:#a8a8a8;color:#000}.r3{background:#a0522d;color:#fff}.rn{background:var(--bg4);color:var(--text3)}
-.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;padding:4px 10px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
+.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
 .s-pending{background:#2a2000;color:#d4a000;border:1px solid #4a3800}
 .s-active{background:#0a2a0a;color:var(--green);border:1px solid #1a5a1a}
 .s-completed{background:#0a1a2a;color:var(--blue);border:1px solid #1a3a5a}
 .pull-sheet{width:100%;border-collapse:collapse}
-.pull-sheet th{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:7px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
-.pull-sheet td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.pull-sheet th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.pull-sheet td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
 .pull-sheet tr:hover td{background:rgba(255,255,255,.02)}
-.pull-sheet input{padding:6px 8px;font-size:13px}
-.pull-sheet select{padding:5px 7px;font-size:12px}
-.cls-item{cursor:pointer;padding:12px 14px;border-radius:6px;margin-bottom:6px;border:1px solid var(--border);transition:all .15s;background:var(--bg3)}
+.pull-sheet input{padding:5px 7px;font-size:12px}
+.pull-sheet select{padding:4px 6px;font-size:11px}
+.cls-item{cursor:pointer;padding:10px 12px;border-radius:5px;margin-bottom:5px;border:1px solid var(--border);transition:all .15s;background:var(--bg3)}
 .cls-item:hover{border-color:var(--border2);background:var(--bg4)}
 .cls-item.active-cls{background:#1a0505;border-color:var(--red);border-left:3px solid var(--red)}
-.cls-item-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px}
-.cls-item-sub{font-size:11px;color:var(--text4);margin-top:3px}
-.member-chip{background:#0a1a0a;border:1px solid #1a5a1a;color:#7dde9a;border-radius:4px;padding:4px 11px;font-size:12px;margin:2px;cursor:pointer;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
+.cls-item-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px}
+.cls-item-sub{font-size:10px;color:var(--text4);margin-top:2px}
+.member-chip{background:#0a1a0a;border:1px solid #1a5a1a;color:#7dde9a;border-radius:4px;padding:3px 10px;font-size:11px;margin:2px;cursor:pointer;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
 .member-chip:hover{background:var(--green);color:#fff;border-color:var(--green)}
-.checkbox-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.checkbox-grid label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:var(--bg4);padding:6px 10px;border-radius:4px;border:1px solid var(--border2);font-weight:400}
+.checkbox-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.checkbox-grid label{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:var(--bg4);padding:5px 8px;border-radius:4px;border:1px solid var(--border2);font-weight:400}
 .checkbox-grid input[type=checkbox]{width:auto;margin:0;accent-color:var(--red)}
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:20px;overflow-y:auto}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:8px;padding:22px;width:100%;max-width:600px;margin:auto}
-.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
-.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 6px;border-bottom:2px solid var(--border2);margin-bottom:10px}
-.chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:4px 9px;font-size:12px;margin:2px}
-.sync-banner{background:#1a1a00;border-bottom:1px solid #3a3a00;color:var(--gold);text-align:center;padding:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:none;font-family:'Barlow Condensed',sans-serif}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:8px;padding:20px;width:100%;max-width:580px;margin:auto}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 5px;border-bottom:2px solid var(--border2);margin-bottom:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;font-size:11px;margin:2px}
+.sync-banner{background:#1a1a00;border-bottom:1px solid #3a3a00;color:var(--gold);text-align:center;padding:5px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:none;font-family:'Barlow Condensed',sans-serif}
 .results-table{width:100%;border-collapse:collapse}
-.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
-.results-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px}
+.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.results-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
 .results-table tr.top-row td{background:rgba(240,192,48,.04)}
-.warning-banner{background:#2a1500;border:1px solid #7a3a00;border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:14px;color:#f0a040;display:flex;align-items:center;gap:8px}
+.warning-banner{background:#2a1500;border:1px solid #7a3a00;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:13px;color:#f0a040;display:flex;align-items:center;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.order-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;margin-bottom:6px}
-.order-num{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);min-width:26px}
+.order-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;margin-bottom:5px}
+.order-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--red);min-width:24px}
+.abbr-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.abbr-tbl th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.abbr-tbl td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.abbr-tbl tr:hover td{background:rgba(255,255,255,.02)}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
 <div id="loginScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px">
-  <div style="background:#1a1a1a;border:1px solid #333;border-top:3px solid #c0392b;border-radius:8px;padding:36px;width:100%;max-width:380px;text-align:center">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:4px">Staff Access</div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;letter-spacing:2px;margin-bottom:4px">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#d4a800;text-transform:uppercase;margin-bottom:30px">Input Console</div>
-    <input type="password" id="passwordInput" placeholder="Enter staff password" style="background:#222;border:1px solid #444;border-radius:5px;color:#fff;padding:14px;font-size:15px;width:100%;margin-bottom:10px;text-align:center;letter-spacing:2px" onkeydown="if(event.key==='Enter')checkPassword()">
-    <div id="loginError" style="color:#c0392b;font-size:13px;margin-bottom:10px;display:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">INCORRECT PASSWORD</div>
-    <button onclick="checkPassword()" style="background:#c0392b;color:#fff;border:none;border-radius:5px;padding:13px;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Sign In</button>
-    <div style="margin-top:18px"><a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#444;text-decoration:none;letter-spacing:1px;text-transform:uppercase">Back to Public Viewer</a></div>
+  <div style="background:#1a1a1a;border:1px solid #333;border-top:3px solid #c0392b;border-radius:8px;padding:32px;width:100%;max-width:380px;text-align:center">
+    <div id="loginLogoArea">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:4px">Staff Access</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;margin-bottom:4px" id="loginLogoText">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>
+    </div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:#d4a800;text-transform:uppercase;margin-bottom:28px">Input Console</div>
+    <input type="password" id="passwordInput" placeholder="Enter staff password" style="background:#222;border:1px solid #444;border-radius:5px;color:#fff;padding:12px;font-size:14px;width:100%;margin-bottom:10px;text-align:center;letter-spacing:2px" onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="loginError" style="color:#c0392b;font-size:12px;margin-bottom:10px;display:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">INCORRECT PASSWORD</div>
+    <button onclick="checkPassword()" style="background:#c0392b;color:#fff;border:none;border-radius:5px;padding:11px;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Sign In</button>
+    <div style="margin-top:16px"><a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#444;text-decoration:none;letter-spacing:1px;text-transform:uppercase">Back to Public Viewer</a></div>
   </div>
 </div>
 
@@ -108,23 +113,20 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 <div id="appContent" style="display:none">
 <div class="sync-banner" id="syncBanner">Syncing...</div>
 <div class="header">
-  <div class="header-left">
-    <div class="logo-block">
-      <div class="logo-top">Staff Console</div>
-      <div class="logo-main">CS PULLING <span>PROMOTIONS</span></div>
-      <div class="logo-sub">Input &amp; Management</div>
-    </div>
-    <div class="header-divider"></div>
-    <div class="header-event">
-      <div class="event-label">Active Event</div>
-      <div class="event-name" id="headerEvent">No Event Loaded</div>
-    </div>
+  <div class="logo-block" id="adminLogoBlock">
+    <div class="logo-top">Staff Console</div>
+    <div class="logo-main" id="adminLogoText">CS PULLING <span>PROMOTIONS</span></div>
+    <div class="logo-sub">Input &amp; Management</div>
+  </div>
+  <div class="header-center">
+    <div class="event-label">Active Event</div>
+    <div class="event-name" id="headerEvent">No Event Loaded</div>
   </div>
   <div class="header-right">
     <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
-    <a href="data.html" target="_blank" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#000;background:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:4px;font-weight:700">vMix Feed</a>
-    <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border:1px solid var(--border);border-radius:4px">Public View</a>
-    <button onclick="logout()" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);background:none;border:1px solid var(--border);border-radius:4px;padding:6px 12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">Logout</button>
+    <a href="data.html" target="_blank" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#000;background:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border-radius:4px;font-weight:700">vMix</a>
+    <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);border-radius:4px">Public</a>
+    <button onclick="logout()" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);background:none;border:1px solid var(--border);border-radius:4px;padding:5px 10px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">Logout</button>
   </div>
 </div>
 
@@ -139,78 +141,106 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 
 <!-- INPUT CONSOLE -->
 <div class="view active" id="tab-input">
-  <div id="inputNoEvent" style="text-align:center;padding:60px 20px;color:var(--text4)">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;letter-spacing:1px">No Event Loaded</div>
-    <div style="font-size:15px;margin-top:8px">Go to the Events tab to create or load an event.</div>
+  <div id="inputNoEvent" style="text-align:center;padding:50px 20px;color:var(--text4)">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;letter-spacing:1px">No Event Loaded</div>
+    <div style="font-size:14px;margin-top:6px">Go to the Events tab to create or load an event.</div>
   </div>
   <div id="inputConsole" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;letter-spacing:1px" id="inputEventName">—</div>
-        <div style="font-size:13px;color:var(--text3)" id="inputEventDate">—</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px" id="inputEventName">—</div>
+        <div style="font-size:12px;color:var(--text3)" id="inputEventDate">—</div>
       </div>
       <button class="btn btn-blue btn-sm" onclick="openClassOrderModal()">Class Order</button>
     </div>
     <div id="activeClassWarning"></div>
-    <div style="display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start">
+    <div style="display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:start">
       <div><div class="sec-line"><div class="sec">Classes</div></div><div id="inputClassList"></div></div>
-      <div id="rightPanel"><div style="text-align:center;padding:50px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div></div>
+      <div id="rightPanel"><div style="text-align:center;padding:40px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div></div>
     </div>
   </div>
 </div>
 
 <!-- EVENTS -->
 <div class="view" id="tab-events">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Events</div></div>
-    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:14px">+ New Event</button>
+    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:12px">+ New Event</button>
   </div>
   <div id="eventsList"></div>
 </div>
 
 <!-- MEMBERS -->
 <div class="view" id="tab-members">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Points Members</div></div>
-    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()" style="margin-left:14px">+ Add Member</button>
+    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()" style="margin-left:12px">+ Add Member</button>
   </div>
-  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:14px">
+  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:12px">
   <div id="membersList"></div>
 </div>
 
 <!-- POINTS -->
 <div class="view" id="tab-points">
   <div class="sec-line"><div class="sec">Season Points Standings</div></div>
-  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:14px">
+  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:12px">
   <div id="pointsContent"></div>
 </div>
 
 <!-- CLASSES -->
 <div class="view" id="tab-classes">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Class Library</div></div>
-    <button class="btn btn-red btn-sm" onclick="openAddClassModal()" style="margin-left:14px">+ Add Class</button>
+    <button class="btn btn-red btn-sm" onclick="openAddClassModal()" style="margin-left:12px">+ Add Class</button>
   </div>
   <div id="classesList"></div>
 </div>
 
 <!-- SETTINGS -->
 <div class="view" id="tab-settings">
+  <div class="sec-line"><div class="sec">Logo</div></div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Upload your logo to replace the text name everywhere on the site.</div>
+    <div id="currentLogoPreview" style="margin-bottom:12px;display:none"><img id="logoPreviewImg" style="max-height:60px;width:auto;border:1px solid var(--border2);border-radius:4px;padding:6px;background:var(--bg4)"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input type="file" id="logoFileInput" accept="image/*" onchange="handleLogoUpload(this)" style="display:none">
+      <button class="btn btn-red btn-sm" onclick="document.getElementById('logoFileInput').click()">Upload Logo</button>
+      <button class="btn btn-gray btn-sm" onclick="removeLogo()">Remove Logo</button>
+    </div>
+    <div style="font-size:11px;color:var(--text4);margin-top:8px">PNG or SVG recommended. Max 500KB. Logo will appear in the header and footer.</div>
+  </div>
+
   <div class="sec-line"><div class="sec">Staff Password</div></div>
   <div class="card">
-    <div style="font-size:14px;color:var(--text3);margin-bottom:14px">Change the password used to log in to this admin console.</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Change the password used to log in to this admin console.</div>
     <label>Current Password</label><input type="password" id="currentPassword" placeholder="Enter current password">
     <label>New Password</label><input type="password" id="newPassword" placeholder="Enter new password">
     <label>Confirm New Password</label><input type="password" id="confirmPassword" placeholder="Re-enter new password">
-    <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+    <div style="margin-top:14px;display:flex;align-items:center;gap:10px">
       <button class="btn btn-red" onclick="changePassword()">Change Password</button>
-      <span id="passwordMsg" style="display:none;font-size:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px"></span>
+      <span id="passwordMsg" style="display:none;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px"></span>
     </div>
   </div>
 
-  <div class="sec-line" style="margin-top:8px"><div class="sec">Contact &amp; Footer</div></div>
+  <div class="sec-line"><div class="sec">Class Abbreviations</div></div>
   <div class="card">
-    <div style="font-size:13px;color:var(--text3);margin-bottom:14px">This info appears in the footer of the public viewer.</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Used by the CSV import tool. Add abbreviations to map short codes to full class names.</div>
+    <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+      <input type="text" id="newAbbrCode" placeholder="Abbr. (e.g. SF/HF)" style="flex:1;min-width:100px">
+      <input type="text" id="newAbbrFull" placeholder="Full class name" style="flex:2;min-width:160px">
+      <select id="newAbbrPoints" style="width:130px">
+        <option value="true">Points Class</option>
+        <option value="false">Non-Points</option>
+      </select>
+      <button class="btn btn-red btn-sm" onclick="addAbbr()">Add</button>
+    </div>
+    <input type="text" id="abbrSearch" placeholder="Search abbreviations..." oninput="renderAbbrs()" style="margin-bottom:10px">
+    <div style="overflow-x:auto"><div id="abbrList"></div></div>
+  </div>
+
+  <div class="sec-line"><div class="sec">Contact &amp; Footer</div></div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">This info appears in the footer of the public viewer.</div>
     <div class="grid2">
       <div><label>Phone Number</label><input type="tel" id="setPhone" placeholder="e.g. (724) 555-0100"></div>
       <div><label>Email Address</label><input type="email" id="setEmail" placeholder="e.g. info@cspulling.com"></div>
@@ -225,10 +255,10 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
       <div><label>TikTok URL</label><input type="url" id="setTiktok" placeholder="https://tiktok.com/..."></div>
     </div>
     <label>Mailing Address</label>
-    <textarea id="setMailingAddress" placeholder="P.O. Box 123&#10;Grove City, PA 16127" style="height:80px;resize:none"></textarea>
-    <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
-      <button class="btn btn-red" onclick="saveContactSettings()">Save</button>
-      <span id="settingsSaved" style="display:none;font-size:13px;color:var(--green);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px">SAVED!</span>
+    <textarea id="setMailingAddress" placeholder="P.O. Box 123&#10;Grove City, PA 16127" style="height:70px;resize:none"></textarea>
+    <div style="margin-top:14px;display:flex;align-items:center;gap:10px">
+      <button class="btn btn-red" onclick="saveContactSettings()">Save All Settings</button>
+      <span id="settingsSaved" style="display:none;font-size:12px;color:var(--green);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px">SAVED!</span>
     </div>
   </div>
 </div>
@@ -246,13 +276,7 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
     <div class="grid2">
       <div><label>Start Time</label><input type="time" id="evTime"></div>
       <div><label>Timezone</label>
-        <select id="evTimezone">
-          <option value="">Select...</option>
-          <option value="ET">ET (Eastern)</option>
-          <option value="CT">CT (Central)</option>
-          <option value="MT">MT (Mountain)</option>
-          <option value="PT">PT (Pacific)</option>
-        </select>
+        <select id="evTimezone"><option value="">Select...</option><option value="ET">ET (Eastern)</option><option value="CT">CT (Central)</option><option value="MT">MT (Mountain)</option><option value="PT">PT (Pacific)</option></select>
       </div>
     </div>
     <label>Street Address</label><input type="text" id="evAddress" placeholder="e.g. 123 Fairground Rd">
@@ -262,12 +286,12 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
       <div><label>Zip</label><input type="text" id="evZip" placeholder="e.g. 16156"></div>
     </div>
     <label>Venue / Fairgrounds Name</label><input type="text" id="evLocation" placeholder="e.g. Lawrence County Fairgrounds">
-    <label>Additional Notes</label><textarea id="evNotes" placeholder="Gate times, rules, contact info..." style="height:80px;resize:none"></textarea>
+    <label>Additional Notes</label><textarea id="evNotes" placeholder="Gate times, sled info, etc..." style="height:60px;resize:none"></textarea>
     <label>Classes</label><div id="classCheckboxes" class="checkbox-grid"></div>
-    <label style="margin-top:14px">One-time class (this event only)</label>
+    <label style="margin-top:12px">One-time class (this event only)</label>
     <div style="display:flex;gap:6px"><input type="text" id="evCustomClass" placeholder="Custom class name" style="flex:1"><button class="btn btn-gray btn-sm" onclick="addCustomEventClass()">Add</button></div>
     <div id="customEventClasses" style="margin-top:6px"></div>
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveEvent()" style="flex:1" id="saveEventBtn">Create Event</button>
       <button class="btn btn-gray" onclick="closeModal('createEventModal')" style="flex:1">Cancel</button>
     </div>
@@ -277,20 +301,17 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="modal-overlay" id="addCompModal">
   <div class="modal">
     <div class="modal-title" id="addCompTitle">Add Driver</div>
-    <div id="memberSuggestions" style="margin-bottom:10px;min-height:20px"></div>
+    <div id="memberSuggestions" style="margin-bottom:8px;min-height:20px"></div>
     <label>Hook #</label><input type="number" id="compHook" placeholder="Assigned at event" min="1">
     <label>Driver Name</label><input type="text" id="compDriver" placeholder="e.g. Jake Miller">
     <label>Vehicle Make / Model</label><input type="text" id="compVehicle" placeholder="e.g. 2018 John Deere 8370R">
     <label>Vehicle Name</label><input type="text" id="compVehicleName" placeholder="e.g. Iron Horse">
     <label>Hometown / State</label><input type="text" id="compHome" placeholder="e.g. Grove City, PA">
-    <div style="margin-top:12px;display:flex;align-items:center;gap:10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:10px 14px">
+    <div style="margin-top:10px;display:flex;align-items:center;gap:10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:9px 12px">
       <input type="checkbox" id="compPointsCompetitor" checked style="width:auto;accent-color:var(--red);transform:scale(1.3)">
-      <div>
-        <div style="font-size:14px;font-weight:600">Points Competitor</div>
-        <div style="font-size:12px;color:var(--text3)">Uncheck for exhibition pulls — no points collected</div>
-      </div>
+      <div><div style="font-size:13px;font-weight:600">Points Competitor</div><div style="font-size:11px;color:var(--text3)">Uncheck for exhibition pulls — no points collected</div></div>
     </div>
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveCompetitor()" style="flex:1" id="saveCompBtn">Add Driver</button>
       <button class="btn btn-gray" onclick="closeModal('addCompModal')" style="flex:1">Cancel</button>
     </div>
@@ -305,9 +326,9 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
     <label>Vehicle Name</label><input type="text" id="memVehicleName" placeholder="e.g. Iron Horse">
     <label>Hometown / State</label><input type="text" id="memHome" placeholder="e.g. Grove City, PA">
     <label>Primary Class(es)</label>
-    <input type="text" id="memberClassSearch" placeholder="Search classes..." oninput="filterMemberClasses()" style="margin-top:6px;margin-bottom:6px">
+    <input type="text" id="memberClassSearch" placeholder="Search classes..." oninput="filterMemberClasses()" style="margin-top:5px;margin-bottom:5px">
     <div id="memberClassCheckboxes" class="checkbox-grid"></div>
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveMember()" style="flex:1" id="saveMemberBtn">Save</button>
       <button class="btn btn-gray" onclick="closeModal('addMemberModal')" style="flex:1">Cancel</button>
     </div>
@@ -318,7 +339,7 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
   <div class="modal">
     <div class="modal-title" id="addClassTitle">Add Class</div>
     <label>Class Name</label><input type="text" id="newClassName" placeholder="e.g. Antique Tractor Pull">
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveClass()" style="flex:1" id="saveClassBtn">Add</button>
       <button class="btn btn-gray" onclick="closeModal('addClassModal')" style="flex:1">Cancel</button>
     </div>
@@ -328,9 +349,9 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="modal-overlay" id="classOrderModal">
   <div class="modal">
     <div class="modal-title">Class Order</div>
-    <div style="font-size:14px;color:var(--text3);margin-bottom:14px">Use arrows to set the pulling order for this event.</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Use arrows to set the pulling order for this event.</div>
     <div id="classOrderList"></div>
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveClassOrder()" style="flex:1">Save Order</button>
       <button class="btn btn-gray" onclick="closeModal('classOrderModal')" style="flex:1">Cancel</button>
     </div>
@@ -340,12 +361,12 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="modal-overlay" id="editPointsModal">
   <div class="modal">
     <div class="modal-title">Edit Points</div>
-    <div id="editPointsDriverName" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;color:var(--text2);margin-bottom:3px"></div>
-    <div id="editPointsClassName" style="font-size:13px;color:var(--text4);margin-bottom:14px"></div>
+    <div id="editPointsDriverName" style="font-family:'Barlow Condensed',sans-serif;font-size:17px;color:var(--text2);margin-bottom:2px"></div>
+    <div id="editPointsClassName" style="font-size:12px;color:var(--text4);margin-bottom:12px"></div>
     <label>Manual Points Override (leave blank to use calculated)</label>
     <input type="number" id="editPointsValue" placeholder="e.g. 50" min="0">
-    <div style="font-size:13px;color:var(--text3);margin-top:8px">Calculated: <span id="editPointsCalc" style="color:var(--gold);font-weight:700"></span></div>
-    <div style="display:flex;gap:8px;margin-top:18px">
+    <div style="font-size:12px;color:var(--text3);margin-top:6px">Calculated: <span id="editPointsCalc" style="color:var(--gold);font-weight:700"></span></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
       <button class="btn btn-red" onclick="saveManualPoints()" style="flex:1">Save</button>
       <button class="btn btn-gray" onclick="clearManualPoints()" style="flex:1">Clear Override</button>
       <button class="btn btn-gray" onclick="closeModal('editPointsModal')" style="flex:1">Cancel</button>
@@ -356,16 +377,33 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
 <script>
 const DEFAULT_CLASSES=["Super Farm Tractors / Hot Farm Tractors","Limited Pro Stock Tractors","Light Limited Super Stock Tractors","Pro Stock / Super Stock Tractors","3.6 Pro Street Semis","Super Semi Trucks","Run What Ya Brung","410 Super Stock Trucks","Pro Stock Trucks","2.6 Pro Street Diesel Trucks","Street Stock Semis","Street Gas Trucks","Open Street Diesel Trucks","Hot Rod V-8 Tractors","Hot Street Semis","Classic Super Stock Tractors","Hot Rod Big Block V8 Tractors"];
 const DEFAULT_COUNT=DEFAULT_CLASSES.length;
-const FALLBACK_PASSWORD='CSPulling2025';
+const FALLBACK_PW='CSPulling2025';
+const DEFAULT_ABBRS=[
+  {code:'SF/HF',full:'Super Farm Tractors / Hot Farm Tractors',points:true},{code:'LIM PRO',full:'Limited Pro Stock Tractors',points:true},
+  {code:'LLSS',full:'Light Limited Super Stock Tractors',points:true},{code:'PS/SST',full:'Pro Stock / Super Stock Tractors',points:true},
+  {code:'3.6PS',full:'3.6 Pro Street Semis',points:true},{code:'SST',full:'Super Semi Trucks',points:true},
+  {code:'RWYB',full:'Run What Ya Brung',points:true},{code:'410SS',full:'410 Super Stock Trucks',points:true},
+  {code:'PST',full:'Pro Stock Trucks',points:true},{code:'2.6PS',full:'2.6 Pro Street Diesel Trucks',points:true},
+  {code:'SSS',full:'Street Stock Semis',points:true},{code:'SGT',full:'Street Gas Trucks',points:true},
+  {code:'OSDT',full:'Open Street Diesel Trucks',points:true},{code:'HRV8',full:'Hot Rod V-8 Tractors',points:true},
+  {code:'HSS',full:'Hot Street Semis',points:true},{code:'CSS',full:'Classic Super Stock Tractors',points:true},
+  {code:'HRBBV8',full:'Hot Rod Big Block V8 Tractors',points:true},{code:'LTF',full:'Limited Two Farm Tractors',points:false},
+  {code:'HTF',full:'Hot Two Farm Tractors',points:false},{code:'SG',full:'Street Gas Tractors',points:false},
+  {code:'HP',full:'High Performance Tractors',points:false},{code:'SDT',full:'Street Diesel Tractors',points:false},
+  {code:'MOD TRACTORS',full:'Modified Tractors',points:false},{code:'Mod Trucks',full:'Modified Trucks',points:false},
+  {code:'USD',full:'Unlimited Street Diesel Trucks',points:false},{code:'466PF',full:'466 Pro Farm Tractors',points:false},
+  {code:'SBM',full:'Super Big Machine',points:false},{code:'UNL OPEN FARM',full:'Unlimited Open Farm Tractors',points:false},
+  {code:'PERF STR',full:'Performance Street Semis',points:false},{code:'PS/SS',full:'Pro Stock / Super Stock Tractors',points:false},
+];
 
-let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{},contact:{},staffPassword:''};
+let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{},contact:{},staffPassword:'',abbreviations:[],logo:''};
 let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null,editingPointsKey=null;
 let customEventClasses=[],saveTimeout=null,db=null;
 
 // LOGIN
 function checkPassword(){
   const val=document.getElementById('passwordInput').value;
-  const correct=state.staffPassword||FALLBACK_PASSWORD;
+  const correct=state.staffPassword||FALLBACK_PW;
   if(val===correct){
     sessionStorage.setItem('cspull_auth','1');
     document.getElementById('loginScreen').style.display='none';
@@ -377,35 +415,45 @@ function checkPassword(){
   }
 }
 function logout(){sessionStorage.removeItem('cspull_auth');location.reload();}
+
+// Check session before Firebase loads so UI appears immediately
 if(sessionStorage.getItem('cspull_auth')==='1'){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appContent').style.display='block';
 }
 
-// FIREBASE
-function startApp(){
-  if(db)return;
-  firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
-  db=firebase.database();
-  db.ref('cspull').on('value',snap=>{
-    const data=snap.val();
-    if(data){
-      state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[]})):[]})):[];
-      state.members=data.members?Object.values(data.members):[];
-      state.classes=data.classes?Object.values(data.classes):[...DEFAULT_CLASSES];
-      state.activeEventId=data.activeEventId||null;
-      state.activeClassId=data.activeClassId||null;
-      state.manualPoints=data.manualPoints||{};
-      state.contact=data.contact||{};
-      state.staffPassword=data.staffPassword||'';
-      if(!state.classes.length)state.classes=[...DEFAULT_CLASSES];
-    } else {state.classes=[...DEFAULT_CLASSES];}
-    updateHeader();renderActive();setStatus('online');
-    loadContactFields();
-  });
-  db.ref('.info/connected').on('value',snap=>{if(snap.val())setStatus('online');else setStatus('offline');});
-}
-if(sessionStorage.getItem('cspull_auth')==='1')startApp();
+// FIREBASE — init immediately so data loads fast
+firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
+db=firebase.database();
+
+db.ref('cspull').on('value',snap=>{
+  const data=snap.val();
+  if(data){
+    state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[]})):[]})):[];
+    state.members=data.members?Object.values(data.members):[];
+    state.classes=data.classes?Object.values(data.classes):[...DEFAULT_CLASSES];
+    state.activeEventId=data.activeEventId||null;
+    state.activeClassId=data.activeClassId||null;
+    state.manualPoints=data.manualPoints||{};
+    state.contact=data.contact||{};
+    state.staffPassword=data.staffPassword||'';
+    state.abbreviations=data.abbreviations&&data.abbreviations.length?data.abbreviations:[...DEFAULT_ABBRS];
+    state.logo=data.logo||'';
+    if(!state.classes.length)state.classes=[...DEFAULT_CLASSES];
+  } else {
+    state.classes=[...DEFAULT_CLASSES];
+    state.abbreviations=[...DEFAULT_ABBRS];
+  }
+  updateLogo();
+  updateHeader();
+  renderActive();
+  setStatus('online');
+  // Only populate contact fields if settings tab is active to avoid overwriting mid-edit
+  if(document.getElementById('tab-settings').classList.contains('active')){
+    loadContactFields();renderAbbrs();
+  }
+});
+db.ref('.info/connected').on('value',snap=>{if(snap.val())setStatus('online');else setStatus('offline');});
 
 function setStatus(s){
   const dot=document.getElementById('statusDot');const txt=document.getElementById('statusText');if(!dot)return;
@@ -413,45 +461,23 @@ function setStatus(s){
   else if(s==='offline'){dot.className='dot offline';txt.textContent='OFFLINE';}
   else{dot.className='dot syncing';txt.textContent='SYNCING';}
 }
+
 function buildLiveFeed(){
   const ev=getActiveEvent();if(!ev)return{error:'No active event',timestamp:new Date().toISOString()};
-  function fmtDist(d){if(!d&&d!==0)return null;const n=parseFloat(d);return isNaN(n)?null:n.toFixed(3);}
-  function getPosByPos(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
-  function ranked(cls){
-    return[...cls.competitors].map(comp=>{
-      const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
-      const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';
-      return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
-    }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
-  }
+  function fmtD(d){if(!d&&d!==0)return null;const n=parseFloat(d);return isNaN(n)?null:n.toFixed(3);}
+  function gPts(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+  function ranked(cls){return[...cls.competitors].map(comp=>{const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};}).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});}
   function buildCls(cls){
     const r=ranked(cls);const leader=r[0];const leaderDist=leader&&leader.valid?leader.distNum:0;
-    const pullOffCount=leaderDist>0?r.filter(x=>x.valid&&x.distNum===leaderDist).length:0;
-    return{
-      class_name:cls.name,class_status:cls.status,is_points_class:cls.pointsClass!==false,
-      pull_off:pullOffCount>1,pull_off_count:pullOffCount>1?pullOffCount:0,
-      leader:leader&&leader.valid?{driver_name:leader.comp.driver,vehicle_make_model:leader.comp.vehicle||null,vehicle_name:leader.comp.vehicleName||null,distance:fmtDist(leader.pull.dist),speed_mph:leader.pull.speed||null,is_full_pull:leader.pull.result==='full_pull'}:null,
-      results:r.map((row,i)=>{
-        const pull=row.pull;const isDQ=pull&&(pull.result==='dq'||pull.result==='broke');
-        const gap=leaderDist>0&&row.valid&&i>0?(leaderDist-row.distNum).toFixed(3):null;
-        let status='pending';
-        if(isDQ)status=pull.result==='dq'?'dq':'broke';
-        else if(row.valid&&i===0)status='leader';
-        else if(row.valid&&leaderDist>0&&row.distNum===leaderDist&&i>0)status='pulloff';
-        else if(row.valid)status='qualified';
-        return{place:!row.valid||isDQ?null:i+1,hook_number:row.comp.hook||null,driver_name:row.comp.driver,vehicle_make_model:row.comp.vehicle||null,vehicle_name:row.comp.vehicleName||null,hometown:row.comp.home||null,distance:row.valid?fmtDist(pull.dist):null,speed_mph:pull&&pull.speed?pull.speed:null,gap_from_leader:gap,result:pull?pull.result:null,status,points:cls.pointsClass!==false&&pull&&pull.result&&!isDQ?getPosByPos(i+1):null,is_full_pull:!!(pull&&pull.result==='full_pull')};
-      }),
-      total_competitors:cls.competitors.length,
-    };
+    const poc=leaderDist>0?r.filter(x=>x.valid&&x.distNum===leaderDist).length:0;
+    return{class_name:cls.name,class_status:cls.status,is_points_class:cls.pointsClass!==false,pull_off:poc>1,pull_off_count:poc>1?poc:0,
+      leader:leader&&leader.valid?{driver_name:leader.comp.driver,vehicle_make_model:leader.comp.vehicle||null,vehicle_name:leader.comp.vehicleName||null,distance:fmtD(leader.pull.dist),speed_mph:leader.pull.speed||null,is_full_pull:leader.pull.result==='full_pull'}:null,
+      results:r.map((row,i)=>{const pull=row.pull;const isDQ=pull&&(pull.result==='dq'||pull.result==='broke');const gap=leaderDist>0&&row.valid&&i>0?(leaderDist-row.distNum).toFixed(3):null;let status='pending';if(isDQ)status=pull.result;else if(row.valid&&i===0)status='leader';else if(row.valid&&leaderDist>0&&row.distNum===leaderDist&&i>0)status='pulloff';else if(row.valid)status='qualified';
+        return{place:!row.valid||isDQ?null:i+1,hook_number:row.comp.hook||null,driver_name:row.comp.driver,vehicle_make_model:row.comp.vehicle||null,vehicle_name:row.comp.vehicleName||null,hometown:row.comp.home||null,distance:row.valid?fmtD(pull.dist):null,speed_mph:pull&&pull.speed?pull.speed:null,gap_from_leader:gap,result:pull?pull.result:null,status,points:cls.pointsClass!==false&&pull&&pull.result&&!isDQ?gPts(i+1):null,is_full_pull:!!(pull&&pull.result==='full_pull')};
+      }),total_competitors:cls.competitors.length};
   }
   const activeClass=ev.classes.find(c=>c.status==='active');
-  return{
-    event_name:ev.name,event_date:ev.date||null,
-    event_location:[ev.location,ev.city,ev.state].filter(Boolean).join(', ')||null,
-    active_class:activeClass?buildCls(activeClass):null,
-    all_classes:[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0)).map(c=>buildCls(c)),
-    timestamp:new Date().toISOString(),
-  };
+  return{event_name:ev.name,event_date:ev.date||null,event_location:[ev.location,ev.city,ev.state].filter(Boolean).join(', ')||null,active_class:activeClass?buildCls(activeClass):null,all_classes:[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0)).map(c=>buildCls(c)),timestamp:new Date().toISOString()};
 }
 
 function saveState(){
@@ -459,7 +485,7 @@ function saveState(){
   setStatus('syncing');document.getElementById('syncBanner').style.display='block';
   clearTimeout(saveTimeout);
   saveTimeout=setTimeout(()=>{
-    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||''};
+    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||'',abbreviations:state.abbreviations||[],logo:state.logo||''};
     state.events.forEach(ev=>{payload.events[ev.id]=ev;});
     state.members.forEach(m=>{payload.members[m.id]=m;});
     const feed=buildLiveFeed();
@@ -479,6 +505,7 @@ function renderActive(){
 }
 function renderTab(t){
   if(t==='input')renderInput();else if(t==='events')renderEvents();else if(t==='members')renderMembers();else if(t==='points')renderPoints();else if(t==='classes')renderClasses();
+  else if(t==='settings'){loadContactFields();renderAbbrs();loadLogoPreview();}
 }
 function switchTab(t){
   ['input','events','members','points','classes','settings'].forEach((n,i)=>{
@@ -489,44 +516,115 @@ function switchTab(t){
 }
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
-function statusBadge(s){return `<span class="status-badge s-${s}">${s}</span>`;}
-function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return `<span style="width:7px;height:7px;border-radius:50%;background:${c};display:inline-block;flex-shrink:0"></span>`;}
+function statusBadge(s){return`<span class="status-badge s-${s}">${s}</span>`;}
+function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return`<span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block;flex-shrink:0"></span>`;}
 function formatTime12(t){if(!t)return'';const[h,m]=t.split(':');let hr=parseInt(h);const ampm=hr>=12?'PM':'AM';hr=hr%12||12;return`${hr}:${m} ${ampm}`;}
-function formatEventDateTime(ev){const parts=[];if(ev.date)parts.push(ev.date);if(ev.endDate&&ev.endDate!==ev.date)parts.push('– '+ev.endDate);if(ev.time)parts.push('@ '+formatTime12(ev.time)+(ev.timezone?' '+ev.timezone:''));return parts.join(' ');}
-function formatEventLocation(ev){const parts=[];if(ev.location)parts.push(ev.location);const addr=[ev.address,ev.city,ev.state].filter(Boolean).join(', ');if(addr)parts.push(addr);return parts.join(' · ');}
+function formatDT(ev){const p=[];if(ev.date)p.push(ev.date);if(ev.endDate&&ev.endDate!==ev.date)p.push('–'+ev.endDate);if(ev.time)p.push('@ '+formatTime12(ev.time)+(ev.timezone?' '+ev.timezone:''));return p.join(' ');}
+function formatLoc(ev){const p=[];if(ev.location)p.push(ev.location);const a=[ev.address,ev.city,ev.state].filter(Boolean).join(', ');if(a)p.push(a);return p.join(' · ');}
+function fmtDist(d){if(!d&&d!==0)return'—';const n=parseFloat(d);return isNaN(n)?'—':n.toFixed(3);}
 
-// PASSWORD CHANGE
+// LOGO
+function updateLogo(){
+  const logo=state.logo||'';
+  const block=document.getElementById('adminLogoBlock');
+  const text=document.getElementById('adminLogoText');
+  if(logo){
+    let img=document.getElementById('adminLogoImg');
+    if(!img){img=document.createElement('img');img.id='adminLogoImg';img.className='logo-img';block.insertBefore(img,block.firstChild);}
+    img.src=logo;if(text)text.style.display='none';
+    // login screen logo
+    const loginText=document.getElementById('loginLogoText');
+    const loginArea=document.getElementById('loginLogoArea');
+    if(loginText&&loginArea){
+      let lImg=document.getElementById('loginLogoImg');
+      if(!lImg){lImg=document.createElement('img');lImg.id='loginLogoImg';lImg.style.cssText='max-height:60px;width:auto;margin-bottom:8px';loginArea.insertBefore(lImg,loginArea.firstChild);}
+      lImg.src=logo;loginText.style.display='none';
+    }
+  } else {
+    ['adminLogoImg','loginLogoImg'].forEach(id=>{const el=document.getElementById(id);if(el)el.remove();});
+    if(text)text.style.display='';
+    const lt=document.getElementById('loginLogoText');if(lt)lt.style.display='';
+  }
+}
+function loadLogoPreview(){
+  const prev=document.getElementById('currentLogoPreview');
+  const img=document.getElementById('logoPreviewImg');
+  if(state.logo){prev.style.display='block';img.src=state.logo;}
+  else{prev.style.display='none';}
+}
+function handleLogoUpload(input){
+  const file=input.files[0];if(!file)return;
+  if(file.size>512000){alert('Logo must be under 500KB.');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{state.logo=e.target.result;saveState();loadLogoPreview();updateLogo();};
+  reader.readAsDataURL(file);
+}
+function removeLogo(){state.logo='';saveState();loadLogoPreview();updateLogo();}
+
+// PASSWORD
 function changePassword(){
-  const current=document.getElementById('currentPassword').value;
-  const newPw=document.getElementById('newPassword').value;
-  const confirm=document.getElementById('confirmPassword').value;
-  const correct=state.staffPassword||FALLBACK_PASSWORD;
+  const cur=document.getElementById('currentPassword').value;
+  const nw=document.getElementById('newPassword').value;
+  const conf=document.getElementById('confirmPassword').value;
+  const correct=state.staffPassword||FALLBACK_PW;
   const msg=document.getElementById('passwordMsg');
-  if(current!==correct){msg.textContent='Current password is incorrect.';msg.style.color='var(--red)';msg.style.display='inline';return;}
-  if(!newPw){msg.textContent='Enter a new password.';msg.style.color='var(--red)';msg.style.display='inline';return;}
-  if(newPw!==confirm){msg.textContent='Passwords do not match.';msg.style.color='var(--red)';msg.style.display='inline';return;}
-  state.staffPassword=newPw;
-  saveState();
+  if(cur!==correct){msg.textContent='Current password is incorrect.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  if(!nw){msg.textContent='Enter a new password.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  if(nw!==conf){msg.textContent='Passwords do not match.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  state.staffPassword=nw;saveState();
   ['currentPassword','newPassword','confirmPassword'].forEach(id=>document.getElementById(id).value='');
   msg.textContent='Password changed!';msg.style.color='var(--green)';msg.style.display='inline';
   setTimeout(()=>msg.style.display='none',3000);
 }
 
+// ABBREVIATIONS
+function renderAbbrs(){
+  const q=(document.getElementById('abbrSearch')||{}).value||'';
+  const abbrs=state.abbreviations||[];
+  const filtered=abbrs.filter(a=>!q||a.code.toLowerCase().includes(q.toLowerCase())||a.full.toLowerCase().includes(q.toLowerCase()));
+  const el=document.getElementById('abbrList');if(!el)return;
+  if(!filtered.length){el.innerHTML='<div style="text-align:center;padding:16px;color:var(--text4);font-size:13px">No abbreviations found.</div>';return;}
+  el.innerHTML=`<table class="abbr-tbl">
+    <thead><tr><th>Abbreviation</th><th>Full Class Name</th><th>Type</th><th></th></tr></thead>
+    <tbody>${filtered.map(a=>{
+      const realIdx=abbrs.findIndex(x=>x.code===a.code);
+      return `<tr>
+        <td><input type="text" value="${a.code}" onchange="updateAbbr(${realIdx},'code',this.value)" style="width:90px;font-family:monospace;font-size:12px;padding:4px 6px"></td>
+        <td><input type="text" value="${a.full}" onchange="updateAbbr(${realIdx},'full',this.value)" style="font-size:12px;padding:4px 6px"></td>
+        <td><select onchange="updateAbbr(${realIdx},'points',this.value==='true')" style="width:110px;font-size:11px;padding:3px 5px">
+          <option value="true" ${a.points?'selected':''}>Points</option>
+          <option value="false" ${!a.points?'selected':''}>Non-Points</option>
+        </select></td>
+        <td><button class="btn btn-gray btn-sm" onclick="deleteAbbr(${realIdx})">Del</button></td>
+      </tr>`;
+    }).join('')}</tbody>
+  </table>`;
+}
+function addAbbr(){
+  const code=document.getElementById('newAbbrCode').value.trim();
+  const full=document.getElementById('newAbbrFull').value.trim();
+  const points=document.getElementById('newAbbrPoints').value==='true';
+  if(!code||!full){alert('Enter both abbreviation and full name.');return;}
+  if(!state.abbreviations)state.abbreviations=[];
+  if(state.abbreviations.find(a=>a.code===code)){alert('That abbreviation already exists.');return;}
+  state.abbreviations.push({code,full,points});
+  saveState();document.getElementById('newAbbrCode').value='';document.getElementById('newAbbrFull').value='';renderAbbrs();
+}
+function updateAbbr(idx,field,value){if(!state.abbreviations||!state.abbreviations[idx])return;state.abbreviations[idx][field]=value;saveState();}
+function deleteAbbr(idx){if(!confirm('Remove this abbreviation?'))return;state.abbreviations.splice(idx,1);saveState();renderAbbrs();}
+
 // CONTACT
 function loadContactFields(){
   const c=state.contact||{};
-  [{id:'setPhone',key:'phone'},{id:'setEmail',key:'email'},{id:'setWebsite',key:'website'},{id:'setFacebook',key:'facebook'},{id:'setInstagram',key:'instagram'},{id:'setYoutube',key:'youtube'},{id:'setTiktok',key:'tiktok'},{id:'setMailingAddress',key:'mailingAddress'}].forEach(({id,key})=>{
-    const el=document.getElementById(id);if(el)el.value=c[key]||'';
-  });
+  [{id:'setPhone',k:'phone'},{id:'setEmail',k:'email'},{id:'setWebsite',k:'website'},{id:'setFacebook',k:'facebook'},{id:'setInstagram',k:'instagram'},{id:'setYoutube',k:'youtube'},{id:'setTiktok',k:'tiktok'},{id:'setMailingAddress',k:'mailingAddress'}].forEach(({id,k})=>{const el=document.getElementById(id);if(el&&!el.matches(':focus'))el.value=c[k]||'';});
 }
 function saveContactSettings(){
   state.contact={phone:document.getElementById('setPhone').value.trim(),email:document.getElementById('setEmail').value.trim(),website:document.getElementById('setWebsite').value.trim(),facebook:document.getElementById('setFacebook').value.trim(),instagram:document.getElementById('setInstagram').value.trim(),youtube:document.getElementById('setYoutube').value.trim(),tiktok:document.getElementById('setTiktok').value.trim(),mailingAddress:document.getElementById('setMailingAddress').value.trim()};
-  saveState();
-  const s=document.getElementById('settingsSaved');s.style.display='inline';setTimeout(()=>s.style.display='none',2500);
+  saveState();const s=document.getElementById('settingsSaved');s.style.display='inline';setTimeout(()=>s.style.display='none',2500);
 }
 
 // POINTS
-function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+function getPosByPos(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
 function getRankedPulls(cls){
   return[...cls.competitors].map(comp=>{
     const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
@@ -536,54 +634,50 @@ function getRankedPulls(cls){
 }
 function getRank(cls,compId){
   const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
-  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
-  return idx>=0?idx+1:null;
+  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);return idx>=0?idx+1:null;
 }
 function getCalcPoints(cls,compId){
   const comp=cls.competitors.find(c=>c.id===compId);
-  if(comp&&comp.pointsCompetitor===false)return 0;
+  if(comp&&comp.pointsCompetitor===false)return 0;if(cls.pointsClass===false)return 0;
   const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
-  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
-  if(idx<0)return 0;
-  const pull=(cls.pulls||[]).find(p=>p.compId===compId);
-  if(!pull||!pull.result||pull.result==='dq')return 0;
-  return getPosByPosition(idx+1);
+  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);if(idx<0)return 0;
+  const pull=(cls.pulls||[]).find(p=>p.compId===compId);if(!pull||!pull.result||pull.result==='dq')return 0;
+  return getPosByPos(idx+1);
 }
-function mpKey(evId,clsId,compId){return `${evId}_${clsId}_${compId}`;}
-function getPoints(evId,clsId,compId,cls){
+function mpKey(eId,cId,compId){return`${eId}_${cId}_${compId}`;}
+function getPoints(eId,cId,compId,cls){
   const comp=cls.competitors.find(c=>c.id===compId);
-  if(comp&&comp.pointsCompetitor===false)return 0;
-  const key=mpKey(evId,clsId,compId);
+  if(comp&&comp.pointsCompetitor===false)return 0;if(cls.pointsClass===false)return 0;
+  const key=mpKey(eId,cId,compId);
   if(state.manualPoints&&state.manualPoints[key]!==undefined)return state.manualPoints[key];
   return getCalcPoints(cls,compId);
 }
 function buildStandings(){
-  const standings={};
+  const s={};
   state.events.forEach(ev=>{
     ev.classes.forEach(cls=>{
       if(!cls.competitors||!cls.competitors.length)return;
       const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
       ranked.forEach((row,idx)=>{
         const key=row.comp.driver.trim().toLowerCase();
-        if(!standings[key])standings[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',vehicleName:row.comp.vehicleName||'',classes:{}};
-        if(!standings[key].classes[cls.name])standings[key].classes[cls.name]={totalPoints:0,events:[],wins:0,seconds:0,thirds:0,totalDist:0};
-        const s=standings[key].classes[cls.name];
+        if(!s[key])s[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',vehicleName:row.comp.vehicleName||'',classes:{}};
+        if(!s[key].classes[cls.name])s[key].classes[cls.name]={totalPoints:0,events:[],wins:0,seconds:0,thirds:0,totalDist:0};
+        const c=s[key].classes[cls.name];
         const pts=getPoints(ev.id,cls.id,row.comp.id,cls);
         const pull=row.pull;
-        s.totalPoints+=pts;
-        s.events.push({evName:ev.name,evDate:ev.date,evId:ev.id,clsId:cls.id,compId:row.comp.id,pts,dist:pull?parseFloat(pull.dist)||0:0,calcPts:getCalcPoints(cls,row.comp.id)});
-        s.totalDist+=pull?parseFloat(pull.dist)||0:0;
-        if(idx===0&&row.valid)s.wins++;if(idx===1&&row.valid)s.seconds++;if(idx===2&&row.valid)s.thirds++;
+        if(cls.pointsClass!==false)c.totalPoints+=pts;
+        c.events.push({evName:ev.name,evDate:ev.date,evId:ev.id,clsId:cls.id,compId:row.comp.id,pts,dist:pull?parseFloat(pull.dist)||0:0,calcPts:getCalcPoints(cls,row.comp.id)});
+        c.totalDist+=pull?parseFloat(pull.dist)||0:0;
+        if(idx===0&&row.valid)c.wins++;if(idx===1&&row.valid)c.seconds++;if(idx===2&&row.valid)c.thirds++;
       });
     });
   });
-  return standings;
+  return s;
 }
 function renderPoints(){
   const el=document.getElementById('pointsContent');
   const q=(document.getElementById('pointsSearch')||{}).value||'';
-  const standings=buildStandings();
-  const byClass={};
+  const standings=buildStandings();const byClass={};
   Object.values(standings).forEach(driver=>{
     Object.keys(driver.classes).forEach(cls=>{
       if(!byClass[cls])byClass[cls]=[];
@@ -591,32 +685,32 @@ function renderPoints(){
         byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,vehicleName:driver.vehicleName,...driver.classes[cls]});
     });
   });
-  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:18px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
+  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px">NO POINTS DATA YET</div>';return;}
   el.innerHTML=Object.keys(byClass).sort().map(cls=>{
     const drivers=byClass[cls].sort((a,b)=>b.totalPoints-a.totalPoints);
-    return `<div class="card-dark" style="margin-bottom:18px">
+    return `<div class="card-dark" style="margin-bottom:14px">
       <div class="class-group-hdr">${cls}</div>
-      <div style="overflow-x:auto"><table class="results-table" style="min-width:600px">
+      <div style="overflow-x:auto"><table class="results-table" style="min-width:560px">
         <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Season Pts</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Dist</th><th style="text-align:center">Events</th></tr></thead>
         <tbody>${drivers.map((d,i)=>`
           <tr class="${i===0?'top-row':''}">
             <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
-            <td><div style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:17px">${d.driver}</div><div style="font-size:11px;color:var(--text4)">${d.vehicleName||''}</div></td>
-            <td style="color:var(--text3);font-size:13px">${d.vehicle||'—'}</td>
-            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:var(--red)">${d.totalPoints}</td>
-            <td style="text-align:center;color:var(--gold);font-weight:700;font-size:15px">${d.wins}</td>
-            <td style="text-align:center;color:#a8a8a8;font-weight:700;font-size:15px">${d.seconds}</td>
-            <td style="text-align:center;color:#a0522d;font-weight:700;font-size:15px">${d.thirds}</td>
-            <td style="text-align:right;color:var(--text3);font-size:13px">${d.totalDist.toFixed(1)} ft</td>
-            <td style="text-align:center;color:var(--text4);font-size:14px">${d.events.length}</td>
+            <td><div style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px">${d.driver}</div><div style="font-size:10px;color:var(--text4)">${d.vehicleName||''}</div></td>
+            <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
+            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${d.totalPoints}</td>
+            <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
+            <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
+            <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
+            <td style="text-align:right;color:var(--text3);font-size:12px">${d.totalDist.toFixed(3)} ft</td>
+            <td style="text-align:center;color:var(--text4)">${d.events.length}</td>
           </tr>
-          <tr><td colspan="9" style="padding:0 12px 12px 40px;border-bottom:2px solid var(--border2)">
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
-              ${d.events.map(e=>`<div style="background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:8px">
+          <tr><td colspan="9" style="padding:0 10px 10px 36px;border-bottom:2px solid var(--border2)">
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:5px">
+              ${d.events.map(e=>`<div style="background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:4px 9px;font-size:11px;display:flex;align-items:center;gap:7px">
                 <span style="color:var(--text3)">${e.evName}${e.evDate?' ('+e.evDate+')':''}</span>
                 <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red)">${e.pts} pts</span>
-                ${e.dist?`<span style="color:var(--text4)">${e.dist.toFixed(1)} ft</span>`:''}
-                <button onclick="openEditPoints('${e.evId}','${e.clsId}','${e.compId}',${e.calcPts},'${d.driver.replace(/'/g,"\\'")}'+'','${cls.replace(/'/g,"\\'")}')" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--text3);cursor:pointer;font-size:11px;padding:2px 7px;font-family:'Barlow Condensed',sans-serif">Edit</button>
+                ${e.dist?`<span style="color:var(--text4)">${e.dist.toFixed(3)} ft</span>`:''}
+                <button onclick="openEditPoints('${e.evId}','${e.clsId}','${e.compId}',${e.calcPts},'${d.driver.replace(/'/g,"\\'")}')" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--text3);cursor:pointer;font-size:10px;padding:2px 6px;font-family:'Barlow Condensed',sans-serif">Edit</button>
               </div>`).join('')}
             </div>
           </td></tr>`).join('')}
@@ -624,10 +718,10 @@ function renderPoints(){
       </table></div></div>`;
   }).join('');
 }
-function openEditPoints(evId,clsId,compId,calcPts,driver,cls){
+function openEditPoints(evId,clsId,compId,calcPts,driver){
   editingPointsKey=mpKey(evId,clsId,compId);
   document.getElementById('editPointsDriverName').textContent=driver;
-  document.getElementById('editPointsClassName').textContent=cls;
+  document.getElementById('editPointsClassName').textContent='Event: '+evId;
   document.getElementById('editPointsCalc').textContent=calcPts+' pts';
   const existing=state.manualPoints&&state.manualPoints[editingPointsKey]!==undefined?state.manualPoints[editingPointsKey]:'';
   document.getElementById('editPointsValue').value=existing;
@@ -637,18 +731,14 @@ function saveManualPoints(){const val=document.getElementById('editPointsValue')
 function clearManualPoints(){if(state.manualPoints&&editingPointsKey)delete state.manualPoints[editingPointsKey];saveState();closeModal('editPointsModal');}
 
 // CLASS ORDER
-function openClassOrderModal(){
-  const ev=getActiveEvent();if(!ev)return;
-  const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
-  renderOrderList(ordered);openModal('classOrderModal');
-}
+function openClassOrderModal(){const ev=getActiveEvent();if(!ev)return;const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));renderOrderList(ordered);openModal('classOrderModal');}
 function renderOrderList(ordered){
   document.getElementById('classOrderList').innerHTML=ordered.map((c,i)=>`
     <div class="order-item">
       <span class="order-num">${i+1}</span>
-      <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:15px">${c.name}</span>
-      <button onclick="moveClass('${c.id}',-1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:4px 10px;cursor:pointer;font-size:14px">▲</button>
-      <button onclick="moveClass('${c.id}',1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:4px 10px;cursor:pointer;font-size:14px">▼</button>
+      <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:14px">${c.name}</span>
+      <button onclick="moveClass('${c.id}',-1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▲</button>
+      <button onclick="moveClass('${c.id}',1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▼</button>
     </div>`).join('');
 }
 function moveClass(classId,dir){
@@ -665,11 +755,11 @@ function saveClassOrder(){saveState();closeModal('classOrderModal');}
 // CLASSES
 function renderClasses(){
   document.getElementById('classesList').innerHTML=state.classes.map((c,i)=>`
-    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin-bottom:8px">
-      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600">${c}</span>
-      <div style="display:flex;gap:6px;align-items:center">
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;margin-bottom:6px">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600">${c}</span>
+      <div style="display:flex;gap:5px;align-items:center">
         <button class="btn btn-gold btn-sm" onclick="openEditClassModal(${i})">Edit</button>
-        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:11px;color:var(--text4);letter-spacing:1px">DEFAULT</span>`}
+        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:10px;color:var(--text4);letter-spacing:1px">DEFAULT</span>`}
       </div>
     </div>`).join('');
 }
@@ -689,19 +779,19 @@ function renderMembers(){
   const q=(document.getElementById('memberSearch')||{}).value||'';
   const filtered=state.members.filter(m=>!q||m.driver.toLowerCase().includes(q.toLowerCase()));
   const el=document.getElementById('membersList');
-  if(!filtered.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No members found.</div>';return;}
+  if(!filtered.length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text4)">No members found.</div>';return;}
   const byClass={};
   filtered.forEach(m=>{const classes=m.classes&&m.classes.length?m.classes:['Unassigned'];classes.forEach(c=>{if(!byClass[c])byClass[c]=[];byClass[c].push(m);});});
   el.innerHTML=Object.keys(byClass).sort().map(cls=>`
     <div class="class-group-hdr">${cls}</div>
     ${byClass[cls].sort((a,b)=>a.driver.localeCompare(b.driver)).map(m=>`
-      <div class="card" style="margin-bottom:8px">
+      <div class="card" style="margin-bottom:6px">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
           <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700">${m.driver}</div>
-            <div style="font-size:13px;color:var(--text3);margin-top:2px">${m.vehicle||''} ${m.vehicleName?'— '+m.vehicleName:''} ${m.home?'· '+m.home:''}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${m.driver}</div>
+            <div style="font-size:12px;color:var(--text3);margin-top:2px">${m.vehicle||''} ${m.vehicleName?'— '+m.vehicleName:''} ${m.home?'· '+m.home:''}</div>
           </div>
-          <div style="display:flex;gap:6px">
+          <div style="display:flex;gap:5px">
             <button class="btn btn-gold btn-sm" onclick="openEditMemberModal('${m.id}')">Edit</button>
             <button class="btn btn-gray btn-sm" onclick="deleteMember('${m.id}')">Del</button>
           </div>
@@ -732,19 +822,21 @@ function deleteMember(id){if(!confirm('Remove?'))return;state.members=state.memb
 // EVENTS
 function renderEvents(){
   const el=document.getElementById('eventsList');
-  if(!state.events.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No events yet.</div>';return;}
+  if(!state.events.length){el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text4)">No events yet.</div>';return;}
   const sorted=[...state.events].sort((a,b)=>new Date(a.date||0)-new Date(b.date||0));
   el.innerHTML=sorted.map(ev=>`
     <div class="card" style="border-left:3px solid ${ev.id===state.activeEventId?'var(--red)':'var(--border)'}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
         <div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800">${ev.name}</div>
-          <div style="font-size:13px;color:var(--text3);margin-top:2px">${formatEventDateTime(ev)}</div>
-          <div style="font-size:12px;color:var(--text4);margin-top:2px">${formatEventLocation(ev)}</div>
-          <div style="font-size:12px;color:var(--text4);margin-top:2px">${ev.classes.length} classes</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800">${ev.name}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${formatDT(ev)}</div>
+          <div style="font-size:11px;color:var(--text4);margin-top:2px">${formatLoc(ev)}</div>
+          <div style="font-size:11px;color:var(--text4);margin-top:2px">${ev.classes.length} classes</div>
         </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-          ${ev.id!==state.activeEventId?`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`:`<span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--red);font-weight:700;letter-spacing:1px">ACTIVE</span>`}
+        <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+          ${ev.id===state.activeEventId
+            ?`<button class="btn btn-gray btn-sm" onclick="unloadEvent()">Unload</button><span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px">ACTIVE</span>`
+            :`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`}
           <button class="btn btn-gold btn-sm" onclick="openEditEventModal('${ev.id}')">Edit</button>
           <button class="btn btn-gray btn-sm" onclick="deleteEvent('${ev.id}')">Del</button>
         </div>
@@ -778,19 +870,22 @@ function saveEvent(){
   if(editingEventId){
     const ev=state.events.find(e=>e.id===editingEventId);Object.assign(ev,evData);
     const existing=ev.classes.map(c=>c.name);
-    allClasses.forEach(cn=>{if(!existing.includes(cn))ev.classes.push({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[],classOrder:ev.classes.length});});
+    allClasses.forEach(cn=>{if(!existing.includes(cn))ev.classes.push({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[],classOrder:ev.classes.length,pointsClass:true});});
     ev.classes=ev.classes.filter(c=>allClasses.includes(c.name));
   } else {
-    const ev={id:uuid(),...evData,classes:allClasses.map((cn,i)=>({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[],classOrder:i}))};
-    state.events.unshift(ev);state.activeEventId=ev.id;
+    const ev={id:uuid(),...evData,classes:allClasses.map((cn,i)=>({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[],classOrder:i,pointsClass:true}))};
+    state.events.unshift(ev);
+    // Don't auto-load — let user choose
   }
   saveState();closeModal('createEventModal');updateHeader();
 }
 function loadEvent(id){state.activeEventId=id;state.activeClassId=null;saveState();updateHeader();}
+function unloadEvent(){if(!confirm('Unload this event? It will no longer show as active on the public viewer.'))return;state.activeEventId=null;state.activeClassId=null;saveState();updateHeader();}
 function deleteEvent(id){
-  if(!confirm('Delete this event and all its data including points?'))return;
+  if(!confirm('Delete this event and all its data?'))return;
   if(state.manualPoints){Object.keys(state.manualPoints).forEach(k=>{if(k.startsWith(id+'_'))delete state.manualPoints[k];});}
-  state.events=state.events.filter(e=>e.id!==id);if(state.activeEventId===id)state.activeEventId=null;
+  state.events=state.events.filter(e=>e.id!==id);
+  if(state.activeEventId===id){state.activeEventId=null;state.activeClassId=null;}
   saveState();updateHeader();
 }
 function updateHeader(){const ev=getActiveEvent();const el=document.getElementById('headerEvent');if(el)el.textContent=ev?ev.name+(ev.location?' — '+ev.location:''):'No Event Loaded';}
@@ -802,17 +897,17 @@ function renderInput(){
   document.getElementById('inputConsole').style.display=ev?'block':'none';
   if(!ev)return;
   document.getElementById('inputEventName').textContent=ev.name;
-  document.getElementById('inputEventDate').textContent=[formatEventDateTime(ev),formatEventLocation(ev)].filter(Boolean).join(' · ');
+  document.getElementById('inputEventDate').textContent=[formatDT(ev),formatLoc(ev)].filter(Boolean).join(' · ');
   const activeClasses=ev.classes.filter(c=>c.status==='active');
   const warn=document.getElementById('activeClassWarning');
-  if(activeClasses.length>0&&!activeClasses.find(c=>c.id===state.activeClassId)){warn.innerHTML=`<div class="warning-banner">⚠ <strong>${activeClasses[0].name}</strong> is still marked Active. Please mark it Completed before starting a new class.</div>`;}
+  if(activeClasses.length>0&&!activeClasses.find(c=>c.id===state.activeClassId)){warn.innerHTML=`<div class="warning-banner">⚠ <strong>${activeClasses[0].name}</strong> is still Active. Mark it Completed before starting a new class.</div>`;}
   else{warn.innerHTML='';}
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
   document.getElementById('inputClassList').innerHTML=ordered.map(c=>`
     <div class="cls-item ${state.activeClassId===c.id?'active-cls':''}" onclick="selectClass('${c.id}')">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${statusDotEl(c.status)}<div class="cls-item-name" style="color:${state.activeClassId===c.id?'#fff':'var(--text2)'}">${c.name}</div></div>
-      <div class="cls-item-sub">${c.competitors.length} drivers · ${(c.pulls||[]).length} pulls</div>
-      <div style="margin-top:7px"><select style="width:100%;font-size:11px;padding:4px 6px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
+      <div class="cls-item-sub">${c.competitors.length} drivers · ${(c.pulls||[]).length} pulls${c.pointsClass===false?' · Non-Points':''}</div>
+      <div style="margin-top:6px"><select style="width:100%;font-size:10px;padding:3px 5px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
         <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
         <option value="active" ${c.status==='active'?'selected':''}>Active</option>
         <option value="completed" ${c.status==='completed'?'selected':''}>Completed</option>
@@ -825,57 +920,57 @@ function selectClass(classId){state.activeClassId=classId;saveState();}
 function getSortedCompetitors(cls){return[...cls.competitors].sort((a,b)=>{const an=parseInt(a.hook)||9999,bn=parseInt(b.hook)||9999;return an-bn;});}
 function renderRightPanel(){
   const cls=getActiveClass();const el=document.getElementById('rightPanel');
-  if(!cls){el.innerHTML='<div style="text-align:center;padding:50px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:18px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>';return;}
+  if(!cls){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>';return;}
   const comps=cls.status==='completed'?getRankedPulls(cls).map(r=>r.comp):getSortedCompetitors(cls);
   const suggestions=state.members.filter(m=>(m.classes||[]).includes(cls.name));
   const ev=getActiveEvent();
   el.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px">${cls.name}</div>
-        <div style="font-size:13px;color:var(--text3);margin-top:2px">${comps.length} competitors · ${cls.status==='completed'?'Sorted by finish':'Sorted by hook #'}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px">${cls.name}</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">${comps.length} competitors · ${cls.status==='completed'?'Sorted by finish':'Sorted by hook #'}${cls.pointsClass===false?' · Non-Points':''}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">${statusBadge(cls.status)}<button class="btn btn-red btn-sm" onclick="openAddCompModal()">+ Add Driver</button></div>
     </div>
-    ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:6px;padding:12px;margin-bottom:14px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Points Members — Tap to Add</div>
+    ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:5px;padding:10px;margin-bottom:12px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Points Members — Tap to Add</div>
       ${suggestions.map(m=>`<span class="member-chip" onclick="quickAddMember('${m.id}')">${m.driver}</span>`).join('')}
     </div>`:''}
     <div style="overflow-x:auto"><table class="pull-sheet">
       <thead><tr>
-        <th style="width:32px">${cls.status==='completed'?'Pos':'Ord'}</th>
-        <th style="width:55px">Hook</th><th>Driver</th><th>Vehicle</th>
-        <th style="width:100px">Dist (ft)</th><th style="width:76px">Speed</th>
-        <th style="width:115px">Result</th><th style="width:55px">Pts</th><th style="width:85px"></th>
+        <th style="width:30px">${cls.status==='completed'?'Pos':'Ord'}</th>
+        <th style="width:50px">Hook</th><th>Driver</th><th>Vehicle</th>
+        <th style="width:90px">Dist (ft)</th><th style="width:68px">Speed</th>
+        <th style="width:110px">Result</th><th style="width:50px">Pts</th><th style="width:80px"></th>
       </tr></thead>
       <tbody>${comps.length?comps.map((comp,idx)=>{
         const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
         const rank=getRank(cls,comp.id);
         const isC=cls.status==='completed';
-        const isPoints=comp.pointsCompetitor!==false;
+        const isPoints=comp.pointsCompetitor!==false&&cls.pointsClass!==false;
         const pts=ev&&isPoints?getPoints(ev.id,cls.id,comp.id,cls):0;
         const hasManual=ev&&state.manualPoints&&state.manualPoints[mpKey(ev.id,cls.id,comp.id)]!==undefined;
         return `<tr id="row-${comp.id}" class="${rank===1?'top-row':''}">
           <td><span class="rank-badge ${rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn'}">${isC?(rank||'—'):(idx+1)}</span></td>
-          <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:46px;padding:5px;font-size:12px"></td>
-          <td><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${comp.driver}${!isPoints?' <span style="font-size:10px;color:var(--text4);font-family:\'Barlow\',sans-serif;font-weight:400">Exhibition</span>':''}</div><div style="font-size:11px;color:var(--text4)">${comp.vehicleName||''}</div></td>
-          <td style="color:var(--text3);font-size:12px">${comp.vehicle||''}</td>
-          <td><input type="number" step="0.1" min="0" placeholder="0.0" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:84px"></td>
-          <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:62px"></td>
-          <td><select onchange="updatePullResult('${comp.id}',this.value)" style="width:110px">
+          <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:42px;padding:4px;font-size:11px"></td>
+          <td><div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${comp.driver}${!isPoints?' <span style="font-size:9px;color:var(--text4);font-family:\'Barlow\',sans-serif;font-weight:400">Exhibition</span>':''}</div><div style="font-size:10px;color:var(--text4)">${comp.vehicleName||''}</div></td>
+          <td style="color:var(--text3);font-size:11px">${comp.vehicle||''}</td>
+          <td><input type="number" step="0.001" min="0" placeholder="0.000" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:78px"></td>
+          <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:56px"></td>
+          <td><select onchange="updatePullResult('${comp.id}',this.value)" style="width:104px">
             <option value="" ${!pull||!pull.result?'selected':''}>—</option>
             <option value="distance" ${pull&&pull.result==='distance'?'selected':''}>Distance</option>
             <option value="full_pull" ${pull&&pull.result==='full_pull'?'selected':''}>Full Pull</option>
             <option value="dq" ${pull&&pull.result==='dq'?'selected':''}>DQ</option>
             <option value="broke" ${pull&&pull.result==='broke'?'selected':''}>Broke</option>
           </select></td>
-          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:${hasManual?'var(--gold)':'var(--text3)'};font-size:14px">${pull&&pull.result&&isPoints?pts+'pts':''}</td>
+          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:${hasManual?'var(--gold)':'var(--text3)'};font-size:13px">${pull&&pull.result&&isPoints?pts+'pts':''}</td>
           <td style="white-space:nowrap">
             <button class="btn btn-gold btn-sm" onclick="openEditCompModal('${comp.id}')">Edit</button>
             <button class="btn btn-gray btn-sm" onclick="removeCompetitor('${comp.id}')">Del</button>
           </td>
         </tr>`;
-      }).join(''):`<tr><td colspan="9" style="text-align:center;padding:28px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px">NO DRIVERS YET</td></tr>`}
+      }).join(''):`<tr><td colspan="9" style="text-align:center;padding:22px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:1px">NO DRIVERS YET</td></tr>`}
       </tbody>
     </table></div>`;
 }
@@ -884,7 +979,7 @@ function updatePullField(compId,field,val){
   const cls=getActiveClass();if(!cls)return;if(!cls.pulls)cls.pulls=[];
   let pull=cls.pulls.find(p=>p.compId===compId);
   if(!pull){pull={id:uuid(),compId,dist:'',speed:'',result:'distance',distNum:0};cls.pulls.push(pull);}
-  if(field==='dist'){const n=parseFloat(val);pull.dist=isNaN(n)?'':n.toFixed(1);pull.distNum=isNaN(n)?0:(pull.result==='full_pull'?999999+n:n);}
+  if(field==='dist'){const n=parseFloat(val);pull.dist=isNaN(n)?'':n.toFixed(3);pull.distNum=isNaN(n)?0:(pull.result==='full_pull'?999999+n:n);}
   if(field==='speed'){pull.speed=val?parseFloat(val).toFixed(1):'';}
   saveState();
 }
@@ -904,7 +999,7 @@ function openAddCompModal(){
   document.getElementById('compPointsCompetitor').checked=true;
   const cls=getActiveClass();
   const suggestions=cls?state.members.filter(m=>(m.classes||[]).includes(cls.name)):[];
-  document.getElementById('memberSuggestions').innerHTML=suggestions.length?'<div style="font-size:11px;color:var(--text4);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join(''):'';
+  document.getElementById('memberSuggestions').innerHTML=suggestions.length?'<div style="font-size:10px;color:var(--text4);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join(''):'';
   openModal('addCompModal');
 }
 function openEditCompModal(compId){
