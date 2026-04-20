@@ -42,7 +42,6 @@ body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--
 .class-chip{display:inline-flex;align-items:center;gap:5px;background:var(--bg3);border:1px solid var(--border2);border-radius:4px;padding:6px 14px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:all .15s;color:var(--text3)}
 .class-chip.selected{background:var(--red);border-color:var(--red);color:#fff}
 .class-chip:hover:not(.selected){background:var(--bg4);color:var(--text)}
-.class-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .leader-card{background:linear-gradient(135deg,#1a0a00 0%,#0f0f0f 100%);border:1px solid var(--border2);border-left:4px solid var(--gold);border-radius:6px;padding:18px 22px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .leader-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold2);text-transform:uppercase;margin-bottom:4px}
 .leader-name{font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:var(--gold);line-height:1;letter-spacing:1px}
@@ -52,7 +51,7 @@ body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--
 .full-pull-badge{background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;display:inline-block;margin-top:4px}
 .results-table{width:100%;border-collapse:collapse}
 .results-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
-.results-table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+.results-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
 .results-table tr.top-row td{background:rgba(240,192,48,.04)}
 .results-table tr:hover td{background:rgba(255,255,255,.02)}
 .dist-val{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--red)}
@@ -65,12 +64,22 @@ body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--
 .rank-badge{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
 .r1{background:var(--gold);color:#000}.r2{background:#a8a8a8;color:#000}.r3{background:#a0522d;color:#fff}.rn{background:var(--bg4);color:var(--text3)}
 .class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 5px;border-bottom:2px solid var(--border2);margin-bottom:8px}
-.schedule-item{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid var(--border)}
-.schedule-item:last-child{border-bottom:none}
+.event-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.event-card:hover{border-color:var(--border2);background:var(--bg4)}
+.event-card.active-event{border-color:var(--red);border-left:3px solid var(--red)}
+.countdown-box{background:linear-gradient(135deg,#1a0a00,#0f0f0f);border:1px solid var(--border2);border-left:4px solid var(--red);border-radius:6px;padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.countdown-num{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;color:var(--red)}
+.countdown-lbl{font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:1px;font-weight:700}
+.countdown-unit{text-align:center;min-width:50px}
+/* Upcoming scroller */
+.scroller-wrap{overflow:hidden;position:relative;margin-bottom:16px}
+.scroller-inner{display:flex;gap:12px;animation:scroll-x 30s linear infinite}
+.scroller-inner:hover{animation-play-state:paused}
+.scroller-card{flex-shrink:0;width:220px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:12px}
+@keyframes scroll-x{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-left">
     <div class="logo-block">
@@ -91,55 +100,51 @@ body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--
 </div>
 
 <div class="tabs">
-  <div class="tab active" onclick="switchTab('results')">Live Results</div>
+  <div class="tab active" onclick="switchTab('home')">Home</div>
+  <div class="tab" onclick="switchTab('results')">Live Results</div>
   <div class="tab" onclick="switchTab('points')">Points</div>
   <div class="tab" onclick="switchTab('schedule')">Schedule</div>
 </div>
 
+<!-- HOME -->
+<div class="view active" id="tab-home" style="padding:20px">
+  <div id="homeContent"><div style="text-align:center;padding:40px;color:var(--text4)">Connecting...</div></div>
+</div>
+
 <!-- LIVE RESULTS -->
-<div class="view active" id="tab-results" style="padding:0">
-  <div class="class-bar" id="viewerClassBar"><span style="font-size:11px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">Connecting to live data...</span></div>
-  <div style="padding:20px" id="viewerContent">
-    <div style="text-align:center;padding:60px 20px;color:var(--text4)">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:48px;font-weight:900;letter-spacing:2px;color:var(--border)">CS PULL LIVE</div>
-      <div style="font-size:13px;margin-top:8px;letter-spacing:1px">Connecting to live scoring...</div>
-    </div>
-  </div>
+<div class="view" id="tab-results" style="padding:0">
+  <div class="class-bar" id="viewerClassBar"><span style="font-size:11px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">Connecting...</span></div>
+  <div style="padding:20px" id="viewerContent"></div>
 </div>
 
 <!-- POINTS -->
 <div class="view" id="tab-points" style="padding:20px">
   <div class="sec-line"><div class="sec">Season Points Standings</div></div>
-  <div id="pointsContent"><div style="text-align:center;padding:40px;color:var(--text4)">Loading standings...</div></div>
+  <div id="pointsContent"></div>
 </div>
 
 <!-- SCHEDULE -->
 <div class="view" id="tab-schedule" style="padding:20px">
-  <div class="sec-line"><div class="sec">Class Schedule</div></div>
-  <div id="scheduleContent"><div style="text-align:center;padding:40px;color:var(--text4)">Loading schedule...</div></div>
+  <div class="sec-line"><div class="sec">Event Schedule</div></div>
+  <div id="scheduleContent"></div>
+  <!-- Event detail panel -->
+  <div id="eventDetailPanel" style="display:none;margin-top:16px"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-firebase.initializeApp({
-  apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",
-  authDomain:"cs-pulling-live.firebaseapp.com",
-  databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",
-  projectId:"cs-pulling-live",
-  storageBucket:"cs-pulling-live.firebasestorage.app",
-  messagingSenderId:"266460064990",
-  appId:"1:266460064990:web:fbb91d5b007e312ee4264f"
-});
+firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
 const db=firebase.database();
-let state={events:[],activeEventId:null,members:[],classes:[]};
-let viewerActiveClass=null;
+let state={events:[],activeEventId:null,members:[],classes:[],manualPoints:{}};
+let viewerActiveClass=null,selectedScheduleEvent=null;
 
 function switchTab(t){
-  ['results','points','schedule'].forEach((n,i)=>{
+  ['home','results','points','schedule'].forEach((n,i)=>{
     document.querySelectorAll('.tab')[i].classList.toggle('active',n===t);
     document.getElementById('tab-'+n).classList.toggle('active',n===t);
   });
+  if(t==='home')renderHome();
   if(t==='results')renderViewer();
   if(t==='points')renderPoints();
   if(t==='schedule')renderSchedule();
@@ -155,7 +160,21 @@ function getRankedPulls(cls){
   }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
 }
 
-function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a800';return `<span class="class-status-dot" style="background:${c}"></span>`;}
+function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+function getCalcPoints(cls,compId){
+  const ranked=getRankedPulls(cls);const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
+  if(idx<0)return 0;const pull=(cls.pulls||[]).find(p=>p.compId===compId);
+  if(!pull||!pull.result||pull.result==='dq')return 0;
+  return getPosByPosition(idx+1);
+}
+function manualPointsKey(evId,clsId,compId){return `${evId}_${clsId}_${compId}`;}
+function getPoints(evId,clsId,compId,cls){
+  const key=manualPointsKey(evId,clsId,compId);
+  if(state.manualPoints&&state.manualPoints[key]!==undefined)return state.manualPoints[key];
+  return getCalcPoints(cls,compId);
+}
+
+function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return `<span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block"></span>`;}
 function statusBadge(s){return `<span class="status-badge s-${s}">${s}</span>`;}
 
 function pullDisplay(p){
@@ -167,24 +186,142 @@ function pullDisplay(p){
   return `<span class="dist-val">${p.dist} ft</span>${spd}`;
 }
 
+function formatEventDate(ev){
+  const parts=[];
+  if(ev.date)parts.push(ev.date);
+  if(ev.time)parts.push('@ '+ev.time);
+  return parts.join(' ');
+}
+function formatEventLocation(ev){
+  const parts=[];
+  if(ev.location)parts.push(ev.location);
+  const addr=[ev.address,ev.city,ev.state].filter(Boolean).join(', ');
+  if(addr)parts.push(addr);
+  return parts.join(' · ');
+}
+
+function getCountdown(ev){
+  if(!ev.date)return null;
+  const dateStr=ev.date+(ev.time?' '+ev.time:'T00:00');
+  const target=new Date(dateStr);
+  const now=new Date();
+  const diff=target-now;
+  if(diff<=0)return null;
+  const d=Math.floor(diff/86400000);
+  const h=Math.floor((diff%86400000)/3600000);
+  const m=Math.floor((diff%3600000)/60000);
+  const s=Math.floor((diff%60000)/1000);
+  return{d,h,m,s};
+}
+
+// HOME
+function renderHome(){
+  const el=document.getElementById('homeContent');
+  const ev=getActiveEvent();
+  const now=new Date();
+  const upcoming=state.events.filter(e=>{if(!e.date)return false;const d=new Date(e.date+(e.time?' '+e.time:''));return d>now;}).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const recent=state.events.filter(e=>{if(!e.date)return false;const d=new Date(e.date);return d<=now;}).sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,3);
+
+  let html='';
+
+  // Countdown to next upcoming event
+  if(upcoming.length){
+    const next=upcoming[0];
+    const cd=getCountdown(next);
+    if(cd){
+      html+=`<div class="countdown-box">
+        <div>
+          <div style="font-size:10px;color:var(--text4);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:4px">Next Event</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800">${next.name}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${formatEventDate(next)} · ${formatEventLocation(next)}</div>
+        </div>
+        <div style="display:flex;gap:14px">
+          <div class="countdown-unit"><div class="countdown-num" id="cd-d">${cd.d}</div><div class="countdown-lbl">Days</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-h">${cd.h}</div><div class="countdown-lbl">Hrs</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-m">${cd.m}</div><div class="countdown-lbl">Min</div></div>
+          <div class="countdown-unit"><div class="countdown-num" id="cd-s">${cd.s}</div><div class="countdown-lbl">Sec</div></div>
+        </div>
+      </div>`;
+      // Start countdown ticker
+      clearInterval(window._cdInterval);
+      window._cdInterval=setInterval(()=>{
+        const c=getCountdown(next);if(!c)return;
+        const ds=document.getElementById('cd-d');const hs=document.getElementById('cd-h');
+        const ms=document.getElementById('cd-m');const ss=document.getElementById('cd-s');
+        if(ds)ds.textContent=c.d;if(hs)hs.textContent=c.h;if(ms)ms.textContent=c.m;if(ss)ss.textContent=c.s;
+      },1000);
+    }
+  }
+
+  // Upcoming events scroller
+  if(upcoming.length){
+    const cards=upcoming.map(e=>`
+      <div class="scroller-card">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;margin-bottom:4px">${e.name}</div>
+        <div style="font-size:11px;color:var(--text3)">${formatEventDate(e)}</div>
+        <div style="font-size:11px;color:var(--text4);margin-top:2px">${formatEventLocation(e)}</div>
+        <div style="font-size:10px;color:var(--text4);margin-top:4px">${e.classes?e.classes.length:0} classes</div>
+      </div>`).join('');
+    html+=`<div class="sec-line" style="margin-top:4px"><div class="sec">Upcoming Events</div></div>
+      <div class="scroller-wrap"><div class="scroller-inner">${cards}${cards}</div></div>`;
+  }
+
+  // Active event live results teaser
+  if(ev){
+    const activeClass=ev.classes.find(c=>c.status==='active');
+    html+=`<div class="sec-line"><div class="sec">Live Now</div></div>
+      <div class="card" style="border-left:3px solid var(--green);cursor:pointer" onclick="switchTab('results')">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800">${ev.name}</div>
+            <div style="font-size:12px;color:var(--text3);margin-top:2px">${formatEventDate(ev)} · ${formatEventLocation(ev)}</div>
+            ${activeClass?`<div style="margin-top:6px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite"></span><span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--green)">${activeClass.name} — IN PROGRESS</span></div>`:''}
+          </div>
+          <span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--text3);letter-spacing:1px">VIEW RESULTS →</span>
+        </div>
+      </div>`;
+  }
+
+  // Recent results
+  if(recent.length){
+    html+=`<div class="sec-line" style="margin-top:8px"><div class="sec">Recent Results</div></div>`;
+    html+=recent.map(e=>{
+      const winners=e.classes.map(cls=>{
+        const ranked=getRankedPulls(cls);const w=ranked[0];
+        return w&&w.valid?`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border)"><span style="font-size:12px;color:var(--text3)">${cls.name}</span><span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--gold)">${w.comp.driver} — ${w.pull.dist} ft</span></div>`:null;
+      }).filter(Boolean);
+      return `<div class="card" style="margin-bottom:8px">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;margin-bottom:2px">${e.name}</div>
+        <div style="font-size:11px;color:var(--text3);margin-bottom:8px">${formatEventDate(e)} · ${formatEventLocation(e)}</div>
+        ${winners.length?winners.join(''):'<div style="font-size:12px;color:var(--text4)">No results recorded.</div>'}
+      </div>`;
+    }).join('');
+  }
+
+  if(!html)html='<div style="text-align:center;padding:60px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:36px;font-weight:900;color:var(--border)">CS PULL LIVE</div><div style="font-size:13px;margin-top:8px">No events yet.</div></div>';
+  el.innerHTML=html;
+}
+
+// LIVE RESULTS
 function renderViewer(){
   const ev=getActiveEvent();
   const bar=document.getElementById('viewerClassBar');
   const content=document.getElementById('viewerContent');
   if(!ev){
     bar.innerHTML='<span style="font-size:11px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1px;text-transform:uppercase">No active event</span>';
-    content.innerHTML='<div style="text-align:center;padding:60px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:36px;font-weight:900;color:var(--border)">NO ACTIVE EVENT</div><div style="font-size:13px;margin-top:8px">Check back when an event is loaded.</div></div>';
+    content.innerHTML='<div style="text-align:center;padding:60px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:36px;font-weight:900;color:var(--border)">NO ACTIVE EVENT</div></div>';
     return;
   }
-  bar.innerHTML=ev.classes.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${statusDotEl(c.status)} ${c.name}</span>`).join('');
+  const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+  bar.innerHTML=ordered.map(c=>`<span class="class-chip ${viewerActiveClass===c.id?'selected':''}" onclick="viewClass('${c.id}')">${statusDotEl(c.status)} ${c.name}</span>`).join('');
   if(!viewerActiveClass){
     content.innerHTML=`
       <div style="margin-bottom:16px">
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px">${ev.name}</div>
-        <div style="font-size:13px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px">${formatEventDate(ev)} · ${formatEventLocation(ev)}</div>
       </div>
-      <div class="card-dark">${ev.classes.map(c=>`
-        <div class="schedule-item">
+      <div class="card-dark">${ordered.map(c=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)">
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${c.name}</div>
           ${statusBadge(c.status)}
         </div>`).join('')}</div>`;
@@ -197,7 +334,7 @@ function renderViewer(){
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:1px">${cls.name}</div>
-        <div style="font-size:12px;color:var(--text3)">${ev.name} · ${ev.date||''}</div>
+        <div style="font-size:12px;color:var(--text3)">${ev.name} · ${formatEventDate(ev)}</div>
       </div>
       ${statusBadge(cls.status)}
     </div>
@@ -206,7 +343,7 @@ function renderViewer(){
       <div>
         <div class="leader-label">${cls.status==='completed'?'Class Winner':'Current Leader'}</div>
         <div class="leader-name">${leader.comp.driver}</div>
-        <div class="leader-vehicle">${leader.comp.vehicle||''} ${leader.comp.home?'· '+leader.comp.home:''}</div>
+        <div class="leader-vehicle">${leader.comp.vehicle||''} ${leader.comp.vehicleName?'— '+leader.comp.vehicleName:''} ${leader.comp.home?'· '+leader.comp.home:''}</div>
         ${leader.pull.result==='full_pull'?'<div class="full-pull-badge">Full Pull</div>':''}
       </div>
       <div>
@@ -215,18 +352,20 @@ function renderViewer(){
       </div>
     </div>`:''}
     <div class="card-dark" style="padding:0;overflow:hidden"><div style="overflow-x:auto">
-      <table class="results-table" style="min-width:420px">
-        <thead><tr><th>Pos</th><th>Hook</th><th>Driver</th><th>Vehicle</th><th>Hometown</th><th>Result</th></tr></thead>
+      <table class="results-table" style="min-width:480px">
+        <thead><tr><th>Pos</th><th>Hook</th><th>Driver</th><th>Vehicle</th><th>Hometown</th><th>Result</th><th style="text-align:right">Pts</th></tr></thead>
         <tbody>${ranked.map((row,i)=>{
           const isDQ=row.pull&&(row.pull.result==='dq'||row.pull.result==='broke');
           const hasResult=row.pull&&row.pull.result;
+          const pts=hasResult&&!isDQ?getPoints(ev.id,cls.id,row.comp.id,cls):0;
           return `<tr class="${i===0&&row.valid?'top-row':''}">
             <td><span class="rank-badge ${!hasResult||isDQ?'rn':i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${!hasResult||isDQ?'—':i+1}</span></td>
             <td style="color:var(--text4);font-size:12px">${row.comp.hook||'—'}</td>
-            <td style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:${i<3&&row.valid?'700':'400'}">${row.comp.driver}</td>
+            <td><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:${i<3&&row.valid?'700':'400'}">${row.comp.driver}</div><div style="font-size:10px;color:var(--text4)">${row.comp.vehicleName||''}</div></td>
             <td style="color:var(--text3);font-size:12px">${row.comp.vehicle||''}</td>
             <td style="color:var(--text4);font-size:11px">${row.comp.home||''}</td>
             <td>${pullDisplay(row.pull)}</td>
+            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red)">${hasResult&&!isDQ?pts+' pts':''}</td>
           </tr>`;
         }).join('')}</tbody>
       </table>
@@ -234,79 +373,126 @@ function renderViewer(){
 }
 function viewClass(id){viewerActiveClass=id;renderViewer();}
 
-function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
-function renderPoints(){
-  const el=document.getElementById('pointsContent');
+// POINTS
+function buildStandings(){
   const standings={};
   state.events.forEach(ev=>{
     ev.classes.forEach(cls=>{
-      if(!cls.pulls||!cls.pulls.length)return;
+      if(!cls.competitors||!cls.competitors.length)return;
       const ranked=getRankedPulls(cls);
       ranked.forEach((row,idx)=>{
         const key=row.comp.driver.trim().toLowerCase();
-        if(!standings[key])standings[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',classes:{}};
-        if(!standings[key].classes[cls.name])standings[key].classes[cls.name]={points:0,dist:0,wins:0,seconds:0,thirds:0,events:0,showUp:0};
+        if(!standings[key])standings[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',vehicleName:row.comp.vehicleName||'',classes:{}};
+        if(!standings[key].classes[cls.name])standings[key].classes[cls.name]={totalPoints:0,events:[],wins:0,seconds:0,thirds:0,totalDist:0};
         const s=standings[key].classes[cls.name];
-        s.events++;s.showUp+=20;
-        if(!row.pull||!row.pull.result||row.pull.result==='dq')return;
-        s.points+=getPosByPosition(idx+1);
-        s.dist+=parseFloat(row.pull.dist)||0;
-        if(idx===0)s.wins++;if(idx===1)s.seconds++;if(idx===2)s.thirds++;
+        const pts=getPoints(ev.id,cls.id,row.comp.id,cls);
+        const pull=row.pull;
+        s.totalPoints+=pts;
+        s.events.push({evName:ev.name,evDate:ev.date,pts,dist:pull?parseFloat(pull.dist)||0:0,result:pull?pull.result:''});
+        s.totalDist+=pull?parseFloat(pull.dist)||0:0;
+        if(idx===0&&row.valid)s.wins++;if(idx===1&&row.valid)s.seconds++;if(idx===2&&row.valid)s.thirds++;
       });
     });
   });
+  return standings;
+}
+function renderPoints(){
+  const el=document.getElementById('pointsContent');
+  const standings=buildStandings();
   const byClass={};
   Object.values(standings).forEach(driver=>{
     Object.keys(driver.classes).forEach(cls=>{
       if(!byClass[cls])byClass[cls]=[];
-      byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,...driver.classes[cls]});
+      byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,vehicleName:driver.vehicleName,...driver.classes[cls]});
     });
   });
   if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
   el.innerHTML=Object.keys(byClass).sort().map(cls=>{
-    const drivers=byClass[cls].sort((a,b)=>(b.points+b.showUp)-(a.points+a.showUp));
+    const drivers=byClass[cls].sort((a,b)=>b.totalPoints-a.totalPoints);
     return `<div class="card-dark" style="margin-bottom:16px">
       <div class="class-group-hdr">${cls}</div>
       <div style="overflow-x:auto"><table class="results-table" style="min-width:500px">
-        <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Race Pts</th><th style="text-align:right">Show-Up</th><th style="text-align:right">Total</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Events</th></tr></thead>
-        <tbody>${drivers.map((d,i)=>{const total=d.points+d.showUp;return `<tr class="${i===0?'top-row':''}">
-          <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
-          <td style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px">${d.driver}</td>
-          <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
-          <td style="text-align:right;color:var(--blue);font-weight:700">${d.points}</td>
-          <td style="text-align:right;color:var(--text4)">${d.showUp}</td>
-          <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${total}</td>
-          <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
-          <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
-          <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
-          <td style="text-align:center;color:var(--text4)">${d.events}</td>
-        </tr>`;}).join('')}</tbody>
+        <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Season Pts</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Events</th></tr></thead>
+        <tbody>${drivers.map((d,i)=>`
+          <tr class="${i===0?'top-row':''}">
+            <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
+            <td><div style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px">${d.driver}</div><div style="font-size:10px;color:var(--text4)">${d.vehicleName||''}</div></td>
+            <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
+            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${d.totalPoints}</td>
+            <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
+            <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
+            <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
+            <td style="text-align:center;color:var(--text4)">${d.events.length}</td>
+          </tr>
+          <tr><td colspan="8" style="padding:0 10px 8px 36px;border-bottom:2px solid var(--border2)">
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">
+              ${d.events.map(e=>`<span style="background:var(--bg4);border:1px solid var(--border2);border-radius:3px;padding:3px 8px;font-size:11px;color:var(--text3)">${e.evName}${e.evDate?' ('+e.evDate+')':''}: <strong style="color:var(--red)">${e.pts} pts</strong>${e.dist?' · '+e.dist.toFixed(1)+' ft':''}</span>`).join('')}
+            </div>
+          </td></tr>`).join('')}
+        </tbody>
       </table></div></div>`;
   }).join('');
 }
 
+// SCHEDULE
 function renderSchedule(){
   const el=document.getElementById('scheduleContent');
-  const ev=getActiveEvent();
-  if(!ev){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No active event.</div>';return;}
-  el.innerHTML=`
-    <div style="margin-bottom:16px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900">${ev.name}</div>
-      <div style="font-size:13px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''}</div>
-    </div>
-    <div class="card-dark">
-      ${ev.classes.map((c,i)=>`
-        <div class="schedule-item">
+  const now=new Date();
+  const sorted=[...state.events].sort((a,b)=>new Date(a.date||0)-new Date(b.date||0));
+  if(!sorted.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No events scheduled.</div>';return;}
+  el.innerHTML=sorted.map(ev=>{
+    const isPast=ev.date&&new Date(ev.date)<now;
+    return `<div class="event-card ${ev.id===state.activeEventId?'active-event':''}" onclick="showEventDetail('${ev.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            ${ev.id===state.activeEventId?`<span style="background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:1px">ACTIVE</span>`:''}
+            ${isPast?`<span style="background:var(--bg4);color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:1px">PAST</span>`:''}
+          </div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800">${ev.name}</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${formatEventDate(ev)}</div>
+          <div style="font-size:12px;color:var(--text4);margin-top:1px">${formatEventLocation(ev)}</div>
+        </div>
+        <div style="font-size:11px;color:var(--text4)">${ev.classes?ev.classes.length:0} classes</div>
+      </div>
+    </div>`;
+  }).join('');
+  if(selectedScheduleEvent)showEventDetail(selectedScheduleEvent);
+}
+
+function showEventDetail(evId){
+  selectedScheduleEvent=evId;
+  const ev=state.events.find(e=>e.id===evId);
+  const panel=document.getElementById('eventDetailPanel');
+  if(!ev){panel.style.display='none';return;}
+  panel.style.display='block';
+  const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+  panel.innerHTML=`
+    <div class="card" style="border-top:3px solid var(--red)">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900">${ev.name}</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:2px">${formatEventDate(ev)}</div>
+          <div style="font-size:12px;color:var(--text4);margin-top:2px">${[ev.address,ev.city,ev.state].filter(Boolean).join(', ')}</div>
+          ${ev.location?`<div style="font-size:12px;color:var(--text4)">${ev.location}</div>`:''}
+          ${ev.notes?`<div style="font-size:12px;color:var(--text3);margin-top:6px;background:var(--bg4);padding:8px 10px;border-radius:4px">${ev.notes}</div>`:''}
+        </div>
+        <button onclick="document.getElementById('eventDetailPanel').style.display='none';selectedScheduleEvent=null" style="background:none;border:none;color:var(--text4);cursor:pointer;font-size:18px">×</button>
+      </div>
+      <div class="sec-line"><div class="sec">Class Order</div></div>
+      ${ordered.map((c,i)=>`
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)">
           <div style="display:flex;align-items:center;gap:10px">
-            <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--text4);min-width:20px">${i+1}</span>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:var(--text4);min-width:22px">${i+1}</span>
             <div>
-              <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${c.name}</div>
-              <div style="font-size:11px;color:var(--text4);margin-top:1px">${c.competitors.length} registered</div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${c.name}</div>
+              <div style="font-size:11px;color:var(--text4)">${c.competitors.length} registered</div>
             </div>
           </div>
           ${statusBadge(c.status)}
         </div>`).join('')}
     </div>`;
+  panel.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 db.ref('cspull').on('value',snap=>{
@@ -316,11 +502,13 @@ db.ref('cspull').on('value',snap=>{
     state.members=data.members?Object.values(data.members):[];
     state.classes=data.classes?Object.values(data.classes):[];
     state.activeEventId=data.activeEventId||null;
+    state.manualPoints=data.manualPoints||{};
   }
   const ev=getActiveEvent();
   document.getElementById('headerEvent').textContent=ev?ev.name:'No Active Event';
-  const active=['results','points','schedule'].find(t=>document.getElementById('tab-'+t).classList.contains('active'));
-  if(active==='results')renderViewer();
+  const active=['home','results','points','schedule'].find(t=>document.getElementById('tab-'+t).classList.contains('active'));
+  if(active==='home')renderHome();
+  else if(active==='results')renderViewer();
   else if(active==='points')renderPoints();
   else if(active==='schedule')renderSchedule();
   document.getElementById('statusDot').className='dot';
