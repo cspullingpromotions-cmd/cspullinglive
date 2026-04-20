@@ -157,6 +157,7 @@ footer{background:var(--bg2);border-top:2px solid var(--border);padding:28px 20p
   </div>
   <div class="header-right">
     <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
+    <a href="register.html" class="admin-link" style="color:var(--gold);border-color:var(--gold)">Pre-Register</a>
     <a href="admin.html" class="admin-link">Staff</a>
   </div>
 </div>
@@ -950,7 +951,7 @@ function renderSchedule(){
     const isPast=ev.date&&new Date(ev.date)<now;
     return `<div class="event-card ${ev.id===state.activeEventId?'active-event':''}" onclick="showEventDetail('${ev.id}')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
-        <div>
+        <div style="flex:1;min-width:200px">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
             ${ev.id===state.activeEventId?`<span style="background:var(--green);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:1px">ACTIVE</span>`:''}
             ${isPast?`<span style="background:var(--bg4);color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:1px">PAST</span>`:''}
@@ -959,7 +960,10 @@ function renderSchedule(){
           <div style="font-size:13px;color:var(--text3);margin-top:3px">${formatDT(ev)}</div>
           <div style="font-size:12px;color:var(--text4);margin-top:2px">${formatLoc(ev)}</div>
         </div>
-        <div style="font-size:12px;color:var(--text4)">${ev.classes?ev.classes.length:0} classes ›</div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          ${!isPast?`<a href="register.html" onclick="event.stopPropagation()" style="background:var(--gold);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:5px 10px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;white-space:nowrap">★ Pre-Register</a>`:''}
+          <div style="font-size:12px;color:var(--text4)">${ev.classes?ev.classes.length:0} classes ›</div>
+        </div>
       </div>
     </div>`;
   }).join('');
