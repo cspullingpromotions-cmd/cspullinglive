@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CS Pull Live — Admin</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -120,6 +122,7 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
   </div>
   <div class="header-right">
     <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
+    <a href="data.html" target="_blank" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#000;background:var(--gold);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border-radius:4px;font-weight:700">vMix Feed</a>
     <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border:1px solid var(--border);border-radius:4px">Public View</a>
     <button onclick="logout()" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);background:none;border:1px solid var(--border);border-radius:4px;padding:6px 12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">Logout</button>
   </div>
@@ -350,8 +353,6 @@ label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-t
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
 const DEFAULT_CLASSES=["Super Farm Tractors / Hot Farm Tractors","Limited Pro Stock Tractors","Light Limited Super Stock Tractors","Pro Stock / Super Stock Tractors","3.6 Pro Street Semis","Super Semi Trucks","Run What Ya Brung","410 Super Stock Trucks","Pro Stock Trucks","2.6 Pro Street Diesel Trucks","Street Stock Semis","Street Gas Trucks","Open Street Diesel Trucks","Hot Rod V-8 Tractors","Hot Street Semis","Classic Super Stock Tractors","Hot Rod Big Block V8 Tractors"];
 const DEFAULT_COUNT=DEFAULT_CLASSES.length;
@@ -412,6 +413,47 @@ function setStatus(s){
   else if(s==='offline'){dot.className='dot offline';txt.textContent='OFFLINE';}
   else{dot.className='dot syncing';txt.textContent='SYNCING';}
 }
+function buildLiveFeed(){
+  const ev=getActiveEvent();if(!ev)return{error:'No active event',timestamp:new Date().toISOString()};
+  function fmtDist(d){if(!d&&d!==0)return null;const n=parseFloat(d);return isNaN(n)?null:n.toFixed(3);}
+  function getPosByPos(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+  function ranked(cls){
+    return[...cls.competitors].map(comp=>{
+      const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
+      const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';
+      return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
+    }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
+  }
+  function buildCls(cls){
+    const r=ranked(cls);const leader=r[0];const leaderDist=leader&&leader.valid?leader.distNum:0;
+    const pullOffCount=leaderDist>0?r.filter(x=>x.valid&&x.distNum===leaderDist).length:0;
+    return{
+      class_name:cls.name,class_status:cls.status,is_points_class:cls.pointsClass!==false,
+      pull_off:pullOffCount>1,pull_off_count:pullOffCount>1?pullOffCount:0,
+      leader:leader&&leader.valid?{driver_name:leader.comp.driver,vehicle_make_model:leader.comp.vehicle||null,vehicle_name:leader.comp.vehicleName||null,distance:fmtDist(leader.pull.dist),speed_mph:leader.pull.speed||null,is_full_pull:leader.pull.result==='full_pull'}:null,
+      results:r.map((row,i)=>{
+        const pull=row.pull;const isDQ=pull&&(pull.result==='dq'||pull.result==='broke');
+        const gap=leaderDist>0&&row.valid&&i>0?(leaderDist-row.distNum).toFixed(3):null;
+        let status='pending';
+        if(isDQ)status=pull.result==='dq'?'dq':'broke';
+        else if(row.valid&&i===0)status='leader';
+        else if(row.valid&&leaderDist>0&&row.distNum===leaderDist&&i>0)status='pulloff';
+        else if(row.valid)status='qualified';
+        return{place:!row.valid||isDQ?null:i+1,hook_number:row.comp.hook||null,driver_name:row.comp.driver,vehicle_make_model:row.comp.vehicle||null,vehicle_name:row.comp.vehicleName||null,hometown:row.comp.home||null,distance:row.valid?fmtDist(pull.dist):null,speed_mph:pull&&pull.speed?pull.speed:null,gap_from_leader:gap,result:pull?pull.result:null,status,points:cls.pointsClass!==false&&pull&&pull.result&&!isDQ?getPosByPos(i+1):null,is_full_pull:!!(pull&&pull.result==='full_pull')};
+      }),
+      total_competitors:cls.competitors.length,
+    };
+  }
+  const activeClass=ev.classes.find(c=>c.status==='active');
+  return{
+    event_name:ev.name,event_date:ev.date||null,
+    event_location:[ev.location,ev.city,ev.state].filter(Boolean).join(', ')||null,
+    active_class:activeClass?buildCls(activeClass):null,
+    all_classes:[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0)).map(c=>buildCls(c)),
+    timestamp:new Date().toISOString(),
+  };
+}
+
 function saveState(){
   if(!db)return;
   setStatus('syncing');document.getElementById('syncBanner').style.display='block';
@@ -420,7 +462,9 @@ function saveState(){
     const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||''};
     state.events.forEach(ev=>{payload.events[ev.id]=ev;});
     state.members.forEach(m=>{payload.members[m.id]=m;});
-    db.ref('cspull').set(payload).then(()=>{document.getElementById('syncBanner').style.display='none';setStatus('online');}).catch(()=>setStatus('offline'));
+    const feed=buildLiveFeed();
+    db.ref('cspull').set(payload);
+    db.ref('feed').set(feed).then(()=>{document.getElementById('syncBanner').style.display='none';setStatus('online');}).catch(()=>setStatus('offline'));
   },600);
 }
 
