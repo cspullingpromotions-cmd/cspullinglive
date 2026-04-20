@@ -290,7 +290,9 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
     </div>
     <label>Venue / Fairgrounds Name</label><input type="text" id="evLocation" placeholder="e.g. Lawrence County Fairgrounds">
     <label>Additional Notes</label><textarea id="evNotes" placeholder="Gate times, sled info, etc..." style="height:60px;resize:none"></textarea>
-    <label>Classes</label><div id="classCheckboxes" class="checkbox-grid"></div>
+    <label>Classes</label>
+    <input type="text" id="eventClassSearch" placeholder="Search classes..." oninput="filterEventClasses()" style="margin-bottom:6px">
+    <div id="classCheckboxes" class="checkbox-grid"></div>
     <label style="margin-top:12px">One-time class (this event only)</label>
     <div style="display:flex;gap:6px"><input type="text" id="evCustomClass" placeholder="Custom class name" style="flex:1"><button class="btn btn-gray btn-sm" onclick="addCustomEventClass()">Add</button></div>
     <div id="customEventClasses" style="margin-top:6px"></div>
@@ -427,7 +429,7 @@ const DEFAULT_ABBRS=[
   {code:'PERF STR',full:'Performance Street Semis',points:false},{code:'PS/SS',full:'Pro Stock / Super Stock Tractors',points:false},
 ];
 
-let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{},contact:{},staffPassword:'',abbreviations:[],logo:''};
+let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{},contact:{},staffPassword:'',abbreviations:[],logo:'',registrations:{}};
 let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null,editingPointsKey=null;
 let customEventClasses=[],saveTimeout=null,db=null;
 
@@ -470,6 +472,22 @@ db.ref('cspull').on('value',snap=>{
     state.staffPassword=data.staffPassword||'';
     state.abbreviations=data.abbreviations&&data.abbreviations.length?data.abbreviations:[...DEFAULT_ABBRS];
     state.logo=data.logo||'';
+    // Normalize registrations (Firebase can turn arrays into objects)
+    state.registrations={};
+    if(data.registrations){
+      Object.keys(data.registrations).forEach(evId=>{
+        state.registrations[evId]={};
+        const evRegs=data.registrations[evId]||{};
+        Object.keys(evRegs).forEach(rId=>{
+          const r=evRegs[rId];if(!r)return;
+          state.registrations[evId][rId]={
+            ...r,
+            classes:r.classes?(Array.isArray(r.classes)?r.classes:Object.values(r.classes)):[],
+            checkedInClasses:r.checkedInClasses?(Array.isArray(r.checkedInClasses)?r.checkedInClasses:Object.values(r.checkedInClasses)):[]
+          };
+        });
+      });
+    }
     if(!state.classes.length)state.classes=[...DEFAULT_CLASSES];
   } else {
     state.classes=[...DEFAULT_CLASSES];
@@ -516,7 +534,7 @@ function saveState(){
   setStatus('syncing');document.getElementById('syncBanner').style.display='block';
   clearTimeout(saveTimeout);
   saveTimeout=setTimeout(()=>{
-    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||'',abbreviations:state.abbreviations||[],logo:state.logo||''};
+    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||'',abbreviations:state.abbreviations||[],logo:state.logo||'',registrations:state.registrations||{}};
     state.events.forEach(ev=>{payload.events[ev.id]=ev;});
     state.members.forEach(m=>{payload.members[m.id]=m;});
     const feed=buildLiveFeed();
@@ -1046,11 +1064,16 @@ function renderEvents(){
       </div>
     </div>`).join('');
 }
-function buildClassCBs(sel){return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
+function buildClassCBs(sel,q){return state.classes.filter(c=>!q||c.toLowerCase().includes((q||'').toLowerCase())).map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
+function filterEventClasses(){
+  const q=document.getElementById('eventClassSearch').value;
+  const sel=[...document.querySelectorAll('#classCheckboxes input:checked')].map(i=>i.value);
+  document.getElementById('classCheckboxes').innerHTML=buildClassCBs(sel,q);
+}
 function openCreateEventModal(){
   editingEventId=null;customEventClasses=[];
   document.getElementById('createEventTitle').textContent='New Event';document.getElementById('saveEventBtn').textContent='Create Event';
-  ['evName','evAddress','evCity','evState','evZip','evLocation','evNotes','evCustomClass','evEndDate'].forEach(id=>document.getElementById(id).value='');
+  ['evName','evAddress','evCity','evState','evZip','evLocation','evNotes','evCustomClass','evEndDate','eventClassSearch'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('evDate').value=new Date().toISOString().slice(0,10);document.getElementById('evTime').value='';document.getElementById('evTimezone').value='';
   document.getElementById('customEventClasses').innerHTML='';document.getElementById('classCheckboxes').innerHTML=buildClassCBs([]);openModal('createEventModal');
 }
@@ -1059,6 +1082,7 @@ function openEditEventModal(id){
   editingEventId=id;customEventClasses=ev.classes.filter(c=>!state.classes.includes(c.name)).map(c=>c.name);
   document.getElementById('createEventTitle').textContent='Edit Event';document.getElementById('saveEventBtn').textContent='Save Changes';
   document.getElementById('evName').value=ev.name||'';document.getElementById('evDate').value=ev.date||'';document.getElementById('evEndDate').value=ev.endDate||'';document.getElementById('evTime').value=ev.time||'';document.getElementById('evTimezone').value=ev.timezone||'';document.getElementById('evAddress').value=ev.address||'';document.getElementById('evCity').value=ev.city||'';document.getElementById('evState').value=ev.state||'';document.getElementById('evZip').value=ev.zip||'';document.getElementById('evLocation').value=ev.location||'';document.getElementById('evNotes').value=ev.notes||'';document.getElementById('evCustomClass').value='';
+  const ecs=document.getElementById('eventClassSearch');if(ecs)ecs.value='';
   document.getElementById('classCheckboxes').innerHTML=buildClassCBs(ev.classes.map(c=>c.name));renderCustomEventClasses();openModal('createEventModal');
 }
 function addCustomEventClass(){const val=document.getElementById('evCustomClass').value.trim();if(!val)return;if(!customEventClasses.includes(val))customEventClasses.push(val);document.getElementById('evCustomClass').value='';renderCustomEventClasses();}
@@ -1106,16 +1130,19 @@ function renderInput(){
   if(activeClasses.length>0&&!activeClasses.find(c=>c.id===state.activeClassId)){warn.innerHTML=`<div class="warning-banner">⚠ <strong>${activeClasses[0].name}</strong> is still Active. Mark it Completed before starting a new class.</div>`;}
   else{warn.innerHTML='';}
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
-  document.getElementById('inputClassList').innerHTML=ordered.map(c=>`
+  const evRegs=(state.registrations&&state.registrations[ev.id])?Object.values(state.registrations[ev.id]):[];
+  document.getElementById('inputClassList').innerHTML=ordered.map(c=>{
+    const pendingCount=evRegs.filter(r=>r.classes&&r.classes.includes(c.name)&&!(r.checkedInClasses||[]).includes(c.name)&&!c.competitors.find(cm=>(cm.driver||'').trim().toLowerCase()===(r.driver||'').trim().toLowerCase())).length;
+    return `
     <div class="cls-item ${state.activeClassId===c.id?'active-cls':''}" onclick="selectClass('${c.id}')">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${statusDotEl(c.status)}<div class="cls-item-name" style="color:${state.activeClassId===c.id?'#fff':'var(--text2)'}">${c.name}</div></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${statusDotEl(c.status)}<div class="cls-item-name" style="color:${state.activeClassId===c.id?'#fff':'var(--text2)'};flex:1">${c.name}</div>${pendingCount>0?`<span title="${pendingCount} pre-registered waiting to check in" style="background:var(--gold);color:#000;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;letter-spacing:.5px">★${pendingCount}</span>`:''}</div>
       <div class="cls-item-sub">${c.competitors.length} drivers · ${(c.pulls||[]).length} pulls${c.pointsClass===false?' · Non-Points':''}</div>
       <div style="margin-top:6px"><select style="width:100%;font-size:10px;padding:3px 5px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
         <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
         <option value="active" ${c.status==='active'?'selected':''}>Active</option>
         <option value="completed" ${c.status==='completed'?'selected':''}>Completed</option>
       </select></div>
-    </div>`).join('');
+    </div>`;}).join('');
   renderRightPanel();
 }
 function setClassStatus(classId,status){const ev=getActiveEvent();if(!ev)return;const cls=ev.classes.find(c=>c.id===classId);if(cls){cls.status=status;saveState();}}
@@ -1127,6 +1154,9 @@ function renderRightPanel(){
   const comps=cls.status==='completed'?getRankedPulls(cls).map(r=>r.comp):getSortedCompetitors(cls);
   const suggestions=state.members.filter(m=>(m.classes||[]).includes(cls.name));
   const ev=getActiveEvent();
+  // Pre-registrations for this event that include this class and haven't been checked in yet
+  const evRegs=(state.registrations&&state.registrations[ev.id])?Object.values(state.registrations[ev.id]):[];
+  const pendingRegs=evRegs.filter(r=>r.classes&&r.classes.includes(cls.name)&&!(r.checkedInClasses||[]).includes(cls.name)&&!cls.competitors.find(c=>(c.driver||'').trim().toLowerCase()===(r.driver||'').trim().toLowerCase()));
   el.innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
       <div>
@@ -1135,6 +1165,10 @@ function renderRightPanel(){
       </div>
       <div style="display:flex;align-items:center;gap:8px">${statusBadge(cls.status)}<button class="btn btn-red btn-sm" onclick="openAddCompModal()">+ Add Driver</button></div>
     </div>
+    ${pendingRegs.length?`<div style="background:#1a1200;border:1px solid #5a4800;border-radius:5px;padding:10px;margin-bottom:12px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">⭐ Pre-Registered — Tap to Check In (${pendingRegs.length})</div>
+      ${pendingRegs.map(r=>`<span class="member-chip" style="background:#1a1200;border-color:var(--gold);color:var(--gold)" onclick="checkInRegistration('${r.id}')" title="${[r.vehicle,r.home,r.phone].filter(Boolean).join(' · ')}">${r.driver}</span>`).join('')}
+    </div>`:''}
     ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:5px;padding:10px;margin-bottom:12px">
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Points Members — Tap to Add</div>
       ${suggestions.map(m=>`<span class="member-chip" onclick="quickAddMember('${m.id}')">${m.driver}</span>`).join('')}
@@ -1155,7 +1189,7 @@ function renderRightPanel(){
         const hasManual=ev&&state.manualPoints&&state.manualPoints[mpKey(ev.id,cls.id,comp.id)]!==undefined;
         return `<tr id="row-${comp.id}" class="${rank===1?'top-row':''}">
           <td><span class="rank-badge ${rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn'}">${isC?(rank||'—'):(idx+1)}</span></td>
-          <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:42px;padding:4px;font-size:11px"></td>
+          <td><div style="display:flex;gap:2px;align-items:center"><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:42px;padding:4px;font-size:11px"><button onclick="drawRandomHook('${comp.id}')" title="Draw random hook #" style="background:var(--bg4);border:1px solid var(--border2);color:var(--gold);border-radius:3px;cursor:pointer;padding:2px 4px;font-size:11px;line-height:1">🎲</button></div></td>
           <td><div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${comp.driver}${!isPoints?' <span style="font-size:9px;color:var(--text4);font-family:\'Barlow\',sans-serif;font-weight:400">Exhibition</span>':''}</div><div style="font-size:10px;color:var(--text4)">${comp.vehicleName||''}</div></td>
           <td style="color:var(--text3);font-size:11px">${comp.vehicle||''}</td>
           <td><input type="number" step="0.001" min="0" placeholder="0.000" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:78px"></td>
@@ -1178,6 +1212,27 @@ function renderRightPanel(){
     </table></div>`;
 }
 function updateHook(compId,val){const cls=getActiveClass();if(!cls)return;const comp=cls.competitors.find(c=>c.id===compId);if(comp){comp.hook=val;saveState();}}
+function drawRandomHook(compId){
+  const cls=getActiveClass();if(!cls)return;
+  const comp=cls.competitors.find(c=>c.id===compId);if(!comp)return;
+  const used=new Set(cls.competitors.map(c=>parseInt(c.hook,10)).filter(n=>!isNaN(n)));
+  const available=[];for(let i=1;i<=99;i++)if(!used.has(i))available.push(i);
+  if(!available.length){alert('All hook numbers 1-99 are already assigned in this class.');return;}
+  const pick=available[Math.floor(Math.random()*available.length)];
+  comp.hook=String(pick);saveState();
+}
+function checkInRegistration(regId){
+  const ev=getActiveEvent();if(!ev){alert('No active event loaded.');return;}
+  const cls=getActiveClass();if(!cls){alert('Select a class first.');return;}
+  const evRegs=(state.registrations&&state.registrations[ev.id])||{};
+  const reg=evRegs[regId];if(!reg){alert('Registration not found.');return;}
+  if(!reg.classes||!reg.classes.includes(cls.name)){alert(reg.driver+' did not pre-register for this class.');return;}
+  if(cls.competitors.find(c=>(c.driver||'').trim().toLowerCase()===(reg.driver||'').trim().toLowerCase())){alert(reg.driver+' is already in this class.');return;}
+  cls.competitors.push({id:uuid(),hook:'',driver:reg.driver,vehicle:reg.vehicle||'',vehicleName:reg.vehicleName||'',home:reg.home||'',pointsCompetitor:true});
+  if(!reg.checkedInClasses)reg.checkedInClasses=[];
+  if(!reg.checkedInClasses.includes(cls.name))reg.checkedInClasses.push(cls.name);
+  saveState();
+}
 function updatePullField(compId,field,val){
   const cls=getActiveClass();if(!cls)return;if(!cls.pulls)cls.pulls=[];
   let pull=cls.pulls.find(p=>p.compId===compId);
