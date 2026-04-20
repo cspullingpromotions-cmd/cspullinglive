@@ -7,104 +7,104 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--red:#c0392b;--red2:#a93226;--gold:#f0c030;--gold2:#d4a800;--bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;--border:#2a2a2a;--border2:#333;--text:#fff;--text2:#bbb;--text3:#777;--text4:#444;--green:#1db954;--blue:#3a8fd4;}
-body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:stretch;justify-content:space-between;min-height:60px}
+:root{--red:#c0392b;--red2:#a93226;--gold:#f0c030;--gold2:#d4a800;--bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;--border:#2a2a2a;--border2:#333;--text:#fff;--text2:#bbb;--text3:#888;--text4:#555;--green:#1db954;--blue:#3a8fd4;}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:16px}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:stretch;justify-content:space-between;min-height:68px}
 .header-left{display:flex;align-items:center;gap:16px}
 .logo-block{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
-.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
-.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:2px;line-height:1}
+.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
+.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:900;letter-spacing:2px;line-height:1}
 .logo-main span{color:var(--red)}
-.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:1px}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:2px}
 .header-divider{width:2px;background:var(--border2);margin:10px 0;flex-shrink:0}
 .header-event{display:flex;flex-direction:column;justify-content:center;padding:10px 0}
-.event-label{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
-.event-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--text2);margin-top:1px}
+.event-label{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--text4);text-transform:uppercase}
+.event-name{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--text2);margin-top:1px}
 .header-right{display:flex;align-items:center;gap:10px}
-.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:5px 12px;font-size:11px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.status-pill{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 .dot.offline{background:var(--red);animation:none}
 .dot.syncing{background:var(--gold);animation:pulse .5s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
-.tab{padding:14px 18px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text4);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s}
+.tab{padding:16px 20px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1.5px;cursor:pointer;color:var(--text4);border-bottom:3px solid transparent;white-space:nowrap;flex-shrink:0;text-transform:uppercase;transition:all .15s}
 .tab.active{color:var(--text);border-bottom-color:var(--red)}
 .tab:hover:not(.active){color:var(--text2);background:rgba(255,255,255,.03)}
 .view{display:none;padding:20px}.view.active{display:block}
-.sec{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
-.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.sec-line{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .sec-line .sec{margin-bottom:0}
 .sec-line::after{content:'';flex:1;height:1px;background:var(--border)}
-.card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
-.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:10px}
-input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:8px 11px;font-size:13px;width:100%;font-family:'Barlow',sans-serif}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+.card-dark{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:12px}
+input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:9px 12px;font-size:14px;width:100%;font-family:'Barlow',sans-serif}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red);background:#1e1010}
 select option{background:var(--bg3)}
-label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
-.btn{border:none;border-radius:5px;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px;margin-top:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.btn{border:none;border-radius:5px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
 .btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red2)}
 .btn-gray{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}.btn-gray:hover{background:#2e2e2e}
 .btn-gold{background:var(--gold);color:#000}.btn-gold:hover{background:var(--gold2)}
 .btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#2a7fc4}
-.btn-sm{padding:5px 10px;font-size:11px}
-.rank-badge{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
+.btn-sm{padding:5px 11px;font-size:12px}
+.rank-badge{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
 .r1{background:var(--gold);color:#000}.r2{background:#a8a8a8;color:#000}.r3{background:#a0522d;color:#fff}.rn{background:var(--bg4);color:var(--text3)}
-.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:3px 9px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
+.status-badge{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;padding:4px 10px;border-radius:3px;letter-spacing:1px;text-transform:uppercase}
 .s-pending{background:#2a2000;color:#d4a000;border:1px solid #4a3800}
 .s-active{background:#0a2a0a;color:var(--green);border:1px solid #1a5a1a}
 .s-completed{background:#0a1a2a;color:var(--blue);border:1px solid #1a3a5a}
 .pull-sheet{width:100%;border-collapse:collapse}
-.pull-sheet th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
-.pull-sheet td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.pull-sheet th{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:7px 8px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.pull-sheet td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
 .pull-sheet tr:hover td{background:rgba(255,255,255,.02)}
-.pull-sheet input{padding:5px 8px;font-size:12px}
-.pull-sheet select{padding:4px 7px;font-size:11px}
-.cls-item{cursor:pointer;padding:10px 12px;border-radius:5px;margin-bottom:5px;border:1px solid var(--border);transition:all .15s;background:var(--bg3)}
+.pull-sheet input{padding:6px 8px;font-size:13px}
+.pull-sheet select{padding:5px 7px;font-size:12px}
+.cls-item{cursor:pointer;padding:12px 14px;border-radius:6px;margin-bottom:6px;border:1px solid var(--border);transition:all .15s;background:var(--bg3)}
 .cls-item:hover{border-color:var(--border2);background:var(--bg4)}
 .cls-item.active-cls{background:#1a0505;border-color:var(--red);border-left:3px solid var(--red)}
-.cls-item-name{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px}
-.cls-item-sub{font-size:10px;color:var(--text4);margin-top:2px}
-.member-chip{background:#0a1a0a;border:1px solid #1a5a1a;color:#7dde9a;border-radius:4px;padding:3px 10px;font-size:11px;margin:2px;cursor:pointer;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
+.cls-item-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:.5px}
+.cls-item-sub{font-size:11px;color:var(--text4);margin-top:3px}
+.member-chip{background:#0a1a0a;border:1px solid #1a5a1a;color:#7dde9a;border-radius:4px;padding:4px 11px;font-size:12px;margin:2px;cursor:pointer;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
 .member-chip:hover{background:var(--green);color:#fff;border-color:var(--green)}
-.checkbox-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.checkbox-grid label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:var(--bg4);padding:5px 9px;border-radius:4px;border:1px solid var(--border2);font-weight:400}
+.checkbox-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.checkbox-grid label{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text2);text-transform:none;letter-spacing:0;margin:0;cursor:pointer;background:var(--bg4);padding:6px 10px;border-radius:4px;border:1px solid var(--border2);font-weight:400}
 .checkbox-grid input[type=checkbox]{width:auto;margin:0;accent-color:var(--red)}
 .modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.9);display:none;align-items:flex-start;justify-content:center;z-index:200;padding:20px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:6px;padding:20px;width:100%;max-width:580px;margin:auto}
-.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
-.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 5px;border-bottom:2px solid var(--border2);margin-bottom:8px}
-.chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:3px 8px;font-size:11px;margin:2px}
-.sync-banner{background:#1a1a00;border-bottom:1px solid #3a3a00;color:var(--gold);text-align:center;padding:6px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:none;font-family:'Barlow Condensed',sans-serif}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-top:3px solid var(--red);border-radius:8px;padding:22px;width:100%;max-width:600px;margin:auto}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.class-group-hdr{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:2px;padding:10px 0 6px;border-bottom:2px solid var(--border2);margin-bottom:10px}
+.chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:4px 9px;font-size:12px;margin:2px}
+.sync-banner{background:#1a1a00;border-bottom:1px solid #3a3a00;color:var(--gold);text-align:center;padding:6px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:none;font-family:'Barlow Condensed',sans-serif}
 .results-table{width:100%;border-collapse:collapse}
-.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:6px 10px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
-.results-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:13px}
+.results-table th{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--text4);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;border-bottom:2px solid var(--border2);text-align:left;background:var(--bg2)}
+.results-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;font-size:14px}
 .results-table tr.top-row td{background:rgba(240,192,48,.04)}
-.dist-val{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;color:var(--red)}
-.result-tag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px;text-transform:uppercase}
-.tag-full{background:var(--green);color:#fff}.tag-dq{background:var(--red);color:#fff}.tag-broke{background:#5a3a00;color:#f0b040}
-.warning-banner{background:#2a1500;border:1px solid #7a3a00;border-radius:6px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f0a040;display:flex;align-items:center;gap:8px}
+.warning-banner{background:#2a1500;border:1px solid #7a3a00;border-radius:6px;padding:12px 16px;margin-bottom:14px;font-size:14px;color:#f0a040;display:flex;align-items:center;gap:8px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.order-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;margin-bottom:5px}
-.order-num{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:800;color:var(--red);min-width:24px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.order-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--bg4);border:1px solid var(--border2);border-radius:6px;margin-bottom:6px}
+.order-num{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800;color:var(--red);min-width:26px}
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div id="loginScreen" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0a0a0a;display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px">
-  <div style="background:#1a1a1a;border:1px solid #333;border-top:3px solid #c0392b;border-radius:8px;padding:32px;width:100%;max-width:360px;text-align:center">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:4px">Staff Access</div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;letter-spacing:2px;margin-bottom:4px">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:#d4a800;text-transform:uppercase;margin-bottom:28px">Input Console</div>
-    <input type="password" id="passwordInput" placeholder="Enter staff password" style="background:#222;border:1px solid #444;border-radius:5px;color:#fff;padding:12px 14px;font-size:14px;width:100%;margin-bottom:10px;text-align:center;letter-spacing:2px" onkeydown="if(event.key==='Enter')checkPassword()">
-    <div id="loginError" style="color:#c0392b;font-size:12px;margin-bottom:10px;display:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">INCORRECT PASSWORD</div>
-    <button onclick="checkPassword()" style="background:#c0392b;color:#fff;border:none;border-radius:5px;padding:11px;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Sign In</button>
-    <div style="margin-top:16px"><a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:#444;text-decoration:none;letter-spacing:1px;text-transform:uppercase">Back to Public Viewer</a></div>
+  <div style="background:#1a1a1a;border:1px solid #333;border-top:3px solid #c0392b;border-radius:8px;padding:36px;width:100%;max-width:380px;text-align:center">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:#444;text-transform:uppercase;margin-bottom:4px">Staff Access</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;letter-spacing:2px;margin-bottom:4px">CS PULLING <span style="color:#c0392b">PROMOTIONS</span></div>
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:#d4a800;text-transform:uppercase;margin-bottom:30px">Input Console</div>
+    <input type="password" id="passwordInput" placeholder="Enter staff password" style="background:#222;border:1px solid #444;border-radius:5px;color:#fff;padding:14px;font-size:15px;width:100%;margin-bottom:10px;text-align:center;letter-spacing:2px" onkeydown="if(event.key==='Enter')checkPassword()">
+    <div id="loginError" style="color:#c0392b;font-size:13px;margin-bottom:10px;display:none;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">INCORRECT PASSWORD</div>
+    <button onclick="checkPassword()" style="background:#c0392b;color:#fff;border:none;border-radius:5px;padding:13px;width:100%;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer">Sign In</button>
+    <div style="margin-top:18px"><a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:#444;text-decoration:none;letter-spacing:1px;text-transform:uppercase">Back to Public Viewer</a></div>
   </div>
 </div>
 
+<!-- APP -->
 <div id="appContent" style="display:none">
-<div class="sync-banner" id="syncBanner">Syncing to Firebase...</div>
+<div class="sync-banner" id="syncBanner">Syncing...</div>
 <div class="header">
   <div class="header-left">
     <div class="logo-block">
@@ -120,8 +120,8 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
   </div>
   <div class="header-right">
     <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
-    <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);border-radius:4px">Public View</a>
-    <button onclick="logout()" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);background:none;border:1px solid var(--border);border-radius:4px;padding:5px 10px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">Logout</button>
+    <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border:1px solid var(--border);border-radius:4px">Public View</a>
+    <button onclick="logout()" style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);background:none;border:1px solid var(--border);border-radius:4px;padding:6px 12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">Logout</button>
   </div>
 </div>
 
@@ -131,26 +131,27 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
   <div class="tab" onclick="switchTab('members')">Members</div>
   <div class="tab" onclick="switchTab('points')">Points</div>
   <div class="tab" onclick="switchTab('classes')">Classes</div>
+  <div class="tab" onclick="switchTab('settings')">Settings</div>
 </div>
 
 <!-- INPUT CONSOLE -->
 <div class="view active" id="tab-input">
-  <div id="inputNoEvent" style="text-align:center;padding:50px 20px;color:var(--text4)">
-    <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;letter-spacing:1px">No Event Loaded</div>
-    <div style="font-size:13px;margin-top:6px">Go to the Events tab to create or load an event.</div>
+  <div id="inputNoEvent" style="text-align:center;padding:60px 20px;color:var(--text4)">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;letter-spacing:1px">No Event Loaded</div>
+    <div style="font-size:15px;margin-top:8px">Go to the Events tab to create or load an event.</div>
   </div>
   <div id="inputConsole" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px" id="inputEventName">—</div>
-        <div style="font-size:12px;color:var(--text3)" id="inputEventDate">—</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:800;letter-spacing:1px" id="inputEventName">—</div>
+        <div style="font-size:13px;color:var(--text3)" id="inputEventDate">—</div>
       </div>
       <button class="btn btn-blue btn-sm" onclick="openClassOrderModal()">Class Order</button>
     </div>
     <div id="activeClassWarning"></div>
-    <div style="display:grid;grid-template-columns:230px 1fr;gap:14px;align-items:start">
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:16px;align-items:start">
       <div><div class="sec-line"><div class="sec">Classes</div></div><div id="inputClassList"></div></div>
-      <div id="rightPanel"><div style="text-align:center;padding:40px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div></div>
+      <div id="rightPanel"><div style="text-align:center;padding:50px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div></div>
     </div>
   </div>
 </div>
@@ -159,7 +160,7 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="view" id="tab-events">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Events</div></div>
-    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:12px">+ New Event</button>
+    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:14px">+ New Event</button>
   </div>
   <div id="eventsList"></div>
 </div>
@@ -168,18 +169,16 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="view" id="tab-members">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Points Members</div></div>
-    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()" style="margin-left:12px">+ Add Member</button>
+    <button class="btn btn-red btn-sm" onclick="openAddMemberModal()" style="margin-left:14px">+ Add Member</button>
   </div>
-  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:12px">
+  <input type="text" id="memberSearch" placeholder="Search members..." oninput="renderMembers()" style="margin-bottom:14px">
   <div id="membersList"></div>
 </div>
 
 <!-- POINTS -->
 <div class="view" id="tab-points">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
-    <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Season Points Standings</div></div>
-  </div>
-  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:12px">
+  <div class="sec-line"><div class="sec">Season Points Standings</div></div>
+  <input type="text" id="pointsSearch" placeholder="Search driver..." oninput="renderPoints()" style="margin-bottom:14px">
   <div id="pointsContent"></div>
 </div>
 
@@ -187,58 +186,114 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 <div class="view" id="tab-classes">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
     <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Class Library</div></div>
-    <button class="btn btn-red btn-sm" onclick="openAddClassModal()" style="margin-left:12px">+ Add Class</button>
+    <button class="btn btn-red btn-sm" onclick="openAddClassModal()" style="margin-left:14px">+ Add Class</button>
   </div>
   <div id="classesList"></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="view" id="tab-settings">
+  <div class="sec-line"><div class="sec">Staff Password</div></div>
+  <div class="card">
+    <div style="font-size:14px;color:var(--text3);margin-bottom:14px">Change the password used to log in to this admin console.</div>
+    <label>Current Password</label><input type="password" id="currentPassword" placeholder="Enter current password">
+    <label>New Password</label><input type="password" id="newPassword" placeholder="Enter new password">
+    <label>Confirm New Password</label><input type="password" id="confirmPassword" placeholder="Re-enter new password">
+    <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+      <button class="btn btn-red" onclick="changePassword()">Change Password</button>
+      <span id="passwordMsg" style="display:none;font-size:13px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px"></span>
+    </div>
+  </div>
+
+  <div class="sec-line" style="margin-top:8px"><div class="sec">Contact &amp; Footer</div></div>
+  <div class="card">
+    <div style="font-size:13px;color:var(--text3);margin-bottom:14px">This info appears in the footer of the public viewer.</div>
+    <div class="grid2">
+      <div><label>Phone Number</label><input type="tel" id="setPhone" placeholder="e.g. (724) 555-0100"></div>
+      <div><label>Email Address</label><input type="email" id="setEmail" placeholder="e.g. info@cspulling.com"></div>
+    </div>
+    <label>Website</label><input type="url" id="setWebsite" placeholder="e.g. https://cspulling.com">
+    <div class="grid2">
+      <div><label>Facebook URL</label><input type="url" id="setFacebook" placeholder="https://facebook.com/..."></div>
+      <div><label>Instagram URL</label><input type="url" id="setInstagram" placeholder="https://instagram.com/..."></div>
+    </div>
+    <div class="grid2">
+      <div><label>YouTube URL</label><input type="url" id="setYoutube" placeholder="https://youtube.com/..."></div>
+      <div><label>TikTok URL</label><input type="url" id="setTiktok" placeholder="https://tiktok.com/..."></div>
+    </div>
+    <label>Mailing Address</label>
+    <textarea id="setMailingAddress" placeholder="P.O. Box 123&#10;Grove City, PA 16127" style="height:80px;resize:none"></textarea>
+    <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+      <button class="btn btn-red" onclick="saveContactSettings()">Save</button>
+      <span id="settingsSaved" style="display:none;font-size:13px;color:var(--green);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px">SAVED!</span>
+    </div>
+  </div>
 </div>
 </div><!-- end appContent -->
 
 <!-- MODALS -->
-<!-- Create/Edit Event -->
 <div class="modal-overlay" id="createEventModal">
   <div class="modal">
     <div class="modal-title" id="createEventTitle">New Event</div>
     <label>Event Name</label><input type="text" id="evName" placeholder="e.g. CS Summer Nationals 2025">
     <div class="grid2">
       <div><label>Date</label><input type="date" id="evDate"></div>
-      <div><label>Start Time</label><input type="time" id="evTime"></div>
+      <div><label>End Date (multi-day)</label><input type="date" id="evEndDate"></div>
     </div>
-    <label>Address</label><input type="text" id="evAddress" placeholder="e.g. 123 Fairground Rd">
     <div class="grid2">
+      <div><label>Start Time</label><input type="time" id="evTime"></div>
+      <div><label>Timezone</label>
+        <select id="evTimezone">
+          <option value="">Select...</option>
+          <option value="ET">ET (Eastern)</option>
+          <option value="CT">CT (Central)</option>
+          <option value="MT">MT (Mountain)</option>
+          <option value="PT">PT (Pacific)</option>
+        </select>
+      </div>
+    </div>
+    <label>Street Address</label><input type="text" id="evAddress" placeholder="e.g. 123 Fairground Rd">
+    <div class="grid3">
       <div><label>City</label><input type="text" id="evCity" placeholder="e.g. Volant"></div>
       <div><label>State</label><input type="text" id="evState" placeholder="e.g. PA"></div>
+      <div><label>Zip</label><input type="text" id="evZip" placeholder="e.g. 16156"></div>
     </div>
     <label>Venue / Fairgrounds Name</label><input type="text" id="evLocation" placeholder="e.g. Lawrence County Fairgrounds">
-    <label>Additional Notes</label><textarea id="evNotes" placeholder="Gate times, rules, contact info..." style="height:70px;resize:none"></textarea>
+    <label>Additional Notes</label><textarea id="evNotes" placeholder="Gate times, rules, contact info..." style="height:80px;resize:none"></textarea>
     <label>Classes</label><div id="classCheckboxes" class="checkbox-grid"></div>
-    <label style="margin-top:12px">One-time class (this event only)</label>
+    <label style="margin-top:14px">One-time class (this event only)</label>
     <div style="display:flex;gap:6px"><input type="text" id="evCustomClass" placeholder="Custom class name" style="flex:1"><button class="btn btn-gray btn-sm" onclick="addCustomEventClass()">Add</button></div>
     <div id="customEventClasses" style="margin-top:6px"></div>
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveEvent()" style="flex:1" id="saveEventBtn">Create Event</button>
       <button class="btn btn-gray" onclick="closeModal('createEventModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Add/Edit Driver -->
 <div class="modal-overlay" id="addCompModal">
   <div class="modal">
     <div class="modal-title" id="addCompTitle">Add Driver</div>
-    <div id="memberSuggestions" style="margin-bottom:8px;min-height:20px"></div>
+    <div id="memberSuggestions" style="margin-bottom:10px;min-height:20px"></div>
     <label>Hook #</label><input type="number" id="compHook" placeholder="Assigned at event" min="1">
     <label>Driver Name</label><input type="text" id="compDriver" placeholder="e.g. Jake Miller">
     <label>Vehicle Make / Model</label><input type="text" id="compVehicle" placeholder="e.g. 2018 John Deere 8370R">
     <label>Vehicle Name</label><input type="text" id="compVehicleName" placeholder="e.g. Iron Horse">
     <label>Hometown / State</label><input type="text" id="compHome" placeholder="e.g. Grove City, PA">
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="margin-top:12px;display:flex;align-items:center;gap:10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:10px 14px">
+      <input type="checkbox" id="compPointsCompetitor" checked style="width:auto;accent-color:var(--red);transform:scale(1.3)">
+      <div>
+        <div style="font-size:14px;font-weight:600">Points Competitor</div>
+        <div style="font-size:12px;color:var(--text3)">Uncheck for exhibition pulls — no points collected</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveCompetitor()" style="flex:1" id="saveCompBtn">Add Driver</button>
       <button class="btn btn-gray" onclick="closeModal('addCompModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Add/Edit Member -->
 <div class="modal-overlay" id="addMemberModal">
   <div class="modal">
     <div class="modal-title" id="addMemberTitle">Add Points Member</div>
@@ -249,50 +304,47 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
     <label>Primary Class(es)</label>
     <input type="text" id="memberClassSearch" placeholder="Search classes..." oninput="filterMemberClasses()" style="margin-top:6px;margin-bottom:6px">
     <div id="memberClassCheckboxes" class="checkbox-grid"></div>
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveMember()" style="flex:1" id="saveMemberBtn">Save</button>
       <button class="btn btn-gray" onclick="closeModal('addMemberModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Add Class -->
 <div class="modal-overlay" id="addClassModal">
   <div class="modal">
     <div class="modal-title" id="addClassTitle">Add Class</div>
     <label>Class Name</label><input type="text" id="newClassName" placeholder="e.g. Antique Tractor Pull">
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveClass()" style="flex:1" id="saveClassBtn">Add</button>
       <button class="btn btn-gray" onclick="closeModal('addClassModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Class Order Modal -->
 <div class="modal-overlay" id="classOrderModal">
   <div class="modal">
     <div class="modal-title">Class Order</div>
-    <div style="font-size:12px;color:var(--text3);margin-bottom:12px">Drag or use arrows to set the pulling order for this event.</div>
+    <div style="font-size:14px;color:var(--text3);margin-bottom:14px">Use arrows to set the pulling order for this event.</div>
     <div id="classOrderList"></div>
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveClassOrder()" style="flex:1">Save Order</button>
       <button class="btn btn-gray" onclick="closeModal('classOrderModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
 
-<!-- Edit Points Modal -->
 <div class="modal-overlay" id="editPointsModal">
   <div class="modal">
     <div class="modal-title">Edit Points</div>
-    <div id="editPointsDriverName" style="font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--text2);margin-bottom:4px"></div>
-    <div id="editPointsClassName" style="font-size:11px;color:var(--text4);margin-bottom:12px"></div>
+    <div id="editPointsDriverName" style="font-family:'Barlow Condensed',sans-serif;font-size:18px;color:var(--text2);margin-bottom:3px"></div>
+    <div id="editPointsClassName" style="font-size:13px;color:var(--text4);margin-bottom:14px"></div>
     <label>Manual Points Override (leave blank to use calculated)</label>
     <input type="number" id="editPointsValue" placeholder="e.g. 50" min="0">
-    <div style="font-size:11px;color:var(--text3);margin-top:6px">Calculated points: <span id="editPointsCalc" style="color:var(--gold);font-weight:700"></span></div>
-    <div style="display:flex;gap:8px;margin-top:16px">
+    <div style="font-size:13px;color:var(--text3);margin-top:8px">Calculated: <span id="editPointsCalc" style="color:var(--gold);font-weight:700"></span></div>
+    <div style="display:flex;gap:8px;margin-top:18px">
       <button class="btn btn-red" onclick="saveManualPoints()" style="flex:1">Save</button>
-      <button class="btn btn-gray btn-sm" onclick="clearManualPoints()" style="flex:1">Clear Override</button>
+      <button class="btn btn-gray" onclick="clearManualPoints()" style="flex:1">Clear Override</button>
       <button class="btn btn-gray" onclick="closeModal('editPointsModal')" style="flex:1">Cancel</button>
     </div>
   </div>
@@ -301,21 +353,22 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-const ADMIN_PASSWORD='CSPulling2025';
 const DEFAULT_CLASSES=["Super Farm Tractors / Hot Farm Tractors","Limited Pro Stock Tractors","Light Limited Super Stock Tractors","Pro Stock / Super Stock Tractors","3.6 Pro Street Semis","Super Semi Trucks","Run What Ya Brung","410 Super Stock Trucks","Pro Stock Trucks","2.6 Pro Street Diesel Trucks","Street Stock Semis","Street Gas Trucks","Open Street Diesel Trucks","Hot Rod V-8 Tractors","Hot Street Semis","Classic Super Stock Tractors","Hot Rod Big Block V8 Tractors"];
 const DEFAULT_COUNT=DEFAULT_CLASSES.length;
-let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{}};
-let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null;
-let customEventClasses=[],saveTimeout=null,db=null;
-let editingPointsKey=null;
+const FALLBACK_PASSWORD='CSPulling2025';
 
+let state={events:[],activeEventId:null,activeClassId:null,members:[],classes:[],manualPoints:{},contact:{},staffPassword:''};
+let editingEventId=null,editingCompId=null,editingMemberId=null,editingClassIdx=null,editingPointsKey=null;
+let customEventClasses=[],saveTimeout=null,db=null;
+
+// LOGIN
 function checkPassword(){
   const val=document.getElementById('passwordInput').value;
-  if(val===ADMIN_PASSWORD){
+  const correct=state.staffPassword||FALLBACK_PASSWORD;
+  if(val===correct){
     sessionStorage.setItem('cspull_auth','1');
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('appContent').style.display='block';
-    startApp();
   } else {
     document.getElementById('loginError').style.display='block';
     document.getElementById('passwordInput').value='';
@@ -323,12 +376,12 @@ function checkPassword(){
   }
 }
 function logout(){sessionStorage.removeItem('cspull_auth');location.reload();}
-
 if(sessionStorage.getItem('cspull_auth')==='1'){
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('appContent').style.display='block';
 }
 
+// FIREBASE
 function startApp(){
   if(db)return;
   firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
@@ -336,29 +389,35 @@ function startApp(){
   db.ref('cspull').on('value',snap=>{
     const data=snap.val();
     if(data){
-      state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[],...(cls.classOrder!==undefined?{classOrder:cls.classOrder}:{})})):[]})):[];
+      state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[]})):[]})):[];
       state.members=data.members?Object.values(data.members):[];
       state.classes=data.classes?Object.values(data.classes):[...DEFAULT_CLASSES];
       state.activeEventId=data.activeEventId||null;
       state.activeClassId=data.activeClassId||null;
       state.manualPoints=data.manualPoints||{};
+      state.contact=data.contact||{};
+      state.staffPassword=data.staffPassword||'';
       if(!state.classes.length)state.classes=[...DEFAULT_CLASSES];
     } else {state.classes=[...DEFAULT_CLASSES];}
     updateHeader();renderActive();setStatus('online');
+    loadContactFields();
   });
   db.ref('.info/connected').on('value',snap=>{if(snap.val())setStatus('online');else setStatus('offline');});
 }
 if(sessionStorage.getItem('cspull_auth')==='1')startApp();
 
-function setStatus(s){const dot=document.getElementById('statusDot');const txt=document.getElementById('statusText');if(!dot)return;if(s==='online'){dot.className='dot';txt.textContent='LIVE';}else if(s==='offline'){dot.className='dot offline';txt.textContent='OFFLINE';}else{dot.className='dot syncing';txt.textContent='SYNCING';}}
-
+function setStatus(s){
+  const dot=document.getElementById('statusDot');const txt=document.getElementById('statusText');if(!dot)return;
+  if(s==='online'){dot.className='dot';txt.textContent='LIVE';}
+  else if(s==='offline'){dot.className='dot offline';txt.textContent='OFFLINE';}
+  else{dot.className='dot syncing';txt.textContent='SYNCING';}
+}
 function saveState(){
   if(!db)return;
-  setStatus('syncing');
-  document.getElementById('syncBanner').style.display='block';
+  setStatus('syncing');document.getElementById('syncBanner').style.display='block';
   clearTimeout(saveTimeout);
   saveTimeout=setTimeout(()=>{
-    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{}};
+    const payload={activeEventId:state.activeEventId||null,activeClassId:state.activeClassId||null,classes:state.classes,events:{},members:{},manualPoints:state.manualPoints||{},contact:state.contact||{},staffPassword:state.staffPassword||''};
     state.events.forEach(ev=>{payload.events[ev.id]=ev;});
     state.members.forEach(m=>{payload.members[m.id]=m;});
     db.ref('cspull').set(payload).then(()=>{document.getElementById('syncBanner').style.display='none';setStatus('online');}).catch(()=>setStatus('offline'));
@@ -370,7 +429,7 @@ function getActiveEvent(){return state.events.find(e=>e.id===state.activeEventId
 function getActiveClass(){const ev=getActiveEvent();if(!ev||!state.activeClassId)return null;return ev.classes.find(c=>c.id===state.activeClassId)||null;}
 
 function renderActive(){
-  const tabs=['input','events','members','points','classes'];
+  const tabs=['input','events','members','points','classes','settings'];
   const active=tabs.find(t=>{const el=document.getElementById('tab-'+t);return el&&el.classList.contains('active');});
   if(active)renderTab(active);
 }
@@ -378,7 +437,7 @@ function renderTab(t){
   if(t==='input')renderInput();else if(t==='events')renderEvents();else if(t==='members')renderMembers();else if(t==='points')renderPoints();else if(t==='classes')renderClasses();
 }
 function switchTab(t){
-  ['input','events','members','points','classes'].forEach((n,i)=>{
+  ['input','events','members','points','classes','settings'].forEach((n,i)=>{
     document.querySelectorAll('.tab')[i].classList.toggle('active',n===t);
     document.getElementById('tab-'+n).classList.toggle('active',n===t);
   });
@@ -387,9 +446,42 @@ function switchTab(t){
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 function statusBadge(s){return `<span class="status-badge s-${s}">${s}</span>`;}
-function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return `<span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block;flex-shrink:0"></span>`;}
+function statusDotEl(s){const c=s==='active'?'#1db954':s==='completed'?'#3a8fd4':'#d4a000';return `<span style="width:7px;height:7px;border-radius:50%;background:${c};display:inline-block;flex-shrink:0"></span>`;}
+function formatTime12(t){if(!t)return'';const[h,m]=t.split(':');let hr=parseInt(h);const ampm=hr>=12?'PM':'AM';hr=hr%12||12;return`${hr}:${m} ${ampm}`;}
+function formatEventDateTime(ev){const parts=[];if(ev.date)parts.push(ev.date);if(ev.endDate&&ev.endDate!==ev.date)parts.push('– '+ev.endDate);if(ev.time)parts.push('@ '+formatTime12(ev.time)+(ev.timezone?' '+ev.timezone:''));return parts.join(' ');}
+function formatEventLocation(ev){const parts=[];if(ev.location)parts.push(ev.location);const addr=[ev.address,ev.city,ev.state].filter(Boolean).join(', ');if(addr)parts.push(addr);return parts.join(' · ');}
 
-// POINTS CALCULATION
+// PASSWORD CHANGE
+function changePassword(){
+  const current=document.getElementById('currentPassword').value;
+  const newPw=document.getElementById('newPassword').value;
+  const confirm=document.getElementById('confirmPassword').value;
+  const correct=state.staffPassword||FALLBACK_PASSWORD;
+  const msg=document.getElementById('passwordMsg');
+  if(current!==correct){msg.textContent='Current password is incorrect.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  if(!newPw){msg.textContent='Enter a new password.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  if(newPw!==confirm){msg.textContent='Passwords do not match.';msg.style.color='var(--red)';msg.style.display='inline';return;}
+  state.staffPassword=newPw;
+  saveState();
+  ['currentPassword','newPassword','confirmPassword'].forEach(id=>document.getElementById(id).value='');
+  msg.textContent='Password changed!';msg.style.color='var(--green)';msg.style.display='inline';
+  setTimeout(()=>msg.style.display='none',3000);
+}
+
+// CONTACT
+function loadContactFields(){
+  const c=state.contact||{};
+  [{id:'setPhone',key:'phone'},{id:'setEmail',key:'email'},{id:'setWebsite',key:'website'},{id:'setFacebook',key:'facebook'},{id:'setInstagram',key:'instagram'},{id:'setYoutube',key:'youtube'},{id:'setTiktok',key:'tiktok'},{id:'setMailingAddress',key:'mailingAddress'}].forEach(({id,key})=>{
+    const el=document.getElementById(id);if(el)el.value=c[key]||'';
+  });
+}
+function saveContactSettings(){
+  state.contact={phone:document.getElementById('setPhone').value.trim(),email:document.getElementById('setEmail').value.trim(),website:document.getElementById('setWebsite').value.trim(),facebook:document.getElementById('setFacebook').value.trim(),instagram:document.getElementById('setInstagram').value.trim(),youtube:document.getElementById('setYoutube').value.trim(),tiktok:document.getElementById('setTiktok').value.trim(),mailingAddress:document.getElementById('setMailingAddress').value.trim()};
+  saveState();
+  const s=document.getElementById('settingsSaved');s.style.display='inline';setTimeout(()=>s.style.display='none',2500);
+}
+
+// POINTS
 function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
 function getRankedPulls(cls){
   return[...cls.competitors].map(comp=>{
@@ -398,28 +490,35 @@ function getRankedPulls(cls){
     return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
   }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
 }
-function getRank(cls,compId){const ranked=getRankedPulls(cls);const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);return idx>=0?idx+1:null;}
-function getCalcPoints(cls,compId){
-  const rank=getRank(cls,compId);
-  const pull=(cls.pulls||[]).find(p=>p.compId===compId);
-  if(!pull||!pull.result)return 0;
-  if(pull.result==='dq')return 0;
-  if(!rank)return 0;
-  return getPosByPosition(rank);
+function getRank(cls,compId){
+  const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
+  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
+  return idx>=0?idx+1:null;
 }
-function manualPointsKey(evId,clsId,compId){return `${evId}_${clsId}_${compId}`;}
+function getCalcPoints(cls,compId){
+  const comp=cls.competitors.find(c=>c.id===compId);
+  if(comp&&comp.pointsCompetitor===false)return 0;
+  const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
+  const idx=ranked.findIndex(r=>r.comp.id===compId&&r.valid);
+  if(idx<0)return 0;
+  const pull=(cls.pulls||[]).find(p=>p.compId===compId);
+  if(!pull||!pull.result||pull.result==='dq')return 0;
+  return getPosByPosition(idx+1);
+}
+function mpKey(evId,clsId,compId){return `${evId}_${clsId}_${compId}`;}
 function getPoints(evId,clsId,compId,cls){
-  const key=manualPointsKey(evId,clsId,compId);
+  const comp=cls.competitors.find(c=>c.id===compId);
+  if(comp&&comp.pointsCompetitor===false)return 0;
+  const key=mpKey(evId,clsId,compId);
   if(state.manualPoints&&state.manualPoints[key]!==undefined)return state.manualPoints[key];
   return getCalcPoints(cls,compId);
 }
-
 function buildStandings(){
   const standings={};
   state.events.forEach(ev=>{
     ev.classes.forEach(cls=>{
       if(!cls.competitors||!cls.competitors.length)return;
-      const ranked=getRankedPulls(cls);
+      const ranked=getRankedPulls(cls).filter(r=>r.comp.pointsCompetitor!==false);
       ranked.forEach((row,idx)=>{
         const key=row.comp.driver.trim().toLowerCase();
         if(!standings[key])standings[key]={driver:row.comp.driver,vehicle:row.comp.vehicle||'',vehicleName:row.comp.vehicleName||'',classes:{}};
@@ -428,17 +527,14 @@ function buildStandings(){
         const pts=getPoints(ev.id,cls.id,row.comp.id,cls);
         const pull=row.pull;
         s.totalPoints+=pts;
-        s.events.push({evName:ev.name,evDate:ev.date,evId:ev.id,clsId:cls.id,compId:row.comp.id,pts,dist:pull?parseFloat(pull.dist)||0:0,result:pull?pull.result:'',rank:idx+1,calcPts:getCalcPoints(cls,row.comp.id)});
+        s.events.push({evName:ev.name,evDate:ev.date,evId:ev.id,clsId:cls.id,compId:row.comp.id,pts,dist:pull?parseFloat(pull.dist)||0:0,calcPts:getCalcPoints(cls,row.comp.id)});
         s.totalDist+=pull?parseFloat(pull.dist)||0:0;
-        if(idx===0&&row.valid)s.wins++;
-        if(idx===1&&row.valid)s.seconds++;
-        if(idx===2&&row.valid)s.thirds++;
+        if(idx===0&&row.valid)s.wins++;if(idx===1&&row.valid)s.seconds++;if(idx===2&&row.valid)s.thirds++;
       });
     });
   });
   return standings;
 }
-
 function renderPoints(){
   const el=document.getElementById('pointsContent');
   const q=(document.getElementById('pointsSearch')||{}).value||'';
@@ -451,50 +547,41 @@ function renderPoints(){
         byClass[cls].push({driver:driver.driver,vehicle:driver.vehicle,vehicleName:driver.vehicleName,...driver.classes[cls]});
     });
   });
-  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
+  if(!Object.keys(byClass).length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:18px;letter-spacing:1px">NO POINTS DATA YET</div>';return;}
   el.innerHTML=Object.keys(byClass).sort().map(cls=>{
     const drivers=byClass[cls].sort((a,b)=>b.totalPoints-a.totalPoints);
-    return `<div class="card-dark" style="margin-bottom:16px">
+    return `<div class="card-dark" style="margin-bottom:18px">
       <div class="class-group-hdr">${cls}</div>
       <div style="overflow-x:auto"><table class="results-table" style="min-width:600px">
-        <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Season Pts</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Total Dist</th><th style="text-align:center">Events</th></tr></thead>
+        <thead><tr><th>Pos</th><th>Driver</th><th>Vehicle</th><th style="text-align:right">Season Pts</th><th style="text-align:center">1st</th><th style="text-align:center">2nd</th><th style="text-align:center">3rd</th><th style="text-align:right">Dist</th><th style="text-align:center">Events</th></tr></thead>
         <tbody>${drivers.map((d,i)=>`
           <tr class="${i===0?'top-row':''}">
             <td><span class="rank-badge ${i===0?'r1':i===1?'r2':i===2?'r3':'rn'}">${i+1}</span></td>
-            <td>
-              <div style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:15px">${d.driver}</div>
-              <div style="font-size:10px;color:var(--text4)">${d.vehicleName||''}</div>
-            </td>
-            <td style="color:var(--text3);font-size:12px">${d.vehicle||'—'}</td>
-            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:900;color:var(--red)">${d.totalPoints}</td>
-            <td style="text-align:center;color:var(--gold);font-weight:700">${d.wins}</td>
-            <td style="text-align:center;color:#a8a8a8;font-weight:700">${d.seconds}</td>
-            <td style="text-align:center;color:#a0522d;font-weight:700">${d.thirds}</td>
-            <td style="text-align:right;color:var(--text3);font-size:12px">${d.totalDist.toFixed(1)} ft</td>
-            <td style="text-align:center;color:var(--text4)">${d.events.length}</td>
+            <td><div style="font-weight:${i<3?'700':'400'};font-family:'Barlow Condensed',sans-serif;font-size:17px">${d.driver}</div><div style="font-size:11px;color:var(--text4)">${d.vehicleName||''}</div></td>
+            <td style="color:var(--text3);font-size:13px">${d.vehicle||'—'}</td>
+            <td style="text-align:right;font-family:'Barlow Condensed',sans-serif;font-size:19px;font-weight:900;color:var(--red)">${d.totalPoints}</td>
+            <td style="text-align:center;color:var(--gold);font-weight:700;font-size:15px">${d.wins}</td>
+            <td style="text-align:center;color:#a8a8a8;font-weight:700;font-size:15px">${d.seconds}</td>
+            <td style="text-align:center;color:#a0522d;font-weight:700;font-size:15px">${d.thirds}</td>
+            <td style="text-align:right;color:var(--text3);font-size:13px">${d.totalDist.toFixed(1)} ft</td>
+            <td style="text-align:center;color:var(--text4);font-size:14px">${d.events.length}</td>
           </tr>
-          <tr>
-            <td colspan="9" style="padding:0 10px 10px 36px;border-bottom:2px solid var(--border2)">
-              <div style="font-size:10px;color:var(--text4);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;font-weight:700">Event Breakdown</div>
-              <div style="display:flex;flex-wrap:wrap;gap:6px">
-                ${d.events.map(e=>`
-                  <div style="background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:5px 10px;font-size:11px;display:flex;align-items:center;gap:8px">
-                    <span style="color:var(--text3)">${e.evName} ${e.evDate?'('+e.evDate+')':''}</span>
-                    <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red)">${e.pts} pts</span>
-                    ${e.dist?`<span style="color:var(--text4)">${e.dist.toFixed(1)} ft</span>`:''}
-                    <button onclick="openEditPoints('${e.evId}','${e.clsId}','${e.compId}',${e.calcPts},'${d.driver}','${cls}')" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--text3);cursor:pointer;font-size:10px;padding:2px 6px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px">Edit</button>
-                  </div>`).join('')}
-              </div>
-            </td>
-          </tr>`).join('')}
+          <tr><td colspan="9" style="padding:0 12px 12px 40px;border-bottom:2px solid var(--border2)">
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+              ${d.events.map(e=>`<div style="background:var(--bg4);border:1px solid var(--border2);border-radius:4px;padding:5px 10px;font-size:12px;display:flex;align-items:center;gap:8px">
+                <span style="color:var(--text3)">${e.evName}${e.evDate?' ('+e.evDate+')':''}</span>
+                <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--red)">${e.pts} pts</span>
+                ${e.dist?`<span style="color:var(--text4)">${e.dist.toFixed(1)} ft</span>`:''}
+                <button onclick="openEditPoints('${e.evId}','${e.clsId}','${e.compId}',${e.calcPts},'${d.driver.replace(/'/g,"\\'")}'+'','${cls.replace(/'/g,"\\'")}')" style="background:var(--bg3);border:1px solid var(--border2);border-radius:3px;color:var(--text3);cursor:pointer;font-size:11px;padding:2px 7px;font-family:'Barlow Condensed',sans-serif">Edit</button>
+              </div>`).join('')}
+            </div>
+          </td></tr>`).join('')}
         </tbody>
       </table></div></div>`;
   }).join('');
 }
-
-// MANUAL POINTS
 function openEditPoints(evId,clsId,compId,calcPts,driver,cls){
-  editingPointsKey=manualPointsKey(evId,clsId,compId);
+  editingPointsKey=mpKey(evId,clsId,compId);
   document.getElementById('editPointsDriverName').textContent=driver;
   document.getElementById('editPointsClassName').textContent=cls;
   document.getElementById('editPointsCalc').textContent=calcPts+' pts';
@@ -502,58 +589,43 @@ function openEditPoints(evId,clsId,compId,calcPts,driver,cls){
   document.getElementById('editPointsValue').value=existing;
   openModal('editPointsModal');
 }
-function saveManualPoints(){
-  const val=document.getElementById('editPointsValue').value;
-  if(!state.manualPoints)state.manualPoints={};
-  if(val!=='')state.manualPoints[editingPointsKey]=parseInt(val)||0;
-  saveState();closeModal('editPointsModal');
-}
-function clearManualPoints(){
-  if(state.manualPoints&&editingPointsKey)delete state.manualPoints[editingPointsKey];
-  saveState();closeModal('editPointsModal');
-}
+function saveManualPoints(){const val=document.getElementById('editPointsValue').value;if(!state.manualPoints)state.manualPoints={};if(val!=='')state.manualPoints[editingPointsKey]=parseInt(val)||0;saveState();closeModal('editPointsModal');}
+function clearManualPoints(){if(state.manualPoints&&editingPointsKey)delete state.manualPoints[editingPointsKey];saveState();closeModal('editPointsModal');}
 
 // CLASS ORDER
 function openClassOrderModal(){
   const ev=getActiveEvent();if(!ev)return;
-  const list=document.getElementById('classOrderList');
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
-  list.innerHTML=ordered.map((c,i)=>`
-    <div class="order-item" id="oi-${c.id}">
+  renderOrderList(ordered);openModal('classOrderModal');
+}
+function renderOrderList(ordered){
+  document.getElementById('classOrderList').innerHTML=ordered.map((c,i)=>`
+    <div class="order-item">
       <span class="order-num">${i+1}</span>
-      <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:14px">${c.name}</span>
-      <button onclick="moveClass('${c.id}',-1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▲</button>
-      <button onclick="moveClass('${c.id}',1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▼</button>
+      <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:15px">${c.name}</span>
+      <button onclick="moveClass('${c.id}',-1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:4px 10px;cursor:pointer;font-size:14px">▲</button>
+      <button onclick="moveClass('${c.id}',1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:4px 10px;cursor:pointer;font-size:14px">▼</button>
     </div>`).join('');
-  openModal('classOrderModal');
 }
 function moveClass(classId,dir){
   const ev=getActiveEvent();if(!ev)return;
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
-  const idx=ordered.findIndex(c=>c.id===classId);
-  const newIdx=idx+dir;
+  const idx=ordered.findIndex(c=>c.id===classId);const newIdx=idx+dir;
   if(newIdx<0||newIdx>=ordered.length)return;
   [ordered[idx],ordered[newIdx]]=[ordered[newIdx],ordered[idx]];
   ordered.forEach((c,i)=>{const cls=ev.classes.find(x=>x.id===c.id);if(cls)cls.classOrder=i;});
-  const list=document.getElementById('classOrderList');
-  list.innerHTML=ordered.map((c,i)=>`
-    <div class="order-item" id="oi-${c.id}">
-      <span class="order-num">${i+1}</span>
-      <span style="flex:1;font-family:'Barlow Condensed',sans-serif;font-size:14px">${c.name}</span>
-      <button onclick="moveClass('${c.id}',-1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▲</button>
-      <button onclick="moveClass('${c.id}',1)" style="background:var(--bg3);border:1px solid var(--border2);color:var(--text2);border-radius:3px;padding:3px 8px;cursor:pointer">▼</button>
-    </div>`).join('');
+  renderOrderList(ordered);
 }
 function saveClassOrder(){saveState();closeModal('classOrderModal');}
 
 // CLASSES
 function renderClasses(){
   document.getElementById('classesList').innerHTML=state.classes.map((c,i)=>`
-    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;margin-bottom:6px">
-      <span style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:600">${c}</span>
+    <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin-bottom:8px">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600">${c}</span>
       <div style="display:flex;gap:6px;align-items:center">
         <button class="btn btn-gold btn-sm" onclick="openEditClassModal(${i})">Edit</button>
-        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:10px;color:var(--text4);letter-spacing:1px">DEFAULT</span>`}
+        ${i>=DEFAULT_COUNT?`<button class="btn btn-gray btn-sm" onclick="deleteClass(${i})">Remove</button>`:`<span style="font-size:11px;color:var(--text4);letter-spacing:1px">DEFAULT</span>`}
       </div>
     </div>`).join('');
 }
@@ -568,9 +640,7 @@ function filterMemberClasses(){
   const sel=[...document.querySelectorAll('#memberClassCheckboxes input:checked')].map(i=>i.value);
   document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs(sel,q);
 }
-function buildMemberClassCBs(sel,q){
-  return state.classes.filter(c=>!q||c.toLowerCase().includes(q)).map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');
-}
+function buildMemberClassCBs(sel,q){return state.classes.filter(c=>!q||c.toLowerCase().includes(q)).map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
 function renderMembers(){
   const q=(document.getElementById('memberSearch')||{}).value||'';
   const filtered=state.members.filter(m=>!q||m.driver.toLowerCase().includes(q.toLowerCase()));
@@ -581,11 +651,11 @@ function renderMembers(){
   el.innerHTML=Object.keys(byClass).sort().map(cls=>`
     <div class="class-group-hdr">${cls}</div>
     ${byClass[cls].sort((a,b)=>a.driver.localeCompare(b.driver)).map(m=>`
-      <div class="card" style="margin-bottom:6px">
+      <div class="card" style="margin-bottom:8px">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
           <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${m.driver}</div>
-            <div style="font-size:11px;color:var(--text3);margin-top:2px">${m.vehicle||''} ${m.vehicleName?'— '+m.vehicleName:''} ${m.home?'· '+m.home:''}</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700">${m.driver}</div>
+            <div style="font-size:13px;color:var(--text3);margin-top:2px">${m.vehicle||''} ${m.vehicleName?'— '+m.vehicleName:''} ${m.home?'· '+m.home:''}</div>
           </div>
           <div style="display:flex;gap:6px">
             <button class="btn btn-gold btn-sm" onclick="openEditMemberModal('${m.id}')">Edit</button>
@@ -595,29 +665,18 @@ function renderMembers(){
       </div>`).join('')}`).join('');
 }
 function openAddMemberModal(){
-  editingMemberId=null;
-  document.getElementById('addMemberTitle').textContent='Add Points Member';
-  document.getElementById('saveMemberBtn').textContent='Add Member';
+  editingMemberId=null;document.getElementById('addMemberTitle').textContent='Add Points Member';document.getElementById('saveMemberBtn').textContent='Add Member';
   ['memDriver','memVehicle','memVehicleName','memHome','memberClassSearch'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs([]);
-  openModal('addMemberModal');
+  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs([]);openModal('addMemberModal');
 }
 function openEditMemberModal(id){
   const m=state.members.find(x=>x.id===id);if(!m)return;
-  editingMemberId=id;
-  document.getElementById('addMemberTitle').textContent='Edit Member';
-  document.getElementById('saveMemberBtn').textContent='Save Changes';
-  document.getElementById('memDriver').value=m.driver||'';
-  document.getElementById('memVehicle').value=m.vehicle||'';
-  document.getElementById('memVehicleName').value=m.vehicleName||'';
-  document.getElementById('memHome').value=m.home||'';
-  document.getElementById('memberClassSearch').value='';
-  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs(m.classes||[]);
-  openModal('addMemberModal');
+  editingMemberId=id;document.getElementById('addMemberTitle').textContent='Edit Member';document.getElementById('saveMemberBtn').textContent='Save Changes';
+  document.getElementById('memDriver').value=m.driver||'';document.getElementById('memVehicle').value=m.vehicle||'';document.getElementById('memVehicleName').value=m.vehicleName||'';document.getElementById('memHome').value=m.home||'';document.getElementById('memberClassSearch').value='';
+  document.getElementById('memberClassCheckboxes').innerHTML=buildMemberClassCBs(m.classes||[]);openModal('addMemberModal');
 }
 function saveMember(){
-  const driver=document.getElementById('memDriver').value.trim();
-  if(!driver){alert('Driver name required.');return;}
+  const driver=document.getElementById('memDriver').value.trim();if(!driver){alert('Driver name required.');return;}
   const classes=[...document.querySelectorAll('#memberClassCheckboxes input:checked')].map(i=>i.value);
   const data={driver,vehicle:document.getElementById('memVehicle').value.trim(),vehicleName:document.getElementById('memVehicleName').value.trim(),home:document.getElementById('memHome').value.trim(),classes};
   if(editingMemberId){const idx=state.members.findIndex(m=>m.id===editingMemberId);if(idx>-1)state.members[idx]={...state.members[idx],...data};}
@@ -630,17 +689,18 @@ function deleteMember(id){if(!confirm('Remove?'))return;state.members=state.memb
 function renderEvents(){
   const el=document.getElementById('eventsList');
   if(!state.events.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No events yet.</div>';return;}
-  el.innerHTML=state.events.map(ev=>`
+  const sorted=[...state.events].sort((a,b)=>new Date(a.date||0)-new Date(b.date||0));
+  el.innerHTML=sorted.map(ev=>`
     <div class="card" style="border-left:3px solid ${ev.id===state.activeEventId?'var(--red)':'var(--border)'}">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap">
         <div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:800">${ev.name}</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px">${ev.location||''} ${ev.date?'· '+ev.date:''} ${ev.time?'@ '+ev.time:''}</div>
-          <div style="font-size:11px;color:var(--text4);margin-top:2px">${[ev.address,ev.city,ev.state].filter(Boolean).join(', ')}</div>
-          <div style="font-size:11px;color:var(--text4);margin-top:2px">${ev.classes.length} classes</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800">${ev.name}</div>
+          <div style="font-size:13px;color:var(--text3);margin-top:2px">${formatEventDateTime(ev)}</div>
+          <div style="font-size:12px;color:var(--text4);margin-top:2px">${formatEventLocation(ev)}</div>
+          <div style="font-size:12px;color:var(--text4);margin-top:2px">${ev.classes.length} classes</div>
         </div>
         <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
-          ${ev.id!==state.activeEventId?`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`:`<span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--red);font-weight:700;letter-spacing:1px">ACTIVE</span>`}
+          ${ev.id!==state.activeEventId?`<button class="btn btn-red btn-sm" onclick="loadEvent('${ev.id}')">Load</button>`:`<span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--red);font-weight:700;letter-spacing:1px">ACTIVE</span>`}
           <button class="btn btn-gold btn-sm" onclick="openEditEventModal('${ev.id}')">Edit</button>
           <button class="btn btn-gray btn-sm" onclick="deleteEvent('${ev.id}')">Del</button>
         </div>
@@ -650,33 +710,17 @@ function renderEvents(){
 function buildClassCBs(sel){return state.classes.map(c=>`<label><input type="checkbox" value="${c}" ${(sel||[]).includes(c)?'checked':''}> ${c}</label>`).join('');}
 function openCreateEventModal(){
   editingEventId=null;customEventClasses=[];
-  document.getElementById('createEventTitle').textContent='New Event';
-  document.getElementById('saveEventBtn').textContent='Create Event';
-  ['evName','evAddress','evCity','evState','evLocation','evNotes','evCustomClass'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('evDate').value=new Date().toISOString().slice(0,10);
-  document.getElementById('evTime').value='';
-  document.getElementById('customEventClasses').innerHTML='';
-  document.getElementById('classCheckboxes').innerHTML=buildClassCBs([]);
-  openModal('createEventModal');
+  document.getElementById('createEventTitle').textContent='New Event';document.getElementById('saveEventBtn').textContent='Create Event';
+  ['evName','evAddress','evCity','evState','evZip','evLocation','evNotes','evCustomClass','evEndDate'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('evDate').value=new Date().toISOString().slice(0,10);document.getElementById('evTime').value='';document.getElementById('evTimezone').value='';
+  document.getElementById('customEventClasses').innerHTML='';document.getElementById('classCheckboxes').innerHTML=buildClassCBs([]);openModal('createEventModal');
 }
 function openEditEventModal(id){
   const ev=state.events.find(e=>e.id===id);if(!ev)return;
-  editingEventId=id;
-  customEventClasses=ev.classes.filter(c=>!state.classes.includes(c.name)).map(c=>c.name);
-  document.getElementById('createEventTitle').textContent='Edit Event';
-  document.getElementById('saveEventBtn').textContent='Save Changes';
-  document.getElementById('evName').value=ev.name||'';
-  document.getElementById('evDate').value=ev.date||'';
-  document.getElementById('evTime').value=ev.time||'';
-  document.getElementById('evAddress').value=ev.address||'';
-  document.getElementById('evCity').value=ev.city||'';
-  document.getElementById('evState').value=ev.state||'';
-  document.getElementById('evLocation').value=ev.location||'';
-  document.getElementById('evNotes').value=ev.notes||'';
-  document.getElementById('evCustomClass').value='';
-  document.getElementById('classCheckboxes').innerHTML=buildClassCBs(ev.classes.map(c=>c.name));
-  renderCustomEventClasses();
-  openModal('createEventModal');
+  editingEventId=id;customEventClasses=ev.classes.filter(c=>!state.classes.includes(c.name)).map(c=>c.name);
+  document.getElementById('createEventTitle').textContent='Edit Event';document.getElementById('saveEventBtn').textContent='Save Changes';
+  document.getElementById('evName').value=ev.name||'';document.getElementById('evDate').value=ev.date||'';document.getElementById('evEndDate').value=ev.endDate||'';document.getElementById('evTime').value=ev.time||'';document.getElementById('evTimezone').value=ev.timezone||'';document.getElementById('evAddress').value=ev.address||'';document.getElementById('evCity').value=ev.city||'';document.getElementById('evState').value=ev.state||'';document.getElementById('evZip').value=ev.zip||'';document.getElementById('evLocation').value=ev.location||'';document.getElementById('evNotes').value=ev.notes||'';document.getElementById('evCustomClass').value='';
+  document.getElementById('classCheckboxes').innerHTML=buildClassCBs(ev.classes.map(c=>c.name));renderCustomEventClasses();openModal('createEventModal');
 }
 function addCustomEventClass(){const val=document.getElementById('evCustomClass').value.trim();if(!val)return;if(!customEventClasses.includes(val))customEventClasses.push(val);document.getElementById('evCustomClass').value='';renderCustomEventClasses();}
 function removeCustomEventClass(name){customEventClasses=customEventClasses.filter(c=>c!==name);renderCustomEventClasses();}
@@ -685,12 +729,10 @@ function saveEvent(){
   const name=document.getElementById('evName').value.trim();
   const selected=[...document.querySelectorAll('#classCheckboxes input:checked')].map(i=>i.value);
   const allClasses=[...selected,...customEventClasses];
-  if(!name){alert('Enter an event name.');return;}
-  if(!allClasses.length){alert('Select at least one class.');return;}
-  const evData={name,date:document.getElementById('evDate').value,time:document.getElementById('evTime').value,address:document.getElementById('evAddress').value.trim(),city:document.getElementById('evCity').value.trim(),state:document.getElementById('evState').value.trim(),location:document.getElementById('evLocation').value.trim(),notes:document.getElementById('evNotes').value.trim()};
+  if(!name){alert('Enter an event name.');return;}if(!allClasses.length){alert('Select at least one class.');return;}
+  const evData={name,date:document.getElementById('evDate').value,endDate:document.getElementById('evEndDate').value,time:document.getElementById('evTime').value,timezone:document.getElementById('evTimezone').value,address:document.getElementById('evAddress').value.trim(),city:document.getElementById('evCity').value.trim(),state:document.getElementById('evState').value.trim(),zip:document.getElementById('evZip').value.trim(),location:document.getElementById('evLocation').value.trim(),notes:document.getElementById('evNotes').value.trim()};
   if(editingEventId){
-    const ev=state.events.find(e=>e.id===editingEventId);
-    Object.assign(ev,evData);
+    const ev=state.events.find(e=>e.id===editingEventId);Object.assign(ev,evData);
     const existing=ev.classes.map(c=>c.name);
     allClasses.forEach(cn=>{if(!existing.includes(cn))ev.classes.push({id:uuid(),name:cn,status:'pending',competitors:[],pulls:[],classOrder:ev.classes.length});});
     ev.classes=ev.classes.filter(c=>allClasses.includes(c.name));
@@ -703,10 +745,8 @@ function saveEvent(){
 function loadEvent(id){state.activeEventId=id;state.activeClassId=null;saveState();updateHeader();}
 function deleteEvent(id){
   if(!confirm('Delete this event and all its data including points?'))return;
-  // Remove manual points for this event
   if(state.manualPoints){Object.keys(state.manualPoints).forEach(k=>{if(k.startsWith(id+'_'))delete state.manualPoints[k];});}
-  state.events=state.events.filter(e=>e.id!==id);
-  if(state.activeEventId===id)state.activeEventId=null;
+  state.events=state.events.filter(e=>e.id!==id);if(state.activeEventId===id)state.activeEventId=null;
   saveState();updateHeader();
 }
 function updateHeader(){const ev=getActiveEvent();const el=document.getElementById('headerEvent');if(el)el.textContent=ev?ev.name+(ev.location?' — '+ev.location:''):'No Event Loaded';}
@@ -718,19 +758,17 @@ function renderInput(){
   document.getElementById('inputConsole').style.display=ev?'block':'none';
   if(!ev)return;
   document.getElementById('inputEventName').textContent=ev.name;
-  document.getElementById('inputEventDate').textContent=[ev.location,ev.date,ev.time?'@ '+ev.time:''].filter(Boolean).join(' · ');
-  // Warning if another class is active
+  document.getElementById('inputEventDate').textContent=[formatEventDateTime(ev),formatEventLocation(ev)].filter(Boolean).join(' · ');
   const activeClasses=ev.classes.filter(c=>c.status==='active');
   const warn=document.getElementById('activeClassWarning');
-  if(activeClasses.length>0&&state.activeClassId!==activeClasses[0].id){
-    warn.innerHTML=`<div class="warning-banner">⚠ Reminder: <strong>${activeClasses[0].name}</strong> is still marked Active. Please close it before starting a new class.</div>`;
-  } else {warn.innerHTML='';}
+  if(activeClasses.length>0&&!activeClasses.find(c=>c.id===state.activeClassId)){warn.innerHTML=`<div class="warning-banner">⚠ <strong>${activeClasses[0].name}</strong> is still marked Active. Please mark it Completed before starting a new class.</div>`;}
+  else{warn.innerHTML='';}
   const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
   document.getElementById('inputClassList').innerHTML=ordered.map(c=>`
     <div class="cls-item ${state.activeClassId===c.id?'active-cls':''}" onclick="selectClass('${c.id}')">
       <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${statusDotEl(c.status)}<div class="cls-item-name" style="color:${state.activeClassId===c.id?'#fff':'var(--text2)'}">${c.name}</div></div>
       <div class="cls-item-sub">${c.competitors.length} drivers · ${(c.pulls||[]).length} pulls</div>
-      <div style="margin-top:6px"><select style="width:100%;font-size:10px;padding:3px 6px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
+      <div style="margin-top:7px"><select style="width:100%;font-size:11px;padding:4px 6px" onchange="setClassStatus('${c.id}',this.value)" onclick="event.stopPropagation()">
         <option value="pending" ${c.status==='pending'?'selected':''}>Pending</option>
         <option value="active" ${c.status==='active'?'selected':''}>Active</option>
         <option value="completed" ${c.status==='completed'?'selected':''}>Completed</option>
@@ -738,74 +776,68 @@ function renderInput(){
     </div>`).join('');
   renderRightPanel();
 }
-function setClassStatus(classId,status){
-  const ev=getActiveEvent();if(!ev)return;
-  const cls=ev.classes.find(c=>c.id===classId);
-  if(cls){cls.status=status;saveState();}
-}
+function setClassStatus(classId,status){const ev=getActiveEvent();if(!ev)return;const cls=ev.classes.find(c=>c.id===classId);if(cls){cls.status=status;saveState();}}
 function selectClass(classId){state.activeClassId=classId;saveState();}
 function getSortedCompetitors(cls){return[...cls.competitors].sort((a,b)=>{const an=parseInt(a.hook)||9999,bn=parseInt(b.hook)||9999;return an-bn;});}
-
 function renderRightPanel(){
   const cls=getActiveClass();const el=document.getElementById('rightPanel');
-  if(!cls){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:16px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>';return;}
+  if(!cls){el.innerHTML='<div style="text-align:center;padding:50px;color:var(--text4);font-family:\'Barlow Condensed\',sans-serif;font-size:18px;letter-spacing:1px">SELECT A CLASS ON THE LEFT</div>';return;}
   const comps=cls.status==='completed'?getRankedPulls(cls).map(r=>r.comp):getSortedCompetitors(cls);
   const suggestions=state.members.filter(m=>(m.classes||[]).includes(cls.name));
   const ev=getActiveEvent();
   el.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div>
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px">${cls.name}</div>
-        <div style="font-size:11px;color:var(--text3);margin-top:2px">${comps.length} competitors · ${cls.status==='completed'?'Sorted by finish':'Sorted by hook #'}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800;letter-spacing:1px">${cls.name}</div>
+        <div style="font-size:13px;color:var(--text3);margin-top:2px">${comps.length} competitors · ${cls.status==='completed'?'Sorted by finish':'Sorted by hook #'}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">${statusBadge(cls.status)}<button class="btn btn-red btn-sm" onclick="openAddCompModal()">+ Add Driver</button></div>
     </div>
-    ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:5px;padding:10px;margin-bottom:12px">
-      <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">Points Members — Tap to Add</div>
+    ${suggestions.length?`<div style="background:#0a1a0a;border:1px solid #1a3a1a;border-radius:6px;padding:12px;margin-bottom:14px">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">Points Members — Tap to Add</div>
       ${suggestions.map(m=>`<span class="member-chip" onclick="quickAddMember('${m.id}')">${m.driver}</span>`).join('')}
     </div>`:''}
     <div style="overflow-x:auto"><table class="pull-sheet">
       <thead><tr>
-        <th style="width:30px">${cls.status==='completed'?'Pos':'Ord'}</th>
-        <th style="width:52px">Hook</th><th>Driver</th><th>Vehicle</th>
-        <th style="width:95px">Dist (ft)</th><th style="width:72px">Speed</th>
-        <th style="width:112px">Result</th><th style="width:50px">Pts</th><th style="width:80px"></th>
+        <th style="width:32px">${cls.status==='completed'?'Pos':'Ord'}</th>
+        <th style="width:55px">Hook</th><th>Driver</th><th>Vehicle</th>
+        <th style="width:100px">Dist (ft)</th><th style="width:76px">Speed</th>
+        <th style="width:115px">Result</th><th style="width:55px">Pts</th><th style="width:85px"></th>
       </tr></thead>
       <tbody>${comps.length?comps.map((comp,idx)=>{
         const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
         const rank=getRank(cls,comp.id);
         const isC=cls.status==='completed';
-        const pts=ev?getPoints(ev.id,cls.id,comp.id,cls):0;
-        const hasManual=ev&&state.manualPoints&&state.manualPoints[manualPointsKey(ev.id,cls.id,comp.id)]!==undefined;
+        const isPoints=comp.pointsCompetitor!==false;
+        const pts=ev&&isPoints?getPoints(ev.id,cls.id,comp.id,cls):0;
+        const hasManual=ev&&state.manualPoints&&state.manualPoints[mpKey(ev.id,cls.id,comp.id)]!==undefined;
         return `<tr id="row-${comp.id}" class="${rank===1?'top-row':''}">
           <td><span class="rank-badge ${rank===1?'r1':rank===2?'r2':rank===3?'r3':'rn'}">${isC?(rank||'—'):(idx+1)}</span></td>
-          <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:44px;padding:4px;font-size:11px"></td>
-          <td style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700">${comp.driver}<div style="font-size:10px;color:var(--text4);font-family:'Barlow',sans-serif;font-weight:400">${comp.vehicleName||''}</div></td>
-          <td style="color:var(--text3);font-size:11px">${comp.vehicle||''}</td>
-          <td><input type="number" step="0.1" min="0" placeholder="0.0" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:80px"></td>
-          <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:58px"></td>
-          <td><select onchange="updatePullResult('${comp.id}',this.value)" style="width:106px">
+          <td><input type="number" min="1" placeholder="—" value="${comp.hook||''}" onchange="updateHook('${comp.id}',this.value)" style="width:46px;padding:5px;font-size:12px"></td>
+          <td><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700">${comp.driver}${!isPoints?' <span style="font-size:10px;color:var(--text4);font-family:\'Barlow\',sans-serif;font-weight:400">Exhibition</span>':''}</div><div style="font-size:11px;color:var(--text4)">${comp.vehicleName||''}</div></td>
+          <td style="color:var(--text3);font-size:12px">${comp.vehicle||''}</td>
+          <td><input type="number" step="0.1" min="0" placeholder="0.0" value="${pull&&pull.dist&&pull.dist!=='—'?pull.dist:''}" onchange="updatePullField('${comp.id}','dist',this.value)" style="width:84px"></td>
+          <td><input type="number" step="0.1" min="0" placeholder="—" value="${pull&&pull.speed?pull.speed:''}" onchange="updatePullField('${comp.id}','speed',this.value)" style="width:62px"></td>
+          <td><select onchange="updatePullResult('${comp.id}',this.value)" style="width:110px">
             <option value="" ${!pull||!pull.result?'selected':''}>—</option>
             <option value="distance" ${pull&&pull.result==='distance'?'selected':''}>Distance</option>
             <option value="full_pull" ${pull&&pull.result==='full_pull'?'selected':''}>Full Pull</option>
             <option value="dq" ${pull&&pull.result==='dq'?'selected':''}>DQ</option>
             <option value="broke" ${pull&&pull.result==='broke'?'selected':''}>Broke</option>
           </select></td>
-          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:${hasManual?'var(--gold)':'var(--text3)'};font-size:13px">${pull&&pull.result?pts+'pts':''}</td>
+          <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:${hasManual?'var(--gold)':'var(--text3)'};font-size:14px">${pull&&pull.result&&isPoints?pts+'pts':''}</td>
           <td style="white-space:nowrap">
             <button class="btn btn-gold btn-sm" onclick="openEditCompModal('${comp.id}')">Edit</button>
             <button class="btn btn-gray btn-sm" onclick="removeCompetitor('${comp.id}')">Del</button>
           </td>
         </tr>`;
-      }).join(''):`<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px">NO DRIVERS YET</td></tr>`}
+      }).join(''):`<tr><td colspan="9" style="text-align:center;padding:28px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px">NO DRIVERS YET</td></tr>`}
       </tbody>
     </table></div>`;
 }
-
 function updateHook(compId,val){const cls=getActiveClass();if(!cls)return;const comp=cls.competitors.find(c=>c.id===compId);if(comp){comp.hook=val;saveState();}}
 function updatePullField(compId,field,val){
-  const cls=getActiveClass();if(!cls)return;
-  if(!cls.pulls)cls.pulls=[];
+  const cls=getActiveClass();if(!cls)return;if(!cls.pulls)cls.pulls=[];
   let pull=cls.pulls.find(p=>p.compId===compId);
   if(!pull){pull={id:uuid(),compId,dist:'',speed:'',result:'distance',distNum:0};cls.pulls.push(pull);}
   if(field==='dist'){const n=parseFloat(val);pull.dist=isNaN(n)?'':n.toFixed(1);pull.distNum=isNaN(n)?0:(pull.result==='full_pull'?999999+n:n);}
@@ -813,8 +845,7 @@ function updatePullField(compId,field,val){
   saveState();
 }
 function updatePullResult(compId,result){
-  const cls=getActiveClass();if(!cls)return;
-  if(!cls.pulls)cls.pulls=[];
+  const cls=getActiveClass();if(!cls)return;if(!cls.pulls)cls.pulls=[];
   let pull=cls.pulls.find(p=>p.compId===compId);
   if(!pull){pull={id:uuid(),compId,dist:'',speed:'',result:'',distNum:0};cls.pulls.push(pull);}
   pull.result=result;const n=parseFloat(pull.dist);
@@ -822,37 +853,27 @@ function updatePullResult(compId,result){
   saveState();
 }
 function removeCompetitor(compId){const cls=getActiveClass();if(!cls)return;if(!confirm('Remove this driver?'))return;cls.competitors=cls.competitors.filter(c=>c.id!==compId);cls.pulls=(cls.pulls||[]).filter(p=>p.compId!==compId);saveState();}
-function quickAddMember(memberId){const cls=getActiveClass();if(!cls)return;const m=state.members.find(x=>x.id===memberId);if(!m)return;if(cls.competitors.find(c=>c.driver===m.driver)){alert(m.driver+' is already in this class.');return;}cls.competitors.push({id:uuid(),hook:'',driver:m.driver,vehicle:m.vehicle||'',vehicleName:m.vehicleName||'',home:m.home||''});saveState();}
+function quickAddMember(memberId){const cls=getActiveClass();if(!cls)return;const m=state.members.find(x=>x.id===memberId);if(!m)return;if(cls.competitors.find(c=>c.driver===m.driver)){alert(m.driver+' is already in this class.');return;}cls.competitors.push({id:uuid(),hook:'',driver:m.driver,vehicle:m.vehicle||'',vehicleName:m.vehicleName||'',home:m.home||'',pointsCompetitor:true});saveState();}
 function openAddCompModal(){
-  editingCompId=null;
-  document.getElementById('addCompTitle').textContent='Add Driver';
-  document.getElementById('saveCompBtn').textContent='Add Driver';
+  editingCompId=null;document.getElementById('addCompTitle').textContent='Add Driver';document.getElementById('saveCompBtn').textContent='Add Driver';
   ['compHook','compDriver','compVehicle','compVehicleName','compHome'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('compPointsCompetitor').checked=true;
   const cls=getActiveClass();
   const suggestions=cls?state.members.filter(m=>(m.classes||[]).includes(cls.name)):[];
-  document.getElementById('memberSuggestions').innerHTML=suggestions.length
-    ?'<div style="font-size:10px;color:var(--text4);margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join(''):'';
+  document.getElementById('memberSuggestions').innerHTML=suggestions.length?'<div style="font-size:11px;color:var(--text4);margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">Points members — tap to fill:</div>'+suggestions.map(m=>`<span class="member-chip" onclick="fillFromMember('${m.id}')">${m.driver}</span>`).join(''):'';
   openModal('addCompModal');
 }
 function openEditCompModal(compId){
-  const cls=getActiveClass();if(!cls)return;
-  const comp=cls.competitors.find(c=>c.id===compId);if(!comp)return;
-  editingCompId=compId;
-  document.getElementById('addCompTitle').textContent='Edit Driver';
-  document.getElementById('saveCompBtn').textContent='Save Changes';
-  document.getElementById('compHook').value=comp.hook||'';
-  document.getElementById('compDriver').value=comp.driver||'';
-  document.getElementById('compVehicle').value=comp.vehicle||'';
-  document.getElementById('compVehicleName').value=comp.vehicleName||'';
-  document.getElementById('compHome').value=comp.home||'';
-  document.getElementById('memberSuggestions').innerHTML='';
-  openModal('addCompModal');
+  const cls=getActiveClass();if(!cls)return;const comp=cls.competitors.find(c=>c.id===compId);if(!comp)return;
+  editingCompId=compId;document.getElementById('addCompTitle').textContent='Edit Driver';document.getElementById('saveCompBtn').textContent='Save Changes';
+  document.getElementById('compHook').value=comp.hook||'';document.getElementById('compDriver').value=comp.driver||'';document.getElementById('compVehicle').value=comp.vehicle||'';document.getElementById('compVehicleName').value=comp.vehicleName||'';document.getElementById('compHome').value=comp.home||'';
+  document.getElementById('compPointsCompetitor').checked=comp.pointsCompetitor!==false;
+  document.getElementById('memberSuggestions').innerHTML='';openModal('addCompModal');
 }
-function fillFromMember(id){const m=state.members.find(x=>x.id===id);if(!m)return;document.getElementById('compDriver').value=m.driver||'';document.getElementById('compVehicle').value=m.vehicle||'';document.getElementById('compVehicleName').value=m.vehicleName||'';document.getElementById('compHome').value=m.home||'';document.getElementById('compHook').value='';}
+function fillFromMember(id){const m=state.members.find(x=>x.id===id);if(!m)return;document.getElementById('compDriver').value=m.driver||'';document.getElementById('compVehicle').value=m.vehicle||'';document.getElementById('compVehicleName').value=m.vehicleName||'';document.getElementById('compHome').value=m.home||'';document.getElementById('compHook').value='';document.getElementById('compPointsCompetitor').checked=true;}
 function saveCompetitor(){
-  const driver=document.getElementById('compDriver').value.trim();
-  if(!driver){alert('Driver name required.');return;}
-  const data={hook:document.getElementById('compHook').value.trim(),driver,vehicle:document.getElementById('compVehicle').value.trim(),vehicleName:document.getElementById('compVehicleName').value.trim(),home:document.getElementById('compHome').value.trim()};
+  const driver=document.getElementById('compDriver').value.trim();if(!driver){alert('Driver name required.');return;}
+  const data={hook:document.getElementById('compHook').value.trim(),driver,vehicle:document.getElementById('compVehicle').value.trim(),vehicleName:document.getElementById('compVehicleName').value.trim(),home:document.getElementById('compHome').value.trim(),pointsCompetitor:document.getElementById('compPointsCompetitor').checked};
   if(editingCompId){const cls=getActiveClass();const idx=cls.competitors.findIndex(c=>c.id===editingCompId);if(idx>-1)cls.competitors[idx]={...cls.competitors[idx],...data};}
   else{const cls=getActiveClass();if(!cls)return;cls.competitors.push({id:uuid(),...data});}
   saveState();closeModal('addCompModal');
