@@ -163,9 +163,12 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 
 <!-- EVENTS -->
 <div class="view" id="tab-events">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <div class="sec-line" style="flex:1;margin-bottom:0"><div class="sec">Events</div></div>
-    <button class="btn btn-red btn-sm" onclick="openCreateEventModal()" style="margin-left:12px">+ New Event</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;flex-wrap:wrap">
+    <div class="sec-line" style="flex:1;margin-bottom:0;min-width:180px"><div class="sec">Events</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <button class="btn btn-gray btn-sm" onclick="openImportScheduleModal()">Import Schedule</button>
+      <button class="btn btn-red btn-sm" onclick="openCreateEventModal()">+ New Event</button>
+    </div>
   </div>
   <div id="eventsList"></div>
 </div>
@@ -224,7 +227,7 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
 
   <div class="sec-line"><div class="sec">Class Abbreviations</div></div>
   <div class="card">
-    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Used by the CSV import tool. Add abbreviations to map short codes to full class names.</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:12px">Used by the <strong style="color:var(--text2)">Import Schedule</strong> tool on the Events tab. Map short codes to full class names — codes in the CSV classes column will be expanded automatically on import.</div>
     <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
       <input type="text" id="newAbbrCode" placeholder="Abbr. (e.g. SF/HF)" style="flex:1;min-width:100px">
       <input type="text" id="newAbbrFull" placeholder="Full class name" style="flex:2;min-width:160px">
@@ -370,6 +373,34 @@ label{display:block;font-size:10px;color:var(--text3);margin-bottom:4px;margin-t
       <button class="btn btn-red" onclick="saveManualPoints()" style="flex:1">Save</button>
       <button class="btn btn-gray" onclick="clearManualPoints()" style="flex:1">Clear Override</button>
       <button class="btn btn-gray" onclick="closeModal('editPointsModal')" style="flex:1">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="importScheduleModal">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-title">Import Season Schedule</div>
+    <div style="font-size:13px;color:var(--text3);margin-bottom:10px;line-height:1.5">
+      Upload a CSV file with your season schedule — one row per event. The Classes column should contain class abbreviations separated by <code style="color:var(--gold);background:var(--bg4);padding:1px 5px;border-radius:3px">|</code> or <code style="color:var(--gold);background:var(--bg4);padding:1px 5px;border-radius:3px">;</code>.
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:5px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:var(--text3);line-height:1.7">
+      <div style="color:var(--gold);font-weight:700;margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;font-size:10px;font-family:'Barlow Condensed',sans-serif">Columns (in this order)</div>
+      Event Name · Date · End Date · Time · Timezone · Venue · Address · City · State · Zip · Notes · Classes
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn btn-gold btn-sm" onclick="downloadScheduleTemplate()">Download Template</button>
+      <input type="file" id="scheduleCSVInput" accept=".csv,text/csv" onchange="handleScheduleCSV(this)" style="display:none">
+      <button class="btn btn-red btn-sm" onclick="document.getElementById('scheduleCSVInput').click()">Choose CSV File</button>
+      <span id="scheduleFileName" style="font-size:11px;color:var(--text4);align-self:center;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px"></span>
+    </div>
+    <div id="schedulePreview" style="display:none">
+      <div class="sec" style="margin-bottom:8px">Preview — <span id="schedulePreviewCount" style="color:var(--text3)"></span></div>
+      <div id="schedulePreviewContent" style="max-height:340px;overflow-y:auto;border:1px solid var(--border);border-radius:5px;padding:4px;background:var(--bg2)"></div>
+      <div id="scheduleWarnings" style="margin-top:8px"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-red" onclick="importSchedule()" style="flex:1" id="importBtn" disabled>Import Events</button>
+      <button class="btn btn-gray" onclick="closeModal('importScheduleModal')" style="flex:1">Cancel</button>
     </div>
   </div>
 </div>
@@ -729,6 +760,178 @@ function openEditPoints(evId,clsId,compId,calcPts,driver){
 }
 function saveManualPoints(){const val=document.getElementById('editPointsValue').value;if(!state.manualPoints)state.manualPoints={};if(val!=='')state.manualPoints[editingPointsKey]=parseInt(val)||0;saveState();closeModal('editPointsModal');}
 function clearManualPoints(){if(state.manualPoints&&editingPointsKey)delete state.manualPoints[editingPointsKey];saveState();closeModal('editPointsModal');}
+
+// SCHEDULE IMPORT
+let pendingImportEvents=null;
+
+function openImportScheduleModal(){
+  pendingImportEvents=null;
+  document.getElementById('scheduleCSVInput').value='';
+  document.getElementById('scheduleFileName').textContent='';
+  document.getElementById('schedulePreview').style.display='none';
+  document.getElementById('schedulePreviewContent').innerHTML='';
+  document.getElementById('scheduleWarnings').innerHTML='';
+  document.getElementById('importBtn').disabled=true;
+  openModal('importScheduleModal');
+}
+
+function downloadScheduleTemplate(){
+  const header='Event Name,Date,End Date,Time,Timezone,Venue,Address,City,State,Zip,Notes,Classes';
+  const ex1='CS Summer Nationals,2025-07-15,,18:00,ET,Lawrence County Fairgrounds,123 Fair Rd,Volant,PA,16156,Gates open 4pm,SF/HF|LIM PRO|PST|SST';
+  const ex2='CS August Classic,2025-08-22,2025-08-23,17:30,ET,Mercer County Fairgrounds,456 Main St,Mercer,PA,16137,Two-day event,SF/HF|LIM PRO|PST';
+  const csv=header+'\n'+ex1+'\n'+ex2;
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='cs-pull-schedule-template.csv';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+
+function parseCSVRow(line){
+  const out=[];let cur='';let inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inQ){
+      if(ch==='"'&&line[i+1]==='"'){cur+='"';i++;}
+      else if(ch==='"'){inQ=false;}
+      else{cur+=ch;}
+    } else {
+      if(ch===','){out.push(cur);cur='';}
+      else if(ch==='"'&&cur===''){inQ=true;}
+      else{cur+=ch;}
+    }
+  }
+  out.push(cur);return out.map(s=>s.trim());
+}
+
+function parseCSVText(text){
+  const lines=text.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').filter(l=>l.trim().length>0);
+  return lines.map(parseCSVRow);
+}
+
+function normalizeImportDate(d){
+  if(!d)return'';d=d.trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;
+  const m=d.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if(m){let mo=m[1],da=m[2],yr=m[3];if(yr.length===2)yr='20'+yr;return`${yr}-${mo.padStart(2,'0')}-${da.padStart(2,'0')}`;}
+  return d;
+}
+
+function normalizeImportTime(t){
+  if(!t)return'';t=t.trim();
+  if(/^\d{1,2}:\d{2}$/.test(t)){const[h,m]=t.split(':');return`${h.padStart(2,'0')}:${m}`;}
+  const m=t.match(/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM|am|pm)$/);
+  if(m){let h=parseInt(m[1]);const min=m[2]||'00';const ap=m[3].toUpperCase();
+    if(ap==='PM'&&h<12)h+=12;if(ap==='AM'&&h===12)h=0;return`${String(h).padStart(2,'0')}:${min}`;}
+  return t;
+}
+
+function resolveImportClass(token){
+  const abbrs=state.abbreviations||[];
+  const hit=abbrs.find(a=>a.code.toLowerCase()===token.toLowerCase());
+  if(hit)return{name:hit.full,points:hit.points!==false,matched:'abbr'};
+  const lib=state.classes.find(c=>c.toLowerCase()===token.toLowerCase());
+  if(lib)return{name:lib,points:true,matched:'class'};
+  return{name:token,points:true,matched:'custom'};
+}
+
+function handleScheduleCSV(input){
+  const file=input.files[0];if(!file)return;
+  document.getElementById('scheduleFileName').textContent=file.name;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const rows=parseCSVText(e.target.result);
+      if(rows.length<2){alert('CSV needs a header row plus at least one event row.');return;}
+      const header=rows[0].map(h=>h.toLowerCase().replace(/\s+/g,''));
+      const find=(...names)=>{for(const n of names){const i=header.findIndex(h=>h===n);if(i>=0)return i;}return -1;};
+      const idx={
+        name:find('eventname','name','event'),
+        date:find('date','startdate'),
+        endDate:find('enddate'),
+        time:find('time','starttime'),
+        timezone:find('timezone','tz'),
+        venue:find('venue','location'),
+        address:find('address','streetaddress','street'),
+        city:find('city'),
+        state:find('state'),
+        zip:find('zip','zipcode','postalcode'),
+        notes:find('notes','note'),
+        classes:find('classes','class'),
+      };
+      if(idx.name<0||idx.date<0||idx.classes<0){
+        alert('CSV must include at least these columns: Event Name, Date, Classes.');return;
+      }
+      const events=[];const warnings=[];
+      for(let r=1;r<rows.length;r++){
+        const row=rows[r];if(!row.some(c=>c&&c.trim()))continue;
+        const name=(row[idx.name]||'').trim();
+        if(!name){warnings.push(`Row ${r+1}: missing Event Name — skipped.`);continue;}
+        const classesCell=idx.classes>=0?(row[idx.classes]||'').trim():'';
+        const tokens=classesCell.split(/[|;]/).map(s=>s.trim()).filter(Boolean);
+        if(!tokens.length)warnings.push(`Row ${r+1} (${name}): no classes listed.`);
+        const resolved=tokens.map(resolveImportClass);
+        resolved.forEach((rc,i)=>{if(rc.matched==='custom')warnings.push(`Row ${r+1} (${name}): "${tokens[i]}" not in abbreviations or class library — importing as one-time class.`);});
+        events.push({
+          name,
+          date:normalizeImportDate(idx.date>=0?row[idx.date]||'':''),
+          endDate:normalizeImportDate(idx.endDate>=0?row[idx.endDate]||'':''),
+          time:normalizeImportTime(idx.time>=0?row[idx.time]||'':''),
+          timezone:idx.timezone>=0?(row[idx.timezone]||'').trim():'',
+          location:idx.venue>=0?(row[idx.venue]||'').trim():'',
+          address:idx.address>=0?(row[idx.address]||'').trim():'',
+          city:idx.city>=0?(row[idx.city]||'').trim():'',
+          state:idx.state>=0?(row[idx.state]||'').trim():'',
+          zip:idx.zip>=0?(row[idx.zip]||'').trim():'',
+          notes:idx.notes>=0?(row[idx.notes]||'').trim():'',
+          classes:resolved,
+        });
+      }
+      pendingImportEvents=events;
+      renderSchedulePreview(events,warnings);
+      document.getElementById('importBtn').disabled=events.length===0;
+    }catch(err){alert('Error reading CSV: '+err.message);}
+  };
+  reader.readAsText(file);
+}
+
+function renderSchedulePreview(events,warnings){
+  document.getElementById('schedulePreview').style.display='block';
+  document.getElementById('schedulePreviewCount').textContent=events.length+' event'+(events.length===1?'':'s')+' parsed';
+  const content=document.getElementById('schedulePreviewContent');
+  const warnEl=document.getElementById('scheduleWarnings');
+  if(!events.length){content.innerHTML='<div style="color:var(--text4);padding:12px;text-align:center;font-size:12px">No events parsed.</div>';warnEl.innerHTML='';return;}
+  content.innerHTML=events.map((ev,i)=>`<div style="padding:9px 11px;${i<events.length-1?'border-bottom:1px solid var(--border)':''}">
+    <div style="font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:800">${ev.name}</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:2px">${[ev.date,ev.endDate&&ev.endDate!==ev.date?'– '+ev.endDate:null,ev.time].filter(Boolean).join(' ')}${ev.timezone?' '+ev.timezone:''}</div>
+    <div style="font-size:11px;color:var(--text4);margin-top:1px">${[ev.location,ev.city,ev.state].filter(Boolean).join(' · ')||'—'}</div>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:3px">
+      ${ev.classes.map(c=>{
+        const isCustom=c.matched==='custom';
+        return `<span style="background:${isCustom?'#2a1500':'var(--bg4)'};border:1px solid ${isCustom?'#7a3a00':'var(--border2)'};color:${isCustom?'#f0a040':'var(--text3)'};border-radius:3px;padding:2px 7px;font-size:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px">${c.name}${isCustom?' ⚠':''}${c.points===false?' · NP':''}</span>`;
+      }).join('')}
+    </div>
+  </div>`).join('');
+  warnEl.innerHTML=warnings.length?`<div style="background:#2a1500;border:1px solid #7a3a00;border-radius:4px;padding:8px 10px;font-size:11px;color:#f0a040;line-height:1.6">${warnings.slice(0,10).map(w=>'• '+w).join('<br>')}${warnings.length>10?`<br>... and ${warnings.length-10} more`:''}</div>`:'';
+}
+
+function importSchedule(){
+  if(!pendingImportEvents||!pendingImportEvents.length)return;
+  if(!confirm(`Import ${pendingImportEvents.length} event${pendingImportEvents.length===1?'':'s'}?`))return;
+  pendingImportEvents.forEach(ev=>{
+    const newEv={
+      id:uuid(),name:ev.name,
+      date:ev.date,endDate:ev.endDate,time:ev.time,timezone:ev.timezone,
+      address:ev.address,city:ev.city,state:ev.state,zip:ev.zip,
+      location:ev.location,notes:ev.notes,
+      classes:ev.classes.map((c,i)=>({id:uuid(),name:c.name,status:'pending',competitors:[],pulls:[],classOrder:i,pointsClass:c.points!==false})),
+    };
+    state.events.unshift(newEv);
+  });
+  const count=pendingImportEvents.length;
+  pendingImportEvents=null;
+  saveState();closeModal('importScheduleModal');renderEvents();
+  alert(`Imported ${count} event${count===1?'':'s'}.`);
+}
 
 // CLASS ORDER
 function openClassOrderModal(){const ev=getActiveEvent();if(!ev)return;const ordered=[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));renderOrderList(ordered);openModal('classOrderModal');}
