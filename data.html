@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS Pull Live — Data Feed</title>
+<style>
+body{font-family:monospace;background:#0a0a0a;color:#ccc;padding:20px;font-size:13px}
+h1{font-family:sans-serif;color:#c0392b;margin-bottom:6px;font-size:18px}
+.sub{color:#555;margin-bottom:20px;font-size:12px}
+.endpoint{background:#151515;border:1px solid #222;border-radius:6px;padding:14px;margin-bottom:12px}
+.endpoint-url{color:#f0c030;font-size:14px;margin-bottom:6px;word-break:break-all}
+.endpoint-desc{color:#666;font-size:12px;margin-bottom:10px}
+pre{background:#0f0f0f;border:1px solid #1a1a1a;border-radius:4px;padding:12px;overflow-x:auto;color:#7dde9a;font-size:12px;white-space:pre-wrap;word-break:break-all}
+.refresh{color:#555;font-size:11px;margin-top:6px}
+.status-live{color:#1db954;font-weight:700}
+.status-off{color:#c0392b;font-weight:700}
+</style>
+</head>
+<body>
+<h1>CS Pull Live — Data Feed</h1>
+<div class="sub">Live JSON endpoints for vMix, H2R Graphics, NDI overlays, and other broadcast tools.</div>
+
+<div class="endpoint">
+  <div class="endpoint-url" id="activeUrl">Loading...</div>
+  <div class="endpoint-desc">Active class — the class currently being pulled. Updates every 3 seconds.</div>
+  <pre id="activeOutput">Loading...</pre>
+  <div class="refresh">Auto-refreshes every 3 seconds · Status: <span id="activeStatus" class="status-live">LIVE</span></div>
+</div>
+
+<div class="endpoint">
+  <div class="endpoint-url" id="allUrl">Loading...</div>
+  <div class="endpoint-desc">All classes in the active event — complete results for every class.</div>
+  <pre id="allOutput">Loading...</pre>
+  <div class="refresh">Auto-refreshes every 3 seconds · Status: <span id="allStatus" class="status-live">LIVE</span></div>
+</div>
+
+<div style="margin-top:20px;background:#151515;border:1px solid #222;border-radius:6px;padding:14px">
+  <div style="color:#f0c030;font-size:14px;margin-bottom:8px">vMix Setup Instructions</div>
+  <div style="color:#888;font-size:12px;line-height:1.7">
+    1. In vMix, go to <strong style="color:#ccc">Add Input → Web Browser</strong><br>
+    2. Enter the Active Class URL above<br>
+    3. Use <strong style="color:#ccc">Data Sources</strong> in vMix to map fields:<br>
+    &nbsp;&nbsp;&nbsp;• <code style="color:#7dde9a">active_class.results[0].driver_name</code> → Driver name overlay<br>
+    &nbsp;&nbsp;&nbsp;• <code style="color:#7dde9a">active_class.results[0].distance</code> → Distance overlay<br>
+    &nbsp;&nbsp;&nbsp;• <code style="color:#7dde9a">active_class.results[0].place</code> → Position overlay<br>
+    &nbsp;&nbsp;&nbsp;• <code style="color:#7dde9a">active_class.leader.driver_name</code> → Leader lower-third<br>
+    &nbsp;&nbsp;&nbsp;• <code style="color:#7dde9a">active_class.leader.distance</code> → Leader distance<br>
+    4. Set refresh rate to <strong style="color:#ccc">3000ms</strong> (3 seconds)<br><br>
+    <strong style="color:#ccc">H2R Graphics / Singular.live:</strong> Use the URL above as a JSON data source. Map the same field paths.
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+window.addEventListener('load',function(){
+firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
+const db=firebase.database();
+let state={events:[],activeEventId:null};
+
+// Set URL display
+const base=window.location.origin+window.location.pathname.replace('data.html','');
+document.getElementById('activeUrl').textContent=base+'data.html?feed=active';
+document.getElementById('allUrl').textContent=base+'data.html?feed=all';
+
+function fmtDist(d){if(!d&&d!==0)return null;const n=parseFloat(d);return isNaN(n)?null:n.toFixed(3);}
+function getPosByPosition(pos){if(pos===1)return 50;if(pos===2)return 48;if(pos===3)return 46;const p=50-((pos-1)*2);return p>=26?p:24;}
+
+function getRankedPulls(cls){
+  return[...cls.competitors].map(comp=>{
+    const pull=(cls.pulls||[]).find(p=>p.compId===comp.id);
+    const valid=pull&&pull.result&&pull.result!=='dq'&&pull.result!=='broke';
+    return{comp,pull,distNum:valid?(pull.distNum||0):0,valid};
+  }).sort((a,b)=>{if(a.valid&&!b.valid)return -1;if(!a.valid&&b.valid)return 1;return b.distNum-a.distNum;});
+}
+
+function buildClassFeed(ev,cls){
+  const ranked=getRankedPulls(cls);
+  const leader=ranked[0];
+  const leaderDist=leader&&leader.valid?leader.distNum:0;
+  const pullOffCount=leaderDist>0?ranked.filter(r=>r.valid&&r.distNum===leaderDist).length:0;
+
+  const results=ranked.map((row,i)=>{
+    const pull=row.pull;
+    const isDQ=pull&&(pull.result==='dq'||pull.result==='broke');
+    const dist=row.valid&&pull?fmtDist(pull.dist):null;
+    const gap=leaderDist>0&&row.valid&&i>0?(leaderDist-row.distNum).toFixed(3):null;
+    let status='pending';
+    if(isDQ)status=pull.result==='dq'?'dq':'broke';
+    else if(row.valid&&i===0)status='leader';
+    else if(row.valid&&leaderDist>0&&row.distNum===leaderDist&&i>0)status='pulloff';
+    else if(row.valid)status='qualified';
+    const pts=cls.pointsClass!==false&&pull&&pull.result&&!isDQ?getPosByPosition(i+1):null;
+    return{
+      place:!row.valid||isDQ?null:i+1,
+      hook_number:row.comp.hook||null,
+      driver_name:row.comp.driver,
+      vehicle_make_model:row.comp.vehicle||null,
+      vehicle_name:row.comp.vehicleName||null,
+      hometown:row.comp.home||null,
+      distance:dist,
+      speed_mph:pull&&pull.speed?pull.speed:null,
+      gap_from_leader:gap,
+      result:pull?pull.result:null,
+      status,
+      points:pts,
+      is_points_class:cls.pointsClass!==false,
+      is_full_pull:pull&&pull.result==='full_pull'?true:false,
+    };
+  });
+
+  return{
+    event_name:ev.name,
+    event_date:ev.date||null,
+    event_location:[ev.location,ev.city,ev.state].filter(Boolean).join(', ')||null,
+    class_name:cls.name,
+    class_status:cls.status,
+    is_points_class:cls.pointsClass!==false,
+    pull_off:pullOffCount>1,
+    pull_off_count:pullOffCount>1?pullOffCount:0,
+    leader:leader&&leader.valid?{
+      driver_name:leader.comp.driver,
+      vehicle_make_model:leader.comp.vehicle||null,
+      vehicle_name:leader.comp.vehicleName||null,
+      distance:fmtDist(leader.pull.dist),
+      speed_mph:leader.pull.speed||null,
+      is_full_pull:leader.pull.result==='full_pull',
+    }:null,
+    results,
+    total_competitors:cls.competitors.length,
+    timestamp:new Date().toISOString(),
+  };
+}
+
+function buildAllFeed(ev){
+  return{
+    event_name:ev.name,
+    event_date:ev.date||null,
+    event_location:[ev.location,ev.city,ev.state].filter(Boolean).join(', ')||null,
+    classes:[...ev.classes].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0)).map(cls=>buildClassFeed(ev,cls)),
+    timestamp:new Date().toISOString(),
+  };
+}
+
+function updateFeeds(){
+  const ev=state.events.find(e=>e.id===state.activeEventId);
+  if(!ev){
+    const noEvent=JSON.stringify({error:'No active event',timestamp:new Date().toISOString()},null,2);
+    document.getElementById('activeOutput').textContent=noEvent;
+    document.getElementById('allOutput').textContent=noEvent;
+    document.getElementById('activeStatus').textContent='NO EVENT';document.getElementById('activeStatus').className='status-off';
+    document.getElementById('allStatus').textContent='NO EVENT';document.getElementById('allStatus').className='status-off';
+    return;
+  }
+  const activeClass=ev.classes.find(c=>c.status==='active');
+  const activeFeed=activeClass?buildClassFeed(ev,activeClass):{error:'No class currently active',event_name:ev.name,timestamp:new Date().toISOString()};
+  const allFeed=buildAllFeed(ev);
+  document.getElementById('activeOutput').textContent=JSON.stringify(activeFeed,null,2);
+  document.getElementById('allOutput').textContent=JSON.stringify(allFeed,null,2);
+  document.getElementById('activeStatus').textContent='LIVE';document.getElementById('activeStatus').className='status-live';
+  document.getElementById('allStatus').textContent='LIVE';document.getElementById('allStatus').className='status-live';
+}
+
+db.ref('cspull').on('value',snap=>{
+  const data=snap.val();
+  if(data){
+    state.events=data.events?Object.values(data.events).map(ev=>({...ev,classes:ev.classes?Object.values(ev.classes).map(cls=>({...cls,competitors:cls.competitors?Object.values(cls.competitors):[],pulls:cls.pulls?Object.values(cls.pulls):[]})):[]})):[];
+    state.activeEventId=data.activeEventId||null;
+  }
+  updateFeeds();
+});
+db.ref('.info/connected').on('value',snap=>{
+  if(!snap.val()){
+    ['activeStatus','allStatus'].forEach(id=>{document.getElementById(id).textContent='OFFLINE';document.getElementById(id).className='status-off';});
+  }
+});
+});// end window.load
+</script>
+</body>
+</html>
