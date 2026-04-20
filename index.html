@@ -407,18 +407,59 @@ function buildStandings(){
   return s;
 }
 
+// DRIVER DIRECTORY (points members + anyone who competed)
+function buildDirectory(){
+  const standings=buildStandings();
+  const dir={};
+  (state.members||[]).forEach(m=>{
+    if(!m||!m.driver)return;
+    const key=getDriverKey(m.driver);
+    dir[key]={
+      driver:m.driver,
+      vehicle:m.vehicle||'',
+      vehicleName:m.vehicleName||'',
+      home:m.home||'',
+      isMember:true,
+      memberClasses:m.classes||[],
+      classes:{},
+    };
+  });
+  Object.keys(standings).forEach(key=>{
+    const s=standings[key];
+    if(!dir[key]){
+      dir[key]={
+        driver:s.driver,vehicle:s.vehicle||'',vehicleName:s.vehicleName||'',home:s.home||'',
+        isMember:false,memberClasses:[],classes:s.classes,
+      };
+    } else {
+      dir[key].classes=s.classes;
+      if(!dir[key].vehicle&&s.vehicle)dir[key].vehicle=s.vehicle;
+      if(!dir[key].vehicleName&&s.vehicleName)dir[key].vehicleName=s.vehicleName;
+      if(!dir[key].home&&s.home)dir[key].home=s.home;
+    }
+  });
+  return dir;
+}
+
 // DRIVER PROFILES
 function renderDriverList(){
   const q=(document.getElementById('driverSearch')||{}).value||'';
-  const standings=buildStandings();
+  const dir=buildDirectory();
   const el=document.getElementById('driverListContent');
-  let drivers=Object.values(standings);
+  let drivers=Object.values(dir);
   if(q)drivers=drivers.filter(d=>d.driver.toLowerCase().includes(q.toLowerCase()));
   drivers.sort((a,b)=>a.driver.localeCompare(b.driver));
-  if(!drivers.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text4)">No drivers found.</div>';return;}
+  if(!drivers.length){
+    el.innerHTML=q
+      ?'<div style="text-align:center;padding:40px;color:var(--text4)">No drivers match your search.</div>'
+      :'<div style="text-align:center;padding:40px;color:var(--text4)"><div style="font-family:\'Barlow Condensed\',sans-serif;font-size:20px;font-weight:800;letter-spacing:1px">NO DRIVERS YET</div><div style="font-size:13px;margin-top:6px">Points members and competitors will appear here as they\'re added.</div></div>';
+    return;
+  }
+  const memberCount=drivers.filter(d=>d.isMember).length;
+  const summary=`<div style="font-size:12px;color:var(--text4);margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase">${drivers.length} driver${drivers.length===1?'':'s'}${memberCount?' · '+memberCount+' points member'+(memberCount===1?'':'s'):''}</div>`;
   const groups={};
-  drivers.forEach(d=>{const l=d.driver[0].toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(d);});
-  el.innerHTML=Object.keys(groups).sort().map(letter=>`
+  drivers.forEach(d=>{const l=(d.driver[0]||'?').toUpperCase();if(!groups[l])groups[l]=[];groups[l].push(d);});
+  el.innerHTML=summary+Object.keys(groups).sort().map(letter=>`
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--text4);letter-spacing:2px;text-transform:uppercase;padding:8px 0 4px;border-bottom:1px solid var(--border);margin-bottom:8px">${letter}</div>
     ${groups[letter].map(d=>{
       const totalPts=Object.values(d.classes).reduce((s,c)=>s+c.totalPoints,0);
@@ -426,17 +467,22 @@ function renderDriverList(){
       const wins=Object.values(d.classes).reduce((s,c)=>s+c.wins,0);
       const initials=d.driver.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
       return `<div class="driver-card" onclick="openDriverProfile('${getDriverKey(d.driver)}')">
-        <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0">
           <div class="driver-avatar">${initials}</div>
-          <div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800">${d.driver}</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px">${d.vehicle||''} ${d.vehicleName?'— '+d.vehicleName:''}</div>
-            <div style="font-size:11px;color:var(--text4);margin-top:2px">${d.home||''}</div>
+          <div style="min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800">${d.driver}</div>
+              ${d.isMember?`<span style="background:rgba(240,192,48,.12);border:1px solid var(--gold);color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;letter-spacing:1.5px">MEMBER</span>`:''}
+            </div>
+            <div style="font-size:12px;color:var(--text3);margin-top:2px">${d.vehicle||''}${d.vehicleName?(d.vehicle?' — ':'')+d.vehicleName:''}</div>
+            ${d.home?`<div style="font-size:11px;color:var(--text4);margin-top:2px">${d.home}</div>`:''}
           </div>
         </div>
         <div style="text-align:right;flex-shrink:0">
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--red)">${totalPts} pts</div>
-          <div style="font-size:11px;color:var(--text4);margin-top:2px">${totalPulls} pulls · ${wins} win${wins!==1?'s':''}</div>
+          ${totalPulls>0?`
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--red)">${totalPts} pts</div>
+            <div style="font-size:11px;color:var(--text4);margin-top:2px">${totalPulls} pull${totalPulls!==1?'s':''} · ${wins} win${wins!==1?'s':''}</div>
+          `:`<div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text4);letter-spacing:1.5px;text-transform:uppercase;font-weight:700">No Pulls Yet</div>`}
         </div>
       </div>`;
     }).join('')}`).join('');
@@ -444,11 +490,11 @@ function renderDriverList(){
 function showDriverList(){document.getElementById('driverListView').style.display='block';document.getElementById('driverProfileView').style.display='none';currentDriverKey=null;}
 function openDriverProfile(key,fromPoints){
   currentDriverKey=key;
-  const standings=buildStandings();const driver=standings[key];if(!driver)return;
+  const dir=buildDirectory();const driver=dir[key];if(!driver)return;
   if(fromPoints)switchTab('drivers');
   document.getElementById('driverListView').style.display='none';
   document.getElementById('driverProfileView').style.display='block';
-  renderDriverProfile(driver,standings);
+  renderDriverProfile(driver,dir);
 }
 function renderDriverProfile(driver,standings){
   const el=document.getElementById('driverProfileContent');
@@ -480,10 +526,14 @@ function renderDriverProfile(driver,standings){
     <div style="background:linear-gradient(135deg,#1a0505,#0a0a0a);border:1px solid var(--border2);border-radius:8px;padding:22px;margin-bottom:14px">
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;flex-wrap:wrap">
         <div class="driver-avatar" style="width:60px;height:60px;font-size:22px">${initials}</div>
-        <div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:900;letter-spacing:1px">${driver.driver}</div>
-          <div style="font-size:13px;color:var(--text3);margin-top:3px">${driver.vehicle||''} ${driver.vehicleName?'— '+driver.vehicleName:''}</div>
-          <div style="font-size:12px;color:var(--text4);margin-top:2px">${driver.home||''}</div>
+        <div style="flex:1;min-width:200px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:900;letter-spacing:1px;line-height:1">${driver.driver}</div>
+            ${driver.isMember?`<span style="background:rgba(240,192,48,.12);border:1px solid var(--gold);color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;padding:3px 8px;border-radius:3px;letter-spacing:1.5px">POINTS MEMBER</span>`:''}
+          </div>
+          <div style="font-size:13px;color:var(--text3);margin-top:5px">${driver.vehicle||''}${driver.vehicleName?(driver.vehicle?' — ':'')+driver.vehicleName:''}</div>
+          ${driver.home?`<div style="font-size:12px;color:var(--text4);margin-top:2px">${driver.home}</div>`:''}
+          ${driver.isMember&&driver.memberClasses&&driver.memberClasses.length?`<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:4px">${driver.memberClasses.map(c=>`<span style="background:var(--bg4);border:1px solid var(--border2);color:var(--text3);border-radius:3px;padding:2px 7px;font-size:10px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:.5px">${c}</span>`).join('')}</div>`:''}
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px">
@@ -496,7 +546,7 @@ function renderDriverProfile(driver,standings){
       </div>
     </div>
     <div class="sec-line"><div class="sec">Pull History</div></div>
-    ${Object.keys(driver.classes).sort().map(cls=>{
+    ${Object.keys(driver.classes).length===0?`<div class="card-dark" style="text-align:center;padding:30px;color:var(--text4)"><div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:1px;font-weight:700">NO PULLS RECORDED YET</div><div style="font-size:12px;margin-top:5px">Results will appear here once ${driver.driver.split(' ')[0]} competes.</div></div>`:Object.keys(driver.classes).sort().map(cls=>{
       const c=driver.classes[cls];
       return `<div class="card-dark" style="margin-bottom:12px">
         <div class="class-group-hdr">${cls}</div>
@@ -750,7 +800,7 @@ db.ref('cspull').on('value',snap=>{
   if(active==='home')renderHome();
   else if(active==='results')renderViewer();
   else if(active==='points')renderPoints();
-  else if(active==='drivers'){if(currentDriverKey){const s=buildStandings();if(s[currentDriverKey])renderDriverProfile(s[currentDriverKey],s);}else renderDriverList();}
+  else if(active==='drivers'){if(currentDriverKey){const d=buildDirectory();if(d[currentDriverKey])renderDriverProfile(d[currentDriverKey],d);else renderDriverList();}else renderDriverList();}
   else if(active==='schedule')renderSchedule();
   document.getElementById('statusDot').className='dot';
   document.getElementById('statusText').textContent='LIVE';
