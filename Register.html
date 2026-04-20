@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Pulling — Pre-Register</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#c0392b;--red2:#a93226;--gold:#f0c030;--gold2:#d4a800;--bg:#0a0a0a;--bg2:#131313;--bg3:#1a1a1a;--bg4:#222;--border:#2a2a2a;--border2:#333;--text:#fff;--text2:#bbb;--text3:#888;--text4:#555;--green:#1db954;}
+body{font-family:'Barlow',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:16px}
+.header{background:linear-gradient(135deg,#0a0a0a 0%,#1a0505 50%,#0a0a0a 100%);border-bottom:3px solid var(--red);padding:0 20px;display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:12px;flex-wrap:wrap}
+.logo-block{display:flex;flex-direction:column;justify-content:center}
+.logo-top{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:4px;color:var(--text4);text-transform:uppercase}
+.logo-img{max-height:48px;width:auto;display:block}
+.logo-main{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:900;letter-spacing:2px;line-height:1}
+.logo-main span{color:var(--red)}
+.logo-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-top:2px}
+.nav-link{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--text4);text-decoration:none;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;border:1px solid var(--border);border-radius:4px}
+.nav-link:hover{color:var(--text);border-color:var(--border2)}
+.container{max-width:640px;margin:0 auto;padding:24px 20px 60px}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:38px;font-weight:900;letter-spacing:2px;line-height:1;margin-bottom:6px;text-transform:uppercase}
+.hero-title span{color:var(--red)}
+.hero-sub{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:22px}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:16px}
+.sec{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+label{display:block;font-size:11px;color:var(--text3);margin-bottom:5px;margin-top:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+label:first-child{margin-top:0}
+input,select,textarea{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;color:var(--text);padding:10px 12px;font-size:14px;width:100%;font-family:'Barlow',sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--red);background:#1e1010}
+select option{background:var(--bg3)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.grid2{grid-template-columns:1fr}}
+.event-detail{background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:12px 14px;margin-top:10px;font-size:13px;color:var(--text2);line-height:1.5}
+.event-detail .ev-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:800;color:var(--text);letter-spacing:.5px;margin-bottom:3px}
+.event-detail .ev-meta{font-size:12px;color:var(--text3)}
+.class-list{display:flex;flex-direction:column;gap:6px;margin-top:6px;max-height:300px;overflow-y:auto}
+.class-checkbox{display:flex;align-items:center;gap:10px;background:var(--bg4);border:1px solid var(--border2);border-radius:5px;padding:10px 12px;cursor:pointer;transition:all .15s}
+.class-checkbox:hover{border-color:var(--border2);background:#2a2a2a}
+.class-checkbox.checked{border-color:var(--red);background:rgba(192,57,43,.08)}
+.class-checkbox input{width:auto;accent-color:var(--red);transform:scale(1.2);cursor:pointer}
+.class-checkbox-name{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;flex:1}
+.exhibition-note{background:#1a1200;border:1px solid #3a3000;border-radius:4px;padding:8px 12px;font-size:12px;color:var(--gold);margin-top:8px;font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px}
+.btn{border:none;border-radius:5px;padding:12px 20px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:1.5px;text-transform:uppercase;transition:all .15s;width:100%}
+.btn-red{background:var(--red);color:#fff;font-size:16px;padding:14px}
+.btn-red:hover:not(:disabled){background:var(--red2)}
+.btn-red:disabled{background:var(--bg4);color:var(--text4);cursor:not-allowed}
+.btn-gray{background:var(--bg4);color:var(--text2);border:1px solid var(--border2)}
+.btn-gray:hover{background:#2e2e2e}
+.status-pill{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.dot.offline{background:var(--red);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.success-card{background:linear-gradient(135deg,#0a2a12,#0a0a0a);border:2px solid var(--green);border-radius:10px;padding:28px;text-align:center;margin-top:16px}
+.success-icon{font-size:56px;margin-bottom:8px}
+.success-title{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;letter-spacing:1px;margin-bottom:8px;text-transform:uppercase}
+.success-msg{color:var(--text2);font-size:15px;line-height:1.5;margin-bottom:14px}
+.success-box{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:14px;text-align:left;margin:14px 0;font-size:13px;line-height:1.7}
+.success-box strong{color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:.5px}
+.error-msg{background:#2a0a0a;border:1px solid var(--red);color:#f5a8a0;border-radius:5px;padding:10px 14px;font-size:13px;margin-top:10px;display:none}
+.loading{text-align:center;padding:40px;color:var(--text4);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.info-banner{background:rgba(240,192,48,.08);border:1px solid rgba(240,192,48,.3);border-radius:5px;padding:10px 14px;font-size:13px;color:var(--gold);margin-bottom:16px;line-height:1.5}
+.member-autofill{background:rgba(29,185,84,.08);border:1px solid rgba(29,185,84,.3);color:#7dde9a;border-radius:4px;padding:6px 10px;font-size:11px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;margin-top:4px;display:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-block" id="logoBlock">
+    <div class="logo-top">Driver Portal</div>
+    <div class="logo-main" id="logoText">CS PULLING <span>PROMOTIONS</span></div>
+    <div class="logo-sub">Event Pre-Registration</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="status-pill"><span class="dot" id="statusDot"></span><span id="statusText">CONNECTING</span></div>
+    <a href="index.html" class="nav-link">Results</a>
+  </div>
+</div>
+
+<div class="container">
+
+<div class="hero-title">PRE-<span>REGISTER</span></div>
+<div class="hero-sub">Skip the line — sign up before you arrive</div>
+
+<div id="mainView">
+
+<div class="info-banner">
+  <strong>How it works:</strong> Fill out this form to pre-register. Payment is still taken at the event — just walk up, pay, and pull.
+</div>
+
+<div class="card">
+  <div class="sec">Choose Event</div>
+  <label>Event</label>
+  <select id="eventSelect" onchange="onEventChange()">
+    <option value="">Loading events...</option>
+  </select>
+  <div id="eventDetail" style="display:none"></div>
+</div>
+
+<div id="formSection" style="display:none">
+
+<div class="card">
+  <div class="sec">Driver Info</div>
+  <label>Driver Name *</label>
+  <input type="text" id="fDriver" placeholder="e.g. Jake Miller" list="memberList" oninput="onDriverNameInput()" autocomplete="off">
+  <datalist id="memberList"></datalist>
+  <div class="member-autofill" id="memberAutofill">✓ Points member info filled in — review and adjust if needed.</div>
+
+  <div class="grid2">
+    <div><label>Vehicle Make / Model *</label><input type="text" id="fVehicle" placeholder="e.g. 2018 John Deere 8370R"></div>
+    <div><label>Vehicle Name</label><input type="text" id="fVehicleName" placeholder="e.g. Iron Horse"></div>
+  </div>
+
+  <label>Hometown / State</label>
+  <input type="text" id="fHome" placeholder="e.g. Grove City, PA">
+
+  <div class="grid2">
+    <div><label>Phone *</label><input type="tel" id="fPhone" placeholder="(724) 555-0100"></div>
+    <div><label>Email *</label><input type="email" id="fEmail" placeholder="you@example.com"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="sec">Select Classes</div>
+  <div style="font-size:13px;color:var(--text3);margin-bottom:8px;line-height:1.5">Pick every class you plan to pull in.</div>
+  <div id="classList" class="class-list"></div>
+  <div id="exhibitionNote" class="exhibition-note" style="display:none"></div>
+</div>
+
+<div id="errorMsg" class="error-msg"></div>
+
+<button id="submitBtn" class="btn btn-red" onclick="submitRegistration()">Submit Pre-Registration</button>
+
+</div><!-- formSection -->
+
+</div><!-- mainView -->
+
+<div id="successView" style="display:none"></div>
+
+</div><!-- container -->
+
+<script>
+firebase.initializeApp({apiKey:"AIzaSyDsoRFT_H07cODylZsD8HsSKJAcZIJOhlY",authDomain:"cs-pulling-live.firebaseapp.com",databaseURL:"https://cs-pulling-live-default-rtdb.firebaseio.com",projectId:"cs-pulling-live",storageBucket:"cs-pulling-live.firebasestorage.app",messagingSenderId:"266460064990",appId:"1:266460064990:web:fbb91d5b007e312ee4264f"});
+const db=firebase.database();
+
+let state={events:[],members:[],logo:'',loaded:false};
+let selectedEventId='';
+
+function uuid(){return Math.random().toString(36).slice(2)+Date.now().toString(36);}
+function formatTime12(t){if(!t)return'';const[h,m]=t.split(':');let hr=parseInt(h);const ampm=hr>=12?'PM':'AM';hr=hr%12||12;return hr+':'+m+' '+ampm;}
+function formatDT(ev){const p=[];if(ev.date)p.push(ev.date);if(ev.endDate&&ev.endDate!==ev.date)p.push('– '+ev.endDate);if(ev.time)p.push('@ '+formatTime12(ev.time)+(ev.timezone?' '+ev.timezone:''));return p.join(' ');}
+function formatLoc(ev){const p=[];if(ev.location)p.push(ev.location);const a=[ev.address,ev.city,ev.state].filter(Boolean).join(', ');if(a)p.push(a);return p.join(' · ');}
+function escHTML(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function updateLogo(){
+  const logo=state.logo||'';
+  const block=document.getElementById('logoBlock');
+  const text=document.getElementById('logoText');
+  if(logo){
+    let img=document.getElementById('headerLogoImg');
+    if(!img){img=document.createElement('img');img.id='headerLogoImg';img.className='logo-img';block.insertBefore(img,block.firstChild);}
+    img.src=logo;if(text)text.style.display='none';
+  } else {
+    const img=document.getElementById('headerLogoImg');if(img)img.remove();
+    if(text)text.style.display='';
+  }
+}
+
+function populateEventSelect(){
+  const sel=document.getElementById('eventSelect');
+  const now=new Date();now.setHours(0,0,0,0);
+  const all=[...state.events].filter(e=>!!e).sort((a,b)=>new Date(a.date||'9999-12-31')-new Date(b.date||'9999-12-31'));
+  const upcoming=all.filter(e=>!e.date||new Date(e.date)>=now);
+  const past=all.filter(e=>e.date&&new Date(e.date)<now).reverse();
+  let html='<option value="">-- Select an event --</option>';
+  if(upcoming.length){
+    html+='<optgroup label="Upcoming Events">';
+    upcoming.forEach(ev=>{html+='<option value="'+ev.id+'">'+escHTML(ev.name)+(ev.date?' — '+ev.date:'')+'</option>';});
+    html+='</optgroup>';
+  }
+  if(past.length){
+    html+='<optgroup label="Past / Active Events">';
+    past.forEach(ev=>{html+='<option value="'+ev.id+'">'+escHTML(ev.name)+(ev.date?' — '+ev.date:'')+'</option>';});
+    html+='</optgroup>';
+  }
+  if(!upcoming.length&&!past.length)html='<option value="">No events available yet</option>';
+  sel.innerHTML=html;
+  // Preserve selection if event still exists
+  if(selectedEventId&&state.events.find(e=>e.id===selectedEventId))sel.value=selectedEventId;
+}
+
+function populateMemberList(){
+  const dl=document.getElementById('memberList');
+  dl.innerHTML=state.members.map(m=>'<option value="'+escHTML(m.driver)+'">').join('');
+}
+
+function onDriverNameInput(){
+  const name=document.getElementById('fDriver').value.trim().toLowerCase();
+  if(!name)return;
+  const match=state.members.find(m=>(m.driver||'').trim().toLowerCase()===name);
+  if(match){
+    const fV=document.getElementById('fVehicle');
+    const fVN=document.getElementById('fVehicleName');
+    const fH=document.getElementById('fHome');
+    if(!fV.value)fV.value=match.vehicle||'';
+    if(!fVN.value)fVN.value=match.vehicleName||'';
+    if(!fH.value)fH.value=match.home||'';
+    const af=document.getElementById('memberAutofill');
+    af.style.display='block';
+    setTimeout(()=>{af.style.display='none';},4000);
+  }
+}
+
+function onEventChange(){
+  selectedEventId=document.getElementById('eventSelect').value;
+  const detail=document.getElementById('eventDetail');
+  const formSection=document.getElementById('formSection');
+  if(!selectedEventId){detail.style.display='none';formSection.style.display='none';return;}
+  const ev=state.events.find(e=>e.id===selectedEventId);
+  if(!ev){detail.style.display='none';formSection.style.display='none';return;}
+  const dt=formatDT(ev);const loc=formatLoc(ev);
+  detail.style.display='block';
+  detail.innerHTML='<div class="event-detail"><div class="ev-name">'+escHTML(ev.name)+'</div>'+(dt?'<div class="ev-meta">'+escHTML(dt)+'</div>':'')+(loc?'<div class="ev-meta">'+escHTML(loc)+'</div>':'')+(ev.notes?'<div class="ev-meta" style="margin-top:6px;font-style:italic">'+escHTML(ev.notes)+'</div>':'')+'</div>';
+  // Build class list
+  const classList=document.getElementById('classList');
+  const exhNote=document.getElementById('exhibitionNote');
+  const ordered=[...(ev.classes||[])].sort((a,b)=>(a.classOrder||0)-(b.classOrder||0));
+  const pointsClasses=ordered.filter(c=>c.pointsClass!==false);
+  const exClasses=ordered.filter(c=>c.pointsClass===false);
+  if(!pointsClasses.length){
+    classList.innerHTML='<div style="padding:14px;text-align:center;color:var(--text4);font-size:13px">No points classes available for this event.</div>';
+  } else {
+    classList.innerHTML=pointsClasses.map(c=>'<label class="class-checkbox" onclick="toggleClassChecked(this)"><input type="checkbox" value="'+escHTML(c.name)+'" onclick="event.stopPropagation()"><span class="class-checkbox-name">'+escHTML(c.name)+'</span></label>').join('');
+  }
+  if(exClasses.length){
+    exhNote.style.display='block';
+    exhNote.innerHTML='<strong>Exhibition classes ('+exClasses.length+') are not available for pre-registration</strong> — sign up at the event: '+exClasses.map(c=>escHTML(c.name)).join(', ');
+  } else {exhNote.style.display='none';}
+  formSection.style.display='block';
+}
+
+function toggleClassChecked(label){
+  // If user clicks the label (not the checkbox itself), toggle
+  const cb=label.querySelector('input[type=checkbox]');
+  cb.checked=!cb.checked;
+  label.classList.toggle('checked',cb.checked);
+}
+
+// Ensure label state updates when clicking checkbox directly too
+document.addEventListener('change',function(e){
+  if(e.target&&e.target.type==='checkbox'&&e.target.closest('.class-checkbox')){
+    e.target.closest('.class-checkbox').classList.toggle('checked',e.target.checked);
+  }
+});
+
+function showError(msg){
+  const el=document.getElementById('errorMsg');
+  el.textContent=msg;
+  el.style.display='block';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function clearError(){document.getElementById('errorMsg').style.display='none';}
+
+function submitRegistration(){
+  clearError();
+  const eventId=selectedEventId;
+  if(!eventId){showError('Please select an event first.');return;}
+  const ev=state.events.find(e=>e.id===eventId);
+  if(!ev){showError('Selected event could not be found.');return;}
+  const driver=document.getElementById('fDriver').value.trim();
+  const vehicle=document.getElementById('fVehicle').value.trim();
+  const vehicleName=document.getElementById('fVehicleName').value.trim();
+  const home=document.getElementById('fHome').value.trim();
+  const phone=document.getElementById('fPhone').value.trim();
+  const email=document.getElementById('fEmail').value.trim();
+  const classes=[...document.querySelectorAll('#classList input[type=checkbox]:checked')].map(i=>i.value);
+  if(!driver){showError('Driver name is required.');return;}
+  if(!vehicle){showError('Vehicle make/model is required.');return;}
+  if(!phone){showError('Phone number is required.');return;}
+  if(!email||!email.includes('@')){showError('A valid email is required.');return;}
+  if(!classes.length){showError('Please select at least one class.');return;}
+
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Submitting...';
+
+  const regId='reg_'+uuid();
+  const payload={
+    id:regId,
+    eventId:eventId,
+    driver:driver,
+    vehicle:vehicle,
+    vehicleName:vehicleName,
+    home:home,
+    phone:phone,
+    email:email,
+    classes:classes,
+    submittedAt:new Date().toISOString(),
+    checkedInClasses:[]
+  };
+
+  db.ref('cspull/registrations/'+eventId+'/'+regId).set(payload).then(function(){
+    showSuccess(ev,payload);
+  }).catch(function(err){
+    btn.disabled=false;btn.textContent='Submit Pre-Registration';
+    showError('Submission failed: '+(err&&err.message?err.message:'unknown error')+'. Please try again.');
+  });
+}
+
+function showSuccess(ev,reg){
+  document.getElementById('mainView').style.display='none';
+  const sv=document.getElementById('successView');
+  sv.style.display='block';
+  const dt=formatDT(ev);
+  sv.innerHTML=
+    '<div class="success-card">'+
+      '<div class="success-icon">✓</div>'+
+      '<div class="success-title">You\'re Registered!</div>'+
+      '<div class="success-msg">Thanks, <strong style="color:var(--gold)">'+escHTML(reg.driver)+'</strong>. See you at the event.</div>'+
+      '<div class="success-box">'+
+        '<div><strong>EVENT</strong><br>'+escHTML(ev.name)+(dt?' · '+escHTML(dt):'')+'</div>'+
+        '<div style="margin-top:10px"><strong>CLASSES</strong><br>'+reg.classes.map(c=>escHTML(c)).join('<br>')+'</div>'+
+        '<div style="margin-top:10px"><strong>VEHICLE</strong><br>'+escHTML(reg.vehicle)+(reg.vehicleName?' — '+escHTML(reg.vehicleName):'')+'</div>'+
+      '</div>'+
+      '<div style="background:#1a1200;border:1px solid #3a3000;color:var(--gold);border-radius:5px;padding:10px 14px;font-size:13px;margin-bottom:14px;line-height:1.5"><strong>Don\'t forget:</strong> Payment is still taken at the event. Just walk up to the booth, pay, and your hook number will be drawn.</div>'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+        '<button class="btn btn-red" style="flex:1" onclick="registerAnother()">Register Another Driver</button>'+
+        '<a href="index.html" class="btn btn-gray" style="flex:1;text-decoration:none;display:inline-block;text-align:center;line-height:1.5">View Results</a>'+
+      '</div>'+
+    '</div>';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function registerAnother(){
+  // Reset form
+  ['fDriver','fVehicle','fVehicleName','fHome','fPhone','fEmail'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.querySelectorAll('#classList input[type=checkbox]').forEach(cb=>{cb.checked=false;cb.closest('.class-checkbox').classList.remove('checked');});
+  document.getElementById('successView').style.display='none';
+  document.getElementById('mainView').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setStatus(online){
+  const dot=document.getElementById('statusDot');const txt=document.getElementById('statusText');
+  if(online){dot.className='dot';txt.textContent='LIVE';}
+  else{dot.className='dot offline';txt.textContent='OFFLINE';}
+}
+
+db.ref('cspull').on('value',function(snap){
+  const data=snap.val();
+  if(data){
+    state.events=data.events?Object.values(data.events).map(function(ev){return Object.assign({},ev,{classes:ev.classes?Object.values(ev.classes):[]});}):[];
+    state.members=data.members?Object.values(data.members):[];
+    state.logo=data.logo||'';
+  }
+  state.loaded=true;
+  updateLogo();
+  populateEventSelect();
+  populateMemberList();
+  setStatus(true);
+});
+db.ref('.info/connected').on('value',function(snap){setStatus(!!snap.val());});
+</script>
+</body>
+</html>
